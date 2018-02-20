@@ -1,0 +1,2 @@
+# s-projektas
+Semestro projektas
