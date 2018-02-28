@@ -12,7 +12,7 @@ composer
 
 # Technology used  
 Symfony 4  
-PHP 7.1.3
+PHP 7.1.3  
 composer
 
 # Basic set up
