@@ -10,6 +10,10 @@ IFF-6/5 Neringa Laimutytė
 PHP 7.1.3 or higher  
 composer
 
+# Technology used  
+Symfony 4  
+PHP 7.1.3
+composer
 
 # Basic set up
 Clone this repository  
