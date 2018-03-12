@@ -9,6 +9,7 @@ class User{
 	public function checkPassword($password){
 		return password_verify($password, $hashedPassword);
 	}
+
 }
 
 
