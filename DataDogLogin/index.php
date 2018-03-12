@@ -1,8 +1,11 @@
 <?php
+include 'userData.php';
+use User;
+session_start();
 if(isset($_SESSION['name'])){
-    echo 'Sveiki, '.$_SESSION['name'];
+    echo 'Sveiki, '.$_SESSION['name'].'!<br />Galite <a href="logout.php">atsijungti</a>.';
 }else{
-    if(isset($_POST['name'], $_POST['password'])){
+    if(isset($_POST['email'], $_POST['password'])){
         /*
          *
          *
@@ -10,17 +13,16 @@ if(isset($_SESSION['name'])){
          *
          *
          */
-        $verified = false;//do we have a user that has given name and password?
-        if($verified){
-            $_SESSION['name'] = $_POST['name'];
-            header("location: index.php");
+        if($_POST['email'] == 'data@dog.lt' && $_POST['password'] == 'admin'){ //just a temporary placeholder
+            $_SESSION['name'] = 'Vardas';
+            header('location: index.php');
         }else{
             echo 'Blogas prisijungimo vardas arba slaptažodis<br />';
         }
     }
     ?>
     <form action="index.php" method="post">
-        <input type="text" name="name" placeholder="Vardas" /><br />
+        <input type="text" name="email" placeholder="El. paštas" /><br />
         <input type="password" name="password" placeholder="Slaptažodis" /><br />
         <input type="submit" />
     </form>
