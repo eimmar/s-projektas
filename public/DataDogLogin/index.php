@@ -17,7 +17,7 @@ if(isset($_SESSION['name'])){
         }
     }
     ?>
-    <form action="index.php" method="post">
+    <form action="DataDogLogin/index.php" method="post">
         <input type="text" name="email" placeholder="El. paštas" /><br />
         <input type="password" name="password" placeholder="Slaptažodis" /><br />
         <input type="submit" />
