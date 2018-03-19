@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
@@ -36,7 +36,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'Jonas','jonas123'),(2,'Petras','petras456');
+INSERT INTO `user` VALUES (1,'jonas@gmail.com','jonas123'),(2,'petras@gmail.com','petras456');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `users_aditional_info`;
 CREATE TABLE `users_aditional_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `phone_number` varchar(15) DEFAULT NULL,
   `birth_date` date DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -65,7 +65,7 @@ CREATE TABLE `users_aditional_info` (
 
 LOCK TABLES `users_aditional_info` WRITE;
 /*!40000 ALTER TABLE `users_aditional_info` DISABLE KEYS */;
-INSERT INTO `users_aditional_info` VALUES (1,1,'jonas@gmail.com','+37064675594','1998-05-05'),(2,2,'petras@gmail.com','+37064275754','1995-12-15');
+INSERT INTO `users_aditional_info` VALUES (1,1,'Jonas','+37064675594','1998-05-05'),(2,2,'Petras','+37064275754','1995-12-15');
 /*!40000 ALTER TABLE `users_aditional_info` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -78,4 +78,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-19  9:51:38
+-- Dump completed on 2018-03-19 12:28:48
