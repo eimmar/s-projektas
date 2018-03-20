@@ -8,6 +8,7 @@ if(isset($_SESSION['name'])){
     if(isset($_POST['email'], $_POST['password'])){
         $validator = new Validator();
         if (($user->name = $validator->authenticate($_POST['email'], $_POST['password']))) {
+
             $_SESSION['name'] = $user->name;
             header('location: index.php');
         } else {
