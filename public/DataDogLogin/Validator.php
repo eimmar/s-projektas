@@ -28,11 +28,12 @@ class Validator
      */
     public function authenticate($email, $password)
     {
-	$query="SELECT * FROM 'user' WHERE email='$email' and password='$password'";
+        $connection = mysqli_connect("127.0.0.1", "root", "S.projektas2018", "Login");
+	$query="SELECT * FROM user WHERE email='$email' and password='$password'";
 	$result=mysqli_query($connection, $query) or die(mysqli_error($connection));
 	$count=mysqli_num_rows($result);
 	if($count===1){
-	return $query;
+	return $email;
 	}
 	else{
 	return false;
