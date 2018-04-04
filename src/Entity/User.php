@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Class User
  * @InheritanceType("SINGLE_TABLE")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="users")
  */
 class User extends FOSUser
@@ -164,5 +165,24 @@ class User extends FOSUser
     {
         $this->isActive = $isActive;
         return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->setDateUpdated(new \DateTime('now'));
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->setDateCreated(new \DateTime('now'))
+            ->setDateUpdated(new \DateTime('now'))
+            ->setIsActive(true)
+            ->setFirstName('Vardas');
     }
 }
