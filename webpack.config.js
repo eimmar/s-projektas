@@ -10,11 +10,21 @@ Encore
     // uncomment to create hashed filenames (e.g. app.abc123.css)
     // .enableVersioning(Encore.isProduction())
 
-    // uncomment to define the assets of the project
-    // .addEntry('js/app', './assets/js/app.js')
-    // .addStyleEntry('css/app', './assets/css/app.scss')
-
-    // uncomment if you use Sass/SCSS files
+    .addEntry(
+        'js/bootstrap',
+        [
+            './assets/js/bootstrap.js',
+            './assets/js/bootstrap.bundle.js'
+        ]
+    )
+    .addStyleEntry(
+        'css/bootstrap',
+        [
+            './assets/css/bootstrap.css',
+            './assets/css/bootstrap-grid.css',
+            './assets/css/bootstrap-reboot.css'
+        ]
+    )
     // .enableSassLoader()
 
     // uncomment for legacy applications that require $/jQuery as a global variable
