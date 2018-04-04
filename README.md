@@ -25,5 +25,5 @@ Now your project should be accessible by going to http://127.0.0.1:8000
 Install yarn https://yarnpkg.com/lang/en/docs/install/  
 Install latest stable nodejs  
 In project root directory run yarn add @symfony/webpack-encore --dev and yarn install  
-Run yarn run encore dev to compile all assets
+Run yarn run encore production to compile all assets
 
