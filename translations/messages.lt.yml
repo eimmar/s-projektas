@@ -1,0 +1,5 @@
+profile:
+    show:
+        firstName: Vardas
+        lastName: Pavarde
+        hello: Sveiki,
