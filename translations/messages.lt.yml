@@ -1,5 +1,7 @@
 profile:
     show:
         firstName: Vardas
-        lastName: Pavarde
+        lastName: Pavardė
         hello: Sveiki,
+login:
+    forgot_password: Pamiršote slaptažodį?
