@@ -116,7 +116,7 @@ class User extends FOSUser
     /**
      * @return string
      */
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
@@ -125,7 +125,7 @@ class User extends FOSUser
      * @param string $firstName
      * @return User
      */
-    public function setFirstName(string $firstName): User
+    public function setFirstName(?string $firstName): User
     {
         $this->firstName = $firstName;
         return $this;
@@ -182,7 +182,6 @@ class User extends FOSUser
     {
         $this->setDateCreated(new \DateTime('now'))
             ->setDateUpdated(new \DateTime('now'))
-            ->setIsActive(true)
-            ->setFirstName('Vardas');
+            ->setIsActive(true);
     }
 }

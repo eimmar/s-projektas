@@ -9,7 +9,9 @@
         {% endblock %}
     </head>
     <body>
+    <div class="container">
         {% block body %}{% endblock %}
+    </div>
         {% block javascripts %}
             <script src="{{ asset('build/js/bootstrap.js') }}"></script>
         {% endblock %}
