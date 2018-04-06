@@ -30,3 +30,7 @@ services:
     App\Form\Extension\ProfileFormTypeExtension:
         tags:
             - { name: form.type_extension, extended_type: FOS\UserBundle\Form\Type\ProfileFormType }
+
+    App\Form\Extension\RegistrationFormTypeExtension:
+        tags:
+            - { name: form.type_extension, extended_type: FOS\UserBundle\Form\Type\RegistrationFormType }
