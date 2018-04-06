@@ -182,6 +182,7 @@ class User extends FOSUser
     {
         $this->setDateCreated(new \DateTime('now'))
             ->setDateUpdated(new \DateTime('now'))
-            ->setIsActive(true);
+            ->setIsActive(true)
+            ->addRole('ROLE_USER');
     }
 }
