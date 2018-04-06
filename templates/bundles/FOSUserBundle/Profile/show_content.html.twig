@@ -6,6 +6,7 @@
     <p>{{ 'profile.show.firstName'|trans({}, 'messages') }}: {{ user.firstName }}</p>
     <p>{{ 'profile.show.lastName'|trans({}, 'messages') }}: {{ user.lastName }}</p>
 
-    <a href="{{ path('fos_user_profile_edit') }}">{{ 'profile.edit.submit'|trans }}</a>
+    <a href="{{ path('fos_user_profile_edit') }}">{{ 'profile.edit.submit'|trans }}</a><br/>
+    <a href="{{ path('fos_user_change_password') }}">{{ 'change_password.submit'|trans }}</a>
 </div>
 
