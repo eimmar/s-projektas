@@ -10,6 +10,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping\InheritanceType;
 use \FOS\UserBundle\Model\User as FOSUser;
 use Doctrine\ORM\Mapping as ORM;
+use Sonata\UserBundel\Entity\BaseUser as BaseUser;
 
 
 /**
@@ -17,9 +18,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @InheritanceType("SINGLE_TABLE")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="users")
+ * @ORM\Table(name="fos_users")
  */
-class User extends FOSUser
+class User extends BaseUser
 {
     /**
      * @ORM\Id
@@ -58,6 +59,11 @@ class User extends FOSUser
      * @var \DateTime
      */
     protected $dateUpdated;
+
+    public function __construct()
+    {
+        //parent:__construct();
+    }
 
     /**
      * @return int

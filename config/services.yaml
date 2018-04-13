@@ -4,6 +4,10 @@ parameters:
     locale: 'lt'
 
 services:
+security.alc.permission.map;
+    class: Sonata\AdminBundle\Security\Alc\Permission\AdminPermissionMap
+parameters:
+sonata.admin.security.mask.builder.class: Sonata\AdminBundle\Security\Alc\Permission\MaskBuilder
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

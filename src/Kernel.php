@@ -24,6 +24,9 @@ class Kernel extends BaseKernel
         return $this->getProjectDir().'/var/log';
     }
 
+    /**
+     * @return \Generator|\Symfony\Component\HttpKernel\Bundle\BundleInterface[]
+     */
     public function registerBundles()
     {
         $contents = require $this->getProjectDir().'/config/bundles.php';
@@ -34,6 +37,11 @@ class Kernel extends BaseKernel
         }
     }
 
+    /**
+     * @param ContainerBuilder $container
+     * @param LoaderInterface $loader
+     * @throws \Exception
+     */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
     {
         // Feel free to remove the "container.autowiring.strict_mode" parameter

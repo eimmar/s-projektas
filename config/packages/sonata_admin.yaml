@@ -1,0 +1,19 @@
+# config/packages/sonata_admin.yaml
+sonata_admin:
+  security:
+      handler: sonata.admin.security.handler.role
+
+      role_admin: ROLE_ADMIN
+      role_client_user: ROLE_CLIENT_USER
+      role_company_user: ROLE_COMPANY_USER
+      role_company_manager: ROLE_COMPANY_MANAGER
+      # acl security information
+      information:
+        GUEST: [VIEW, LIST]
+        STAFF: [EDIT, LIST, CREATE]
+        EDITOR: [OPERATOR, EXPORT]
+        ADMIN: [MASTER]
+
+      admin_permisions: [CREATE, LIST, DELETE, UNDELETE, EXPORT, OPERATOR, MASTER]
+      object_permisions: [VIEW, EDIT, DELETE, UNDELETE, OPERATOR, MASTER, OWNER]
+

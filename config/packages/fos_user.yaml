@@ -1,12 +1,15 @@
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
-    user_class: App\Entity\User
+    user_class: Sonata\UserBundle\Entity\BaseUser
+    group:
+        group_class:   Sonata\UserBundle\Entity\BaseGroup
+        group_manager: sonata.user.orm.group_manager # If you're using doctrine orm (use sonata.user.mongodb.group_manager for mongodb)
     from_email:
         address: "spojektas@info.lt"
         sender_name: "Sprojektas"
     service:
-        mailer: fos_user.mailer.twig_swift
+        user_manager: sonata.user.orm.user_manager
     registration:
         confirmation:
             enabled: true
