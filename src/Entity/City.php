@@ -25,7 +25,7 @@ class City
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Country", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="Country", inversedBy="cities")
      * @var Country
      */
     private $country;

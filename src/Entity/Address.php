@@ -30,7 +30,7 @@ class Address
     private $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="City", inversedBy="id")
+     * @ORM\ManyToOne(targetEntity="City", inversedBy="addresses")
      * @var City
      */
     private $city;

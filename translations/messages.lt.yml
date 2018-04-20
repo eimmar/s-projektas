@@ -3,3 +3,10 @@ profile:
         firstName: Vardas
         lastName: Pavarde
         hello: Sveiki,
+        addresses: Adresai
+        address: Adresas
+
+address:
+    street: Gatvė
+    comment: Komentaras
+    city: Miestas

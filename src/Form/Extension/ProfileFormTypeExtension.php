@@ -1,8 +1,10 @@
 <?php
 namespace App\Form\Extension;
 
+use App\Form\AddressType;
 use FOS\UserBundle\Form\Type\ProfileFormType;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -25,22 +27,28 @@ class ProfileFormTypeExtension extends AbstractTypeExtension
     {
         parent::buildForm($builder, $options);
 
-        $builder->add(
-            'firstName',
-            TextType::class,
+        $builder->add('firstName', TextType::class,
             [
-                'label' => 'profile.show.firstName',
-                'required' => true,
-                'constraints' => [new NotBlank()]
-            ]
-        )->add(
-            'lastName',
-            TextType::class,
+                'label'         => 'profile.show.firstName',
+                'required'      => true,
+                'constraints'   => [new NotBlank()]
+            ])
+            ->add('lastName', TextType::class,
             [
-                'label' => 'profile.show.lastName',
-                'required' => false,
-            ]
-        );
+                'label'     => 'profile.show.lastName',
+                'required'  => false,
+            ])
+            ->add('addresses', CollectionType::class,
+                [
+                    'entry_type'    => AddressType::class,
+                    'label'         => 'profile.show.addresses',
+                    'entry_options' => ['label' => 'profile.show.address'],
+                    'required'      => false,
+                    'allow_add'     => true,
+                    'allow_delete'  => true,
+                    'prototype'     => true,
+                    'attr'          => ['class' => 'address-type'],
+                ]);
     }
 
     /**

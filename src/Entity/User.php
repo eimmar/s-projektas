@@ -8,6 +8,7 @@ namespace App\Entity;
  * Time: 22.23
  */
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\InheritanceType;
 use \FOS\UserBundle\Model\User as FOSUser;
 use Doctrine\ORM\Mapping as ORM;
@@ -62,7 +63,7 @@ class User extends FOSUser
 
     /**
      * @ORM\OneToMany(targetEntity="Address", mappedBy="user")
-     * @var ArrayCollection
+     * @var Collection
      */
     protected $addresses;
 
@@ -181,18 +182,18 @@ class User extends FOSUser
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getAddresses(): ArrayCollection
+    public function getAddresses(): Collection
     {
         return $this->addresses;
     }
 
     /**
-     * @param ArrayCollection $addresses
+     * @param Collection $addresses
      * @return User
      */
-    public function setAddresses(ArrayCollection $addresses): User
+    public function setAddresses(Collection $addresses): User
     {
         $this->addresses = $addresses;
         return $this;

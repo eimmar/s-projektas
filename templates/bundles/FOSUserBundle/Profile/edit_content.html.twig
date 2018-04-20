@@ -1,11 +1,18 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 <div class="col-lg-12">
+    {% form_theme form 'jquery.collection.html.twig' %}
+    {{ form(form) }}
     {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
     {{ form_widget(form) }}
+
+    <ul class="tags" data-prototype="{{ form_widget(form.addresses.vars.prototype)|e('html_attr') }}">
+        {% for address in form.addresses %}
+            <li>{{ form_widget(address) }}</li>
+        {% endfor %}
+    </ul>
     <div>
         <input type="submit" value="{{ 'profile.edit.submit'|trans }}" />
     </div>
     {{ form_end(form) }}
 </div>
-
