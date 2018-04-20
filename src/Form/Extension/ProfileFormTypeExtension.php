@@ -27,7 +27,11 @@ class ProfileFormTypeExtension extends AbstractTypeExtension
     {
         parent::buildForm($builder, $options);
 
-        $builder->add('firstName', TextType::class,
+        $builder
+            ->remove('email')
+            ->remove('username')
+            ->remove('current_password')
+            ->add('firstName', TextType::class,
             [
                 'label'         => 'profile.show.firstName',
                 'required'      => true,
@@ -48,6 +52,7 @@ class ProfileFormTypeExtension extends AbstractTypeExtension
                     'allow_delete'  => true,
                     'prototype'     => true,
                     'attr'          => ['class' => 'address-type'],
+                    'by_reference' => false
                 ]);
     }
 
