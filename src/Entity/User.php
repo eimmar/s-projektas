@@ -7,6 +7,7 @@ namespace App\Entity;
  * Date: 18.4.4
  * Time: 22.23
  */
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\InheritanceType;
 use \FOS\UserBundle\Model\User as FOSUser;
 use Doctrine\ORM\Mapping as ORM;
@@ -58,6 +59,18 @@ class User extends FOSUser
      * @var \DateTime
      */
     protected $dateUpdated;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Address", mappedBy="user")
+     * @var ArrayCollection
+     */
+    protected $addresses;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->addresses = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -164,6 +177,49 @@ class User extends FOSUser
     public function setIsActive(bool $isActive): User
     {
         $this->isActive = $isActive;
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getAddresses(): ArrayCollection
+    {
+        return $this->addresses;
+    }
+
+    /**
+     * @param ArrayCollection $addresses
+     * @return User
+     */
+    public function setAddresses(ArrayCollection $addresses): User
+    {
+        $this->addresses = $addresses;
+        return $this;
+    }
+
+    /**
+     * @param Address $address
+     * @return $this
+     */
+    public function addAddress(Address $address)
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
+            $address->setUser($this);
+        }
+        return $this;
+    }
+
+    /**
+     * @param Address $address
+     * @return $this
+     */
+    public function removeAddress(Address $address)
+    {
+        if ($this->addresses->contains($address)) {
+            $this->addresses->removeElement($address);
+        }
         return $this;
     }
 
