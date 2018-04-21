@@ -14,10 +14,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use FOS\UserBundle\Model\UserManagerInterface;
 use FOS\UserBundle\Util\PasswordUpdaterInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class AppFixtures extends Fixture implements ContainerAwareInterface
+class AppFixtures extends Fixture
 {
     /**
      * @var UserManagerInterface
@@ -33,14 +31,6 @@ class AppFixtures extends Fixture implements ContainerAwareInterface
     {
         $this->passwordUpdater = $passwordUpdater;
         $this->userManager = $userManager;
-    }
-
-    /**
-     * @param ContainerInterface|null $container
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        $this->container = $container;
     }
 
     /**
@@ -75,7 +65,6 @@ class AppFixtures extends Fixture implements ContainerAwareInterface
 
         $manager->flush();
     }
-
 
     /**
      * @param ObjectManager $manager
