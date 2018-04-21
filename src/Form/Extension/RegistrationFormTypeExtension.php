@@ -18,9 +18,14 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 class RegistrationFormTypeExtension extends AbstractTypeExtension
 {
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
+        $builder->remove('username');
         $builder->add(
             'firstName',
             TextType::class,

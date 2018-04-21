@@ -75,6 +75,16 @@ class User extends FOSUser
     }
 
     /**
+     * @param string $email
+     * @return $this|static
+     */
+    public function setEmail($email)
+    {
+        $this->setUsername($email);
+        return parent::setEmail($email);
+    }
+
+    /**
      * @return int
      */
     public function getId(): int
