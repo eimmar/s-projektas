@@ -81,6 +81,7 @@ class User extends FOSUser
     public function setEmail($email)
     {
         $this->setUsername($email);
+        $this->setUsernameCanonical($email);
         return parent::setEmail($email);
     }
 
@@ -239,6 +240,8 @@ class User extends FOSUser
     public function preUpdate()
     {
         $this->setDateUpdated(new \DateTime('now'));
+        $this->setUsername($this->getEmail());
+        $this->setUsernameCanonical($this->getEmail());
     }
 
     /**
