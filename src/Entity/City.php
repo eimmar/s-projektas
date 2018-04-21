@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,9 +37,15 @@ class City
      */
     private $addresses;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CompanyAddress", mappedBy="city")
+     */
+    private $companyAddresses;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
+        $this->companyAddresses = new ArrayCollection();
     }
 
     public function __toString()
@@ -128,6 +135,44 @@ class City
             $this->addresses->add($address);
             $address->setCity($this);
         }
+        return $this;
+    }
+
+    /**
+     * @return Collection|CompanyAddress[]
+     */
+    public function getCompanyAddresses(): Collection
+    {
+        return $this->companyAddresses;
+    }
+
+    /**
+     * @param CompanyAddress $companyAddress
+     * @return City
+     */
+    public function addCompanyAddress(CompanyAddress $companyAddress): self
+    {
+        if (!$this->companyAddresses->contains($companyAddress)) {
+            $this->companyAddresses[] = $companyAddress;
+            $companyAddress->setCity($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param CompanyAddress $companyAddress
+     * @return City
+     */
+    public function removeCompanyAddress(CompanyAddress $companyAddress): self
+    {
+        if ($this->companyAddresses->contains($companyAddress)) {
+            $this->companyAddresses->removeElement($companyAddress);
+            if ($companyAddress->getCity() === $this) {
+                $companyAddress->setCity(null);
+            }
+        }
+
         return $this;
     }
 }
