@@ -10,7 +10,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
 
 class AddressType extends AbstractType
 {
@@ -20,23 +19,22 @@ class AddressType extends AbstractType
             ->add('street', TextType::class,
                 [
                     'label' => 'address.street',
-                    'required' => false,
-                    'constraints' => [new Length(['max' => 255])]
                 ])
             ->add('comment', TextType::class,
                 [
                     'label' => 'address.comment',
-                    'required' => false,
-                    'constraints' => [new Length(['max' => 255])]
                 ])
             ->add('city', EntityType::class,
                 [
                     'class' => City::class,
                     'label' => 'address.city',
-                    'required' => true,
+                    'empty_data' => 'address.please_select',
                     'query_builder' => function (CityRepository $er) {
                         return $er->createQueryBuilder('c')->orderBy('c.name', 'ASC');
                     },
+                    'group_by' => function(City $value, $key, $index) {
+                        return $value->getCountry()->getName();
+                    }
                 ]
             );
     }

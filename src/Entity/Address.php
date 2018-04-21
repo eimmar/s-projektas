@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AddressRepository")
  */
@@ -19,18 +19,21 @@ class Address
 
     /**
      * @ORM\Column(type="string", nullable=true, length=255)
+     * @Assert\Length(max="255")
      * @var string|null
      */
     private $street;
 
     /**
      * @ORM\Column(type="string", nullable=true, length=255)
+     * @Assert\Length(max="255")
      * @var string|null
      */
     private $comment;
 
     /**
      * @ORM\ManyToOne(targetEntity="City", inversedBy="addresses")
+     * @Assert\NotBlank()
      * @var City
      */
     private $city;
@@ -98,7 +101,7 @@ class Address
     /**
      * @return City
      */
-    public function getCity(): City
+    public function getCity(): ?City
     {
         return $this->city;
     }

@@ -19,7 +19,7 @@ class Country
     private $id;
 
     /**
-     * @ORM\Column(type="string", nullable=false, length=255)
+     * @ORM\Column(type="string", nullable=false, length=255, unique=true)
      * @var string
      */
     private $name;

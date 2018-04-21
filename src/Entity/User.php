@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\InheritanceType;
 use \FOS\UserBundle\Model\User as FOSUser;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\UserInterface;
 
 
 /**
@@ -62,7 +63,7 @@ class User extends FOSUser
     protected $dateUpdated;
 
     /**
-     * @ORM\OneToMany(targetEntity="Address", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Address", mappedBy="user", cascade={"persist", "remove"})
      * @var Collection
      */
     protected $addresses;
@@ -240,6 +241,6 @@ class User extends FOSUser
         $this->setDateCreated(new \DateTime('now'))
             ->setDateUpdated(new \DateTime('now'))
             ->setIsActive(true)
-            ->addRole('ROLE_USER');
+            ->addRole(UserInterface::ROLE_DEFAULT);
     }
 }
