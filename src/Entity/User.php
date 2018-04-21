@@ -7,9 +7,12 @@ namespace App\Entity;
  * Date: 18.4.4
  * Time: 22.23
  */
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\InheritanceType;
 use \FOS\UserBundle\Model\User as FOSUser;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\UserBundle\Model\UserInterface;
 
 
 /**
@@ -58,6 +61,18 @@ class User extends FOSUser
      * @var \DateTime
      */
     protected $dateUpdated;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Address", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @var Collection
+     */
+    protected $addresses;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->addresses = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -168,6 +183,47 @@ class User extends FOSUser
     }
 
     /**
+     * @return Collection
+     */
+    public function getAddresses(): Collection
+    {
+        return $this->addresses;
+    }
+
+    /**
+     * @param Collection $addresses
+     * @return User
+     */
+    public function setAddresses(Collection $addresses): User
+    {
+        $this->addresses = $addresses;
+        return $this;
+    }
+
+    /**
+     * @param Address $address
+     * @return $this
+     */
+    public function addAddress(Address $address)
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
+            $address->setUser($this);
+        }
+        return $this;
+    }
+
+    /**
+     * @param Address $address
+     * @return $this
+     */
+    public function removeAddress(Address $address)
+    {
+        $this->addresses->removeElement($address);
+        return $this;
+    }
+
+    /**
      * @ORM\PreUpdate
      */
     public function preUpdate()
@@ -183,6 +239,6 @@ class User extends FOSUser
         $this->setDateCreated(new \DateTime('now'))
             ->setDateUpdated(new \DateTime('now'))
             ->setIsActive(true)
-            ->addRole('ROLE_USER');
+            ->addRole(UserInterface::ROLE_DEFAULT);
     }
 }

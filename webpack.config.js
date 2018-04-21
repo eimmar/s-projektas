@@ -11,14 +11,17 @@ Encore
     // .enableVersioning(Encore.isProduction())
 
     .addEntry(
-        'js/bootstrap',
+        'js/main',
         [
+            './assets/js/jquery.3.3.1.js',
             './assets/js/bootstrap.js',
-            './assets/js/bootstrap.bundle.js'
+            './assets/js/bootstrap.bundle.js',
+            './assets/js/jquery.collection.js',
+            './assets/js/ownscript.js'
         ]
     )
     .addStyleEntry(
-        'css/bootstrap',
+        'css/main',
         [
             './assets/css/bootstrap.css',
             './assets/css/bootstrap-grid.css',
@@ -28,7 +31,7 @@ Encore
     // .enableSassLoader()
 
     // uncomment for legacy applications that require $/jQuery as a global variable
-    // .autoProvidejQuery()
+    .autoProvidejQuery()
 ;
 
 module.exports = Encore.getWebpackConfig();

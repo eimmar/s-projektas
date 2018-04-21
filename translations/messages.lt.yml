@@ -3,5 +3,15 @@ profile:
         firstName: Vardas
         lastName: Pavardė
         hello: Sveiki,
+        addresses: Adresai
+        address: Adresas
+
+
 login:
-    forgot_password: Pamiršote slaptažodį?
+        forgot_password: Pamiršote slaptažodį?
+
+address:
+    street: Gatvė
+    comment: Komentaras
+    city: Miestas
+    please_select: Pasirinkite
