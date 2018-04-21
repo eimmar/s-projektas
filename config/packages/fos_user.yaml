@@ -7,3 +7,6 @@ fos_user:
         sender_name: "Sprojektas"
     service:
         mailer: fos_user.mailer.twig_swift
+    registration:
+        confirmation:
+            enabled: true

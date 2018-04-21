@@ -3,6 +3,8 @@ profile:
         firstName: Vardas
         lastName: Pavardė
         hello: Sveiki,
+login:
+    forgot_password: Pamiršote slaptažodį?
         addresses: Adresai
         address: Adresas
 
