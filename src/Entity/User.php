@@ -63,7 +63,7 @@ class User extends FOSUser
     protected $dateUpdated;
 
     /**
-     * @ORM\OneToMany(targetEntity="Address", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Address", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
      * @var Collection
      */
     protected $addresses;
@@ -219,9 +219,7 @@ class User extends FOSUser
      */
     public function removeAddress(Address $address)
     {
-        if ($this->addresses->contains($address)) {
-            $this->addresses->removeElement($address);
-        }
+        $this->addresses->removeElement($address);
         return $this;
     }
 
