@@ -68,10 +68,16 @@ class User extends FOSUser
      */
     protected $addresses;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Service", mappedBy="userCreatedBy")
+     */
+    private $services;
+
     public function __construct()
     {
         parent::__construct();
         $this->addresses = new ArrayCollection();
+        $this->services = new ArrayCollection();
     }
 
     /**
@@ -253,5 +259,36 @@ class User extends FOSUser
             ->setDateUpdated(new \DateTime('now'))
             ->setIsActive(true)
             ->addRole(UserInterface::ROLE_DEFAULT);
+    }
+
+    /**
+     * @return Collection|Service[]
+     */
+    public function getServices(): Collection
+    {
+        return $this->services;
+    }
+
+    public function addService(Service $service): self
+    {
+        if (!$this->services->contains($service)) {
+            $this->services[] = $service;
+            $service->setUserCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeService(Service $service): self
+    {
+        if ($this->services->contains($service)) {
+            $this->services->removeElement($service);
+            // set the owning side to null (unless already changed)
+            if ($service->getUserCreatedBy() === $this) {
+                $service->setUserCreatedBy(null);
+            }
+        }
+
+        return $this;
     }
 }
