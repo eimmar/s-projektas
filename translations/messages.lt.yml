@@ -15,3 +15,30 @@ address:
     comment: Komentaras
     city: Miestas
     please_select: Pasirinkite
+
+service:
+    form:
+        name: Paslaugos pavadinimas
+        description: Paslaugos aprašymas
+        price_from: Kaina (nuo)
+        price_to: Kaina (iki)
+        duration_from: Atlikimo trukmė minutėmis (nuo)
+        duration_to: Atlikimo trukmė minutėmis (iki)
+        service_type: Paslaugos tipas
+        is_active: Aktyvi
+
+service_type:
+    form:
+        name: Paslaugos tipo pavadinimas
+
+
+# Sonata admin translations
+User: Vartotojai
+Service: Paslaugos
+Duration From: Trukmė min (nuo)
+Duration To: Trukmė min (iki)
+Price From: Kaina EUR (nuo)
+Price To: Kaina EUR (iki)
+Service Type: Paslaugos tipas
+Is Active: Aktyvi
+Name: Pavadinimas

@@ -98,7 +98,8 @@ class UserAdmin extends AbstractAdmin
      */
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
-        $filter->add('email')
+        $filter->add('id')
+            ->add('email')
             ->add('firstName')
             ->add('lastName')
             ->add('roles')
@@ -110,7 +111,8 @@ class UserAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $list)
     {
-        $list->addIdentifier('email')
+        $list->addIdentifier('id')
+            ->addIdentifier('email')
             ->addIdentifier('firstName')
             ->addIdentifier('lastName')
             ->addIdentifier('roles', null, ['template' => 'admin/role_list.html.twig'])
