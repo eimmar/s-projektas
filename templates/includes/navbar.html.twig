@@ -1,15 +1,38 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-2">
     <div class="container">
-        <a class="navbar-brand" href="/">Garažas</a>
+        <a class="navbar-brand" href="/">NETA Garažas</a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" href="#">Kontaktai</a>
+                <a class="nav-item nav-link"  href="#">Paslaugos</a>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                {% else %}
+                    <a class="nav-item nav-link" href="/register">Registruotis</a>
+                {% endif %}
+            </div>
+            <div class="navbar-nav">
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <div class="dropdown">
+                        <a class="navbar-text dropdown-toggle mb-0" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ 'layout.logged_in_as'|trans({'%username%': app.user.firstname}, 'FOSUserBundle') }}
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a href="/profile" class="dropdown-item">Profile</a>
+                            <a href="/profile/edit" class="dropdown-item">settings</a>
+                            <a href="#" class="dropdown-item">somethinge else</a>
+                            <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
+                        </div>
+                    </div>
+
+                {% else %}
+                    <a class="nav-item nav-link" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                    <a class="nav-item nav-link" href="{{ path('fos_user_resetting_request') }}">{{ 'login.forgot_password'|trans }}</a>
+                {% endif %}
+            </div>
+        </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="#">Kontaktai</a>
-                <a class="nav-item nav-link" href="/register">Registruotis</a>
-                <a class="nav-item nav-link" href="/login">Prisijungti</a>
-            </div>
-        </div>
     </div>
 </nav>
