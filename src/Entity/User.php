@@ -75,6 +75,17 @@ class User extends FOSUser
     }
 
     /**
+     * @param string $email
+     * @return $this|static
+     */
+    public function setEmail($email)
+    {
+        $this->setUsername($email);
+        $this->setUsernameCanonical($email);
+        return parent::setEmail($email);
+    }
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -229,6 +240,8 @@ class User extends FOSUser
     public function preUpdate()
     {
         $this->setDateUpdated(new \DateTime('now'));
+        $this->setUsername($this->getEmail());
+        $this->setUsernameCanonical($this->getEmail());
     }
 
     /**
