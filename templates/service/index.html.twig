@@ -4,46 +4,48 @@
 
 {% block body %}
     <h1>Service index</h1>
-
+    <div class="count">
+        {{ pagination.getTotalItemCount }}
+    </div>
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>PriceFrom</th>
-                <th>PriceTo</th>
-                <th>DurationFrom</th>
-                <th>DurationTo</th>
-                <th>IsActive</th>
-                <th>DateCreated</th>
-                <th>DateUpdated</th>
-                <th>actions</th>
+                <th{% if pagination.isSorted('s.name') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'service.form.name'|trans, 's.name') }}
+                </th>
+                <th{% if pagination.isSorted('st.name') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'service.form.service_type'|trans, 'st.name') }}
+                </th>
+                <th{% if pagination.isSorted('s.priceFrom') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'service.list.price_range'|trans, ['s.priceFrom', 's.priceTo']) }}
+                </th>
+                <th{% if pagination.isSorted('s.durationFrom') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(pagination, 'service.list.duration_range'|trans, ['s.durationFrom', 's.durationTo']) }}
+                </th>
+                <th>{{ 'list.actions'|trans }}</th>
             </tr>
         </thead>
         <tbody>
-        {% for service in services %}
-            <tr>
-                <td>{{ service.id }}</td>
+        {% for service in pagination %}
+            <tr {% if loop.index is odd %}class="color"{% endif %}>
                 <td>{{ service.name }}</td>
-                <td>{{ service.description }}</td>
-                <td>{{ service.priceFrom }}</td>
-                <td>{{ service.priceTo }}</td>
-                <td>{{ service.durationFrom }}</td>
-                <td>{{ service.durationTo }}</td>
-                <td>{{ service.isActive ? 'Yes' : 'No' }}</td>
-                <td>{{ service.dateCreated ? service.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ service.dateUpdated ? service.dateUpdated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ service.serviceType }}</td>
+                <td>{{ service.priceFrom }} - {{ service.priceTo }}</td>
+                <td>{{ service.durationFrom }} - {{ service.durationTo }}</td>
                 <td>
-                    <a href="{{ path('service_show', {'id': service.id}) }}">show</a>
+                    <a href="{{ path('service_show', {'id': service.id}) }}">{{ 'list.action.show'|trans }}</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="11">no records found</td>
+                <td colspan="11">{{ 'list.no_results_found'|trans }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 
 {% endblock %}

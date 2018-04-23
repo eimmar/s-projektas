@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Service;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -17,5 +18,15 @@ class ServiceRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Service::class);
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function getBaseListQuery()
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.serviceType', 'st')
+            ->where('s.isActive = 1');
     }
 }

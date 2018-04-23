@@ -26,6 +26,16 @@ service:
         duration_to: Atlikimo trukmė minutėmis (iki)
         service_type: Paslaugos tipas
         is_active: Aktyvi
+    list:
+        price_range: Kaina (EUR)
+        duration_range: Trukmė (h)
+
+list:
+    actions: Veiksmai
+    no_results_found: Įrašų nėra
+
+    action:
+        show: Atidaryti
 
 service_type:
     form:
