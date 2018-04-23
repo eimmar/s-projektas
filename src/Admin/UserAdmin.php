@@ -1,6 +1,7 @@
 <?php
 namespace App\Admin;
 
+use App\Entity\User;
 use App\Form\AddressType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -59,25 +60,29 @@ class UserAdmin extends AbstractAdmin
         $form->add('email', TextType::class, ['constraints' => new Email()])
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class, ['required' => false])
-            ->add('enabled', CheckboxType::class, ['required' => false])
-            ->add('roles', ChoiceType::class,
+            ->add('enabled', CheckboxType::class, ['required' => false]);
+
+        if ($this->isCurrentUserSuperAdmin()) {
+            $form->add('roles', ChoiceType::class,
                 [
                     'choices' => $this->getRoles(),
                     'multiple' => true,
                 ]
-            )
-            ->add('addresses', CollectionType::class,
-                [
-                    'entry_type'    => AddressType::class,
-                    'label'         => 'profile.show.addresses',
-                    'entry_options' => ['label' => 'profile.show.address'],
-                    'required'      => false,
-                    'allow_add'     => true,
-                    'allow_delete'  => true,
-                    'prototype'     => true,
-                    'attr'          => ['class' => 'address-type'],
-                    'by_reference' => false
-                ]);
+            );
+        }
+
+        $form->add('addresses', CollectionType::class,
+            [
+                'entry_type'    => AddressType::class,
+                'label'         => 'profile.show.addresses',
+                'entry_options' => ['label' => 'profile.show.address'],
+                'required'      => false,
+                'allow_add'     => true,
+                'allow_delete'  => true,
+                'prototype'     => true,
+                'attr'          => ['class' => 'address-type'],
+                'by_reference' => false
+            ]);
 
         if ($this->getRequest()->get('_route') === 'admin_app_user_create') {
             $form->add('plainPassword', RepeatedType::class,
@@ -133,5 +138,20 @@ class UserAdmin extends AbstractAdmin
                 ->addViolation('fos_user.email.already_used')
                 ->end();
         }
+    }
+
+    /**
+     * @return bool
+     */
+    private function isCurrentUserSuperAdmin()
+    {
+        /** @var User $user */
+        $user = $this->getConfigurationPool()
+            ->getContainer()
+            ->get('security.token_storage')
+            ->getToken()
+            ->getUser();
+
+        return $user->isSuperAdmin();
     }
 }
