@@ -38,6 +38,8 @@ list:
         show: Atidaryti
 
 service_type:
+    no_category_found: Kategorijų nerasta
+    all_types: Visos paslaugos
     form:
         name: Paslaugos tipo pavadinimas
 
