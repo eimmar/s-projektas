@@ -73,8 +73,14 @@ class User extends FOSUser
      */
     private $services;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Vehicles", mappedBy="userCreatedBy")
+     */
     private  $vehicles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Visits", mappedBy="userCreatedBy")
+     */
     private $visits;
 
     public function __construct()
@@ -82,6 +88,8 @@ class User extends FOSUser
         parent::__construct();
         $this->addresses = new ArrayCollection();
         $this->services = new ArrayCollection();
+        $this->vehicles = new ArrayCollection();
+        $this->visits = new ArrayCollection();
     }
 
     /**
@@ -302,45 +310,5 @@ class User extends FOSUser
         }
 
         return $this;
-    }
-
-    /**
-     * @param Vehicle $vehicle
-     * @return User
-     */
-    public function  selectVehicle(Vehicle $vehicle)
-    {
-        if ($this->vehicles->contains($vehicle)) {
-            $this->vehicles->selectVehicle($vehicle);
-        }
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVehicles() :Collection
-    {
-        return $this->vehicles;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVisits() :Collection
-    {
-        return $this->visits;
-    }
-
-    /**
-     * @param Visit $visit
-     */
-    public function cancelVisit(Visit $visit)
-    {
-        if ($this->visits->contains($visit)) {
-            $this->visits->cancelVisit();
-            if ($visit->getUserCreatedBy() == $this) {
-                $visit->setUserCreatedBy(null);
-            }
-        }
     }
 }
