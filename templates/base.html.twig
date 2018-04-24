@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
@@ -9,9 +8,12 @@
         {% endblock %}
     </head>
     <body>
+    {{ include('includes/navbar.html.twig') }}
     <div class="container">
-        {% block body %}{% endblock %}
+        {% block body %}
+        {% endblock %}
     </div>
+    {{ include('includes/footer.html.twig') }}
         {% block javascripts %}
             <script src="{{ asset('build/js/main.js') }}"></script>
         {% endblock %}
