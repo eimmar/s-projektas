@@ -73,6 +73,10 @@ class User extends FOSUser
      */
     private $services;
 
+    private  $vehicles;
+
+    private $visits;
+
     public function __construct()
     {
         parent::__construct();
@@ -269,6 +273,10 @@ class User extends FOSUser
         return $this->services;
     }
 
+    /**
+     * @param Service $service
+     * @return User
+     */
     public function addService(Service $service): self
     {
         if (!$this->services->contains($service)) {
@@ -279,6 +287,10 @@ class User extends FOSUser
         return $this;
     }
 
+    /**
+     * @param Service $service
+     * @return User
+     */
     public function removeService(Service $service): self
     {
         if ($this->services->contains($service)) {
@@ -290,5 +302,45 @@ class User extends FOSUser
         }
 
         return $this;
+    }
+
+    /**
+     * @param Vehicle $vehicle
+     * @return User
+     */
+    public function  selectVehicle(Vehicle $vehicle)
+    {
+        if ($this->vehicles->contains($vehicle)) {
+            $this->vehicles->selectVehicle($vehicle);
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVehicles() :Collection
+    {
+        return $this->vehicles;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVisits() :Collection
+    {
+        return $this->visits;
+    }
+
+    /**
+     * @param Visit $visit
+     */
+    public function cancelVisit(Visit $visit)
+    {
+        if ($this->visits->contains($visit)) {
+            $this->visits->cancelVisit();
+            if ($visit->getUserCreatedBy() == $this) {
+                $visit->setUserCreatedBy(null);
+            }
+        }
     }
 }
