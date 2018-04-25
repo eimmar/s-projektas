@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Service;
-use App\Repository\ServiceRepository;
+use App\Entity\ServiceType;
 use App\Repository\ServiceTypeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,25 +10,22 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/service")
+ * @Route("/service-type")
  */
-class ServiceController extends Controller
+class ServiceTypeController extends Controller
 {
+
     /**
+     * @param ServiceType $serviceType
      * @param Request $request
-     * @param ServiceRepository $serviceRepository
-     * @param ServiceTypeRepository $serviceTypeRepository
-     * @Route("/", name="service_index", methods="GET")
+     * @param $serviceTypeRepository $serviceRepository
+     * @Route("/{id}-{slug}", name="service_type_index", methods="GET")
      * @return Response
      */
-    public function index(
-        Request $request,
-        ServiceRepository $serviceRepository,
-        ServiceTypeRepository $serviceTypeRepository
-    ): Response
+    public function show(ServiceType $serviceType, Request $request, ServiceTypeRepository $serviceTypeRepository): Response
     {
         $pagination = $this->get('knp_paginator')->paginate(
-            $serviceRepository->getPaginationListQuery($request->query),
+            $serviceTypeRepository->getPaginationListQuery($serviceType),
             $request->query->getInt('page', 1),
             $this->container->getParameter('knp_paginator.page_range')
         );
@@ -40,13 +36,5 @@ class ServiceController extends Controller
                 'serviceTypes' => $serviceTypeRepository->findAll()
             ]
         );
-    }
-
-    /**
-     * @Route("/{id}-{slug}", name="service_show", methods="GET")
-     */
-    public function show(Service $service): Response
-    {
-        return $this->render('service/show.html.twig', ['service' => $service]);
     }
 }

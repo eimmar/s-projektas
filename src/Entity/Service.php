@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Traits\Slugable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -11,6 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Service
 {
+    use Slugable;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -83,6 +86,14 @@ class Service
      * @ORM\Column(type="datetime")
      */
     private $dateUpdated;
+
+    /**
+     * @return null|string
+     */
+    public function __toString()
+    {
+        return $this->getName();
+    }
 
     public function getId()
     {

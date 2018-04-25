@@ -4,6 +4,16 @@
 
 {% block body %}
     <h1>Service index</h1>
+
+    <div>
+        {% for type in serviceTypes %}
+            <a href="{{ path('service_type_index', {'id' : type.id, 'slug' : type.slug|trans}) }}">{{ type|trans }}</a>
+        {% else %}
+        {{ 'service_type.no_category_found'|trans }}
+        {% endfor %}
+        <a href="{{ path('service_index') }}">{{ 'service_type.all_types'|trans }}</a>
+    </div>
+
     <div class="count">
         {{ pagination.getTotalItemCount }}
     </div>
@@ -33,7 +43,7 @@
                 <td>{{ service.priceFrom }} - {{ service.priceTo }}</td>
                 <td>{{ service.durationFrom }} - {{ service.durationTo }}</td>
                 <td>
-                    <a href="{{ path('service_show', {'id': service.id}) }}">{{ 'list.action.show'|trans }}</a>
+                    <a href="{{ path('service_show', {'id': service.id, 'slug' : service.slug|trans}) }}">{{ 'list.action.show'|trans }}</a>
                 </td>
             </tr>
         {% else %}
