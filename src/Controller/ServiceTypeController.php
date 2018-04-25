@@ -32,7 +32,7 @@ class ServiceTypeController extends Controller
 
         return $this->render('service/index.html.twig',
             [
-                'pagination'  => $pagination,
+                'pagination'   => $pagination,
                 'serviceTypes' => $serviceTypeRepository->findAll()
             ]
         );

@@ -1,0 +1,6 @@
+<div class="search-form">
+    {{ form_start(form, { 'action' : path('service_index'), 'method' : 'GET'}) }}
+    {{ form_row(form.search) }}
+    <button type="submit" class="btn">{{ 'service.form.search_submit'|trans }}</button>
+    {{ form_end(form) }}
+</div>
