@@ -29,7 +29,7 @@ class ServiceController extends Controller
     ): Response
     {
         $pagination = $this->get('knp_paginator')->paginate(
-            $serviceRepository->getBaseListQuery($request->query),
+            $serviceRepository->getPaginationListQuery($request->query),
             $request->query->getInt('page', 1),
             $this->container->getParameter('knp_paginator.page_range')
         );

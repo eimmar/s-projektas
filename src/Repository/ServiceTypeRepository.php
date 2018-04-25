@@ -24,11 +24,11 @@ class ServiceTypeRepository extends ServiceEntityRepository
      * @param $serviceType
      * @return QueryBuilder
      */
-    public function getServiceListQuery(ServiceType $serviceType)
+    public function getPaginationListQuery(ServiceType $serviceType)
     {
         return $this->getEntityManager()
             ->getRepository('App:Service')
-            ->getBaseListQuery()
+            ->getPaginationListQuery()
             ->where('st = :serviceType')
             ->setParameter('serviceType', $serviceType);
     }

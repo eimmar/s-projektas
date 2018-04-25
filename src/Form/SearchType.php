@@ -9,6 +9,7 @@
 namespace App\Form;
 
 
+use App\Utils\Search;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SearchType as SearchTypeField;
@@ -16,18 +17,17 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SearchType extends AbstractType
 {
-    const GLOBAL_SEARCH_NAME = 'search';
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add(self::GLOBAL_SEARCH_NAME, SearchTypeField::class,
+        $builder->setMethod('GET')
+            ->add('search', SearchTypeField::class,
             [
                 'label'     => 'service.form.search',
-                'required'  => false
+                'required'  => false,
             ]
         );
     }
@@ -39,6 +39,7 @@ class SearchType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_protection' => false,
+            'data_class'      => Search::class
         ]);
     }
 }

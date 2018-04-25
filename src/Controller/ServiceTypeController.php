@@ -25,7 +25,7 @@ class ServiceTypeController extends Controller
     public function show(ServiceType $serviceType, Request $request, ServiceTypeRepository $serviceTypeRepository): Response
     {
         $pagination = $this->get('knp_paginator')->paginate(
-            $serviceTypeRepository->getServiceListQuery($serviceType),
+            $serviceTypeRepository->getPaginationListQuery($serviceType),
             $request->query->getInt('page', 1),
             $this->container->getParameter('knp_paginator.page_range')
         );
