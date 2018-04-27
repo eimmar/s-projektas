@@ -10,8 +10,8 @@
     <body>
     {{ include('includes/navbar.html.twig') }}
     <div class="container">
-        {% block body %}
-        {% endblock %}
+        {{ render(controller('App\\Controller\\IndexController::search', { 'request': app.request})) }}
+        {% block body %}{% endblock %}
     </div>
     {{ include('includes/footer.html.twig') }}
         {% block javascripts %}
