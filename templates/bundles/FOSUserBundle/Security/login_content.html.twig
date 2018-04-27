@@ -4,19 +4,28 @@
     <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 {% endif %}
 
-<form action="{{ path("fos_user_security_check") }}" method="post">
-    {% if csrf_token %}
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-    {% endif %}
+<div class=" mt-4 ">
+    <div class="d-flex p-2 text-center justify-content-center">
+        <form class="form-signin " action="{{ path("fos_user_security_check") }}" method="post">
 
-    <label for="username">{{ 'profile.show.email'|trans }}</label>
-    <input type="text" id="email" name="_username" value="{{ last_username }}" required="required" autocomplete="username" />
+            {% if csrf_token %}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            {% endif %}
+            <h1 class="h3 mb-3 font-weight-normal">Įveskite savo duomenis</h1>
 
-    <label for="password">{{ 'security.login.password'|trans }}</label>
-    <input type="password" id="password" name="_password" required="required" autocomplete="current-password" />
+            <label class="sr-only" for="username">{{ 'profile.show.email'|trans }}</label>
+            <input class="form-control" type="text" id="email" name="_username" value="{{ last_username }}" required="required" autocomplete="username" />
 
-    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-    <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+            <label class="sr-only" for="password">{{ 'security.login.password'|trans }}</label>
+            <input class="form-control" type="password" id="password" name="_password" required="required" autocomplete="current-password" />
+            <div class="checkbox mb-3">
+                <input class="" type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+            </div>
 
-    <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
-</form>
+
+            <input class="btn btn-lg btn-default btn-block" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+        </form>
+    </div>
+</div>
+

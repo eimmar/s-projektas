@@ -1,20 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div>
-        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-            <a href="{{ path('fos_user_security_logout') }}">
-                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-            </a>
-            <h1>
-                {{ 'profile.show.hello'|trans }} {{ app.user.firstName }}
-            </h1>
-        {% else %}
-            <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-            <a href="{{ path('fos_user_resetting_request') }}">{{ 'login.forgot_password'|trans }}</a>
-        {% endif %}
-    </div>
+
 
     {% if app.request.hasPreviousSession %}
         {% for type, messages in app.session.flashbag.all() %}
