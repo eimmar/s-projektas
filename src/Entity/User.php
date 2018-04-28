@@ -73,11 +73,17 @@ class User extends FOSUser
      */
     private $services;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Config", mappedBy="userChangedBy")
+     */
+    private $configsChanged;
+
     public function __construct()
     {
         parent::__construct();
         $this->addresses = new ArrayCollection();
         $this->services = new ArrayCollection();
+        $this->configsChanged = new ArrayCollection();
     }
 
     /**
@@ -286,6 +292,37 @@ class User extends FOSUser
             // set the owning side to null (unless already changed)
             if ($service->getUserCreatedBy() === $this) {
                 $service->setUserCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Config[]
+     */
+    public function getConfigsChanged(): Collection
+    {
+        return $this->configsChanged;
+    }
+
+    public function addConfigsChanged(Config $configsChanged): self
+    {
+        if (!$this->configsChanged->contains($configsChanged)) {
+            $this->configsChanged[] = $configsChanged;
+            $configsChanged->setUserChangedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConfigsChanged(Config $configsChanged): self
+    {
+        if ($this->configsChanged->contains($configsChanged)) {
+            $this->configsChanged->removeElement($configsChanged);
+            // set the owning side to null (unless already changed)
+            if ($configsChanged->getUserChangedBy() === $this) {
+                $configsChanged->setUserChangedBy(null);
             }
         }
 

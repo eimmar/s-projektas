@@ -45,10 +45,22 @@ service_type:
     form:
         name: Paslaugos tipo pavadinimas
 
+config:
+    form:
+        name: Nustatymas
+        value: Nustatymo reikšmė
+        description: Aprašymas
+        user_changed_by: Paskutinį kartą keitė
+
+
+main:
+    contacts: Kontaktai
+
 
 # Sonata admin translations
 User: Vartotojai
 Service: Paslaugos
+Configuration: Puslapio nustatymai
 Duration From: Trukmė min (nuo)
 Duration To: Trukmė min (iki)
 Price From: Kaina EUR (nuo)

@@ -58,6 +58,13 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Service Type }
         public: true
+
+    admin.config:
+        class: App\Admin\ConfigAdmin
+        arguments: [~, App\Entity\Config, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Configuration }
+        public: true
     # End of Sonata admin bundle configuration
 
     # Event listener configuration

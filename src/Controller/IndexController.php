@@ -21,11 +21,15 @@ class IndexController extends AbstractController
      */
     public function index()
     {
-        $var = mt_rand(0, 100);
+        return $this->render('index/index.html.twig');
+    }
 
-        return $this->render('index/index.html.twig', [
-            'var' => $var
-        ]);
+    /**
+     * @Route("/contacts", name="contacts")
+     */
+    public function contacts()
+    {
+        return $this->render('index/contacts.html.twig');
     }
 
     /**
