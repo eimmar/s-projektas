@@ -74,14 +74,11 @@ class EditVisitController extends Controller
                         );
                     }
 
-//?????                    $visit->setVisitDate();
+                    $visit->setVisitDate($request->request->get('vizito_data'));
                     $visit->setVehicleId($this->getDoctrine()->getRepository('App:vehicles')->findOneBy(
                         ['id'=>$request->request->get('automobilis')]));
                     $visit->setStatusId($this->getDoctrine()->getRepository('App:visitStatuses')->findOneBy(
                         ['id'=>$request->request->get('visito_statusas')]
-                    ));
-                    $visit->setTransmitionTypeId($this->getDoctrine()->getRepository('App:transmitionTypes')->findOneBy(
-                        ['id'=>$request->request->get('pavaros')]
                     ));
                     $visit->setDateCreated(new \DateTime('now'));
                     $visit->setDateModified(new \DateTime('now'));
