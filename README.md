@@ -27,3 +27,5 @@ Install latest stable nodejs
 In project root directory run yarn add @symfony/webpack-encore --dev and yarn install  
 Run yarn run encore production to compile all assets
 
+# Project issue tracking
+https://trello.com/b/rcnDPnmj/semestro-projektas
