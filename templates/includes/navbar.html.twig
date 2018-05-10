@@ -18,7 +18,7 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <a href="/profile" class="dropdown-item">Profile</a>
-                            <a href="/profile/edit" class="dropdown-item">settings</a>
+                            <a href="/profile/edit" class="dropdown-item">Settings</a>
                             {% set is_admin = 0 %}
                             {% for my_var in app.user.roles %}
                                 {% if my_var == "ROLE_SUPER_ADMIN" %}

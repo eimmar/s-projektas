@@ -21,6 +21,12 @@ class IndexController extends AbstractController
      */
     public function index()
     {
+        /*
+        $entityManager = $this->getDoctrine()->getManager();
+        $usr = $this->container->get('security.token_storage')->getToken()->getUser();
+        $usr->addRole('ROLE_USER');
+        //promote($usr->getUsername());
+        $entityManager->flush();*/
         return $this->render('index/index.html.twig');
     }
 
