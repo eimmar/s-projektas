@@ -27,7 +27,7 @@ class Visits
      * @ORM\ManyToOne(targetEntity="App\Entity\Vehicles")
      * @ORM\JoinColumn(nullable=false)
      */
- //   private $vehicle_id;
+    private $vehicle_id;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\VisitStatuses")
@@ -121,21 +121,21 @@ class Visits
     /**
      * @return mixed
      */
-/**    public function getVehicleId()
+    public function getVehicleId()
     {
         return $this->vehicle_id;
     }
-*/
+
 
     /**
      * @param mixed $vehicle_id
      */
-/**    public function setVehicleId($vehicle_id): self
+    public function setVehicleId($vehicle_id): self
     {
         $this->vehicle_id = $vehicle_id;
         return $this;
     }
-*/
+
     /**
      * @return mixed
      */
