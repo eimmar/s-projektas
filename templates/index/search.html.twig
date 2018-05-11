@@ -1,6 +1,7 @@
-<div class="search-form">
-    {{ form_start(form, { 'action' : path('service_index') }) }}
-    {{ form_row(form.search) }}
-    <button type="submit" class="btn">{{ 'service.form.search_submit'|trans }}</button>
+<div class="navbar-text">
+    {{ form_start(form, { 'action' : path('service_index'), 'attr':{'class':'form-inline'} } ) }}
+    {{ form_row(form.search, {'attr':{'class':'form-search'}}) }}
+    <button type="submit" class="btn btn-info">{{ 'service.form.search_submit'|trans }}</button>
     {{ form_end(form) }}
+
 </div>
