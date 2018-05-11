@@ -29,7 +29,7 @@ class RegisterTest extends WebTestCase
             'fos_user_registration_form[lastName]' => 'test',
         ));
         $client->submit($form);
-
+        $client->followRedirects();
         //test response
         $this->assertEquals(
             200,
