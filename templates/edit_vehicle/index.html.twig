@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    {% if urls %}
+        Galite <a href="create_vehicle">užregistruoti naują transporto priemonę</a> arba redaguoti jūsų turimas transporto priemonės:
+        <ul>
+            {% for url in urls %}
+                <li>{{ url.name }} [<a href="edit_vehicle/{{ url.id }}">Keist</a> | <a href="#" onclick="salinti({{ url.id }})">Šalinti</a>]</li>
+            {% endfor %}
+
+        </ul>
+    {% else %}
+        Nesate pateikę jokių transporto priemonių, galite <a href="create_vehicle">užregistruoti naują transporto priemonę</a>.
+    {% endif %}
+</div>
+<script>
+    function salinti(id){
+        let result = confirm('Ar tikrai norite pašalinti automobilį?');
+        if(result){
+            document.location.replace('delete_vehicle/'+id);
+        }
+    }
+</script>
+{% endblock %}

@@ -6,6 +6,7 @@
                 <a class="nav-item nav-link" href="{{ path('contacts') }}">Kontaktai</a>
                 <a class="nav-item nav-link" href="{{ path('service_index') }}">Paslaugos</a>
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <a class="nav-item nav-link" href="{{ path('edit_vehicle') }}">Automobiliai</a>
                 {% else %}
                     <a class="nav-item nav-link" href="{{ path('fos_user_registration_register') }}">Registruotis</a>
                 {% endif %}
