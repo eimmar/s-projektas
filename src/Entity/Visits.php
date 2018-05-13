@@ -21,19 +21,19 @@ class Visits
      * @ORM\Column(type="datetime", nullable=false)
      * @var \DateTime
      */
-    private $visit_date;
+    private $visitDate;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Vehicles")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $vehicle_id;
+  //  private $vehicleId;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\VisitStatuses")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $status_id;
+    private $statusId;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
@@ -107,15 +107,15 @@ class Visits
      */
     public function getVisitDate(): \DateTime
     {
-        return $this->visit_date;
+        return $this->visitDate;
     }
 
     /**
-     * @param \DateTime $visit_date
+     * @param \DateTime $visitDate
      */
-    public function setVisitDate(\DateTime $visit_date): self
+    public function setVisitDate(\DateTime $visitDate): self
     {
-        $this->visit_date = $visit_date;
+        $this->visitDate = $visitDate;
     }
 
     /**
@@ -123,16 +123,16 @@ class Visits
      */
     public function getVehicleId()
     {
-        return $this->vehicle_id;
+        return $this->vehicleId;
     }
 
 
     /**
-     * @param mixed $vehicle_id
+     * @param mixed $vehicleId
      */
-    public function setVehicleId($vehicle_id): self
+    public function setVehicleId($vehicleId): self
     {
-        $this->vehicle_id = $vehicle_id;
+        $this->vehicleId = $vehicleId;
         return $this;
     }
 
@@ -141,15 +141,15 @@ class Visits
      */
     public function getStatusId() :VisitStatuses
     {
-        return $this->status_id;
+        return $this->statusId;
     }
 
     /**
-     * @param mixed $status_id
+     * @param mixed $statusId
      */
-    public function setStatusId($status_id): self
+    public function setStatusId($statusId): self
     {
-        $this->status_id = $status_id;
+        $this->statusId = $statusId;
     }
 
 }

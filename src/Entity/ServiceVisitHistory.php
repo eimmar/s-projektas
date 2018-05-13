@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ServiceRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ServiceVisitHistoryRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class ServiceVisitHistory
@@ -23,7 +23,7 @@ class ServiceVisitHistory
      * @ORM\ManyToOne(targetEntity="App\Entity\Service")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $service_id;
+    private $serviceId;
 
     /**
      * @ORM\Column(type="float")
@@ -48,13 +48,13 @@ class ServiceVisitHistory
      * @ORM\ManyToOne(targetEntity="App\Entity\Visits")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $visit_id;
+    private $visitId;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
      * @var \DateTime
      */
-    private $visit_date;
+    private $visitDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
@@ -111,7 +111,7 @@ class ServiceVisitHistory
      */
     public function getServiceId()
     {
-        return $this->service_id;
+        return $this->serviceId;
     }
 
     /**
@@ -151,12 +151,12 @@ class ServiceVisitHistory
     }
 
     /**
-     * @param mixed $visit_id
+     * @param mixed $visitId
      * @return ServiceVisitHistory
      */
-    public function setVisitId($visit_id)
+    public function setVisitId($visitId)
     {
-        $this->visit_id = $visit_id;
+        $this->visitId = $visitId;
         return $this;
     }
 
@@ -165,16 +165,16 @@ class ServiceVisitHistory
      */
     public function getVisitId()
     {
-        return $this->visit_id;
+        return $this->visitId;
     }
 
     /**
-     * @param \DateTime $visit_date
+     * @param \DateTime $visitDate
      * @return ServiceVisitHistory
      */
-    public function setVisitDate(\DateTime $visit_date): ServiceVisitHistory
+    public function setVisitDate(\DateTime $visitDate): ServiceVisitHistory
     {
-        $this->visit_date = $visit_date;
+        $this->visitDate = $visitDate;
         return $this;
     }
 
@@ -183,7 +183,7 @@ class ServiceVisitHistory
      */
     public function getVisitDate(): \DateTime
     {
-        return $this->visit_date;
+        return $this->visitDate;
     }
 
     /**
@@ -226,9 +226,9 @@ class ServiceVisitHistory
      * @param mixed $service_id
      * @return ServiceVisitHistory
      */
-    public function setServiceId($service_id)
+    public function setServiceId($serviceId)
     {
-        $this->service_id = $service_id;
+        $this->serviceId = $serviceId;
         return $this;
     }
 

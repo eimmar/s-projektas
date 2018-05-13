@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method VisitStatuses[]    findAll()
  * @method VisitStatuses[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CountryRepository extends ServiceEntityRepository
+class VisitStatusesRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
