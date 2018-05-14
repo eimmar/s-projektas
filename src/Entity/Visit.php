@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\VisitsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
-class Visits
+class Visit
 {
     /**
      * @ORM\Id
@@ -24,7 +27,7 @@ class Visits
     private $visitDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\VisitStatuses")
+     * @ORM\ManyToOne(targetEntity="App\Entity\VisitStatus")
      * @ORM\JoinColumn(nullable=false)
      */
     private $status;
@@ -41,6 +44,16 @@ class Visits
      */
     protected $dateUpdated;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ServiceHistory", mappedBy="visit")
+     * @var ArrayCollection|ServiceHistory[]
+     */
+    protected $serviceHistories;
+
+    public function __construct()
+    {
+        $this->serviceHistories = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -53,7 +66,7 @@ class Visits
     /**
      * @param int $id
      */
-    public function setId(int $id): Visits
+    public function setId(int $id): Visit
     {
         $this->id = $id;
         return $this;
@@ -123,5 +136,53 @@ class Visits
     public function setStatus($statusId): self
     {
         $this->status = $statusId;
+    }
+
+    /**
+     * @return Collection|Config[]
+     */
+    public function getConfigsChanged(): Collection
+    {
+        return $this->serviceHistories;
+    }
+
+    public function addConfigsChanged(ServiceHistory $serviceHistory): self
+    {
+        if (!$this->serviceHistories->contains($serviceHistory)) {
+            $this->serviceHistories[] = $serviceHistory;
+            $serviceHistory->setVisit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConfigsChanged(ServiceHistory $serviceHistory): self
+    {
+        if ($this->serviceHistories->contains($serviceHistory)) {
+            $this->serviceHistories->removeElement($serviceHistory);
+            // set the owning side to null (unless already changed)
+            if ($serviceHistory->getVisit() === $this) {
+                $serviceHistory->setVisit(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->setDateUpdated(new \DateTime('now'));
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->setDateCreated(new \DateTime('now'))
+            ->setDateUpdated(new \DateTime('now'));
     }
 }

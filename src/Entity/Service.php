@@ -29,8 +29,8 @@ class Service
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=65535, nullable=true)
-     * @Assert\Length(max="65535")
+     * @ORM\Column(type="text", length=16383, nullable=true)
+     * @Assert\Length(max="16383")
      */
     private $description;
 

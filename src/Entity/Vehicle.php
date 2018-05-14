@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VehicleRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Vehicle
 {
@@ -19,6 +21,7 @@ class Vehicle
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Model")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $model;
 
@@ -30,33 +33,43 @@ class Vehicle
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Range(min="0")
      */
     private $powerKw;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TransmissionType")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $transmissionType;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\FuelType")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $fuelType;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Range(min="0")
      */
     private $engineCapacity;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Range(min="1500")
      */
     private $yearMade;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Range(min="1", max="12")
      */
     private $monthMade;
 
@@ -68,7 +81,7 @@ class Vehicle
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateModified;
+    private $dateUpdated;
 
     public function getId()
     {
@@ -183,15 +196,32 @@ class Vehicle
         return $this;
     }
 
-    public function getDateModified(): ?\DateTimeInterface
+    public function getDateUpdated(): ?\DateTimeInterface
     {
-        return $this->dateModified;
+        return $this->dateUpdated;
     }
 
-    public function setDateModified(\DateTimeInterface $dateModified): self
+    public function setDateUpdated(\DateTimeInterface $dateUpdated): self
     {
-        $this->dateModified = $dateModified;
+        $this->dateUpdated = $dateUpdated;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->setDateUpdated(new \DateTime('now'));
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->setDateCreated(new \DateTime('now'))
+            ->setDateUpdated(new \DateTime('now'));
     }
 }

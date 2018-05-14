@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ServiceVisitHistoryRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ServiceHistoryRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class ServiceVisitHistory
+class ServiceHistory
 {
     /**
      * @ORM\Id
@@ -23,7 +23,7 @@ class ServiceVisitHistory
      * @ORM\ManyToOne(targetEntity="App\Entity\Service")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $serviceId;
+    private $service;
 
     /**
      * @ORM\Column(type="float")
@@ -32,8 +32,8 @@ class ServiceVisitHistory
     private $price;
 
     /**
-     * @ORM\Column(type="string", length=65535, nullable=true)
-     * @Assert\Length(max="65535")
+     * @ORM\Column(type="text", length=16383, nullable=true)
+     * @Assert\Length(max="16383")
      */
     private $description;
 
@@ -45,16 +45,10 @@ class ServiceVisitHistory
     private $duration;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Visits")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Visit", inversedBy="serviceHistories")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $visitId;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     * @var \DateTime
-     */
-    private $visitDate;
+    private $visit;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
@@ -87,9 +81,9 @@ class ServiceVisitHistory
 
     /**
      * @param int $id
-     * @return ServiceVisitHistory
+     * @return ServiceHistory
      */
-    public function setId(int $id): ServiceVisitHistory
+    public function setId(int $id): ServiceHistory
     {
         $this->id = $id;
         return $this;
@@ -104,19 +98,17 @@ class ServiceVisitHistory
         return $this->id;
     }
 
-
-
     /**
-     * @return mixed
+     * @return Service
      */
-    public function getServiceId()
+    public function getService()
     {
-        return $this->serviceId;
+        return $this->service;
     }
 
     /**
      * @param mixed $price
-     * @return ServiceVisitHistory
+     * @return ServiceHistory
      */
     public function setPrice($price)
     {
@@ -134,7 +126,7 @@ class ServiceVisitHistory
 
     /**
      * @param mixed $description
-     * @return ServiceVisitHistory
+     * @return ServiceHistory
      */
     public function setDescription($description)
     {
@@ -151,46 +143,28 @@ class ServiceVisitHistory
     }
 
     /**
-     * @param mixed $visitId
-     * @return ServiceVisitHistory
+     * @param Visit|null $visit
+     * @return ServiceHistory
      */
-    public function setVisitId($visitId)
+    public function setVisit(?Visit $visit)
     {
-        $this->visitId = $visitId;
+        $this->visit = $visit;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return Visit
      */
-    public function getVisitId()
+    public function getVisit()
     {
-        return $this->visitId;
-    }
-
-    /**
-     * @param \DateTime $visitDate
-     * @return ServiceVisitHistory
-     */
-    public function setVisitDate(\DateTime $visitDate): ServiceVisitHistory
-    {
-        $this->visitDate = $visitDate;
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getVisitDate(): \DateTime
-    {
-        return $this->visitDate;
+        return $this->visit;
     }
 
     /**
      * @param \DateTime $dateCreated
-     * @return ServiceVisitHistory
+     * @return ServiceHistory
      */
-    public function setDateCreated(\DateTime $dateCreated): ServiceVisitHistory
+    public function setDateCreated(\DateTime $dateCreated): ServiceHistory
     {
         $this->dateCreated = $dateCreated;
         return $this;
@@ -206,9 +180,9 @@ class ServiceVisitHistory
 
     /**
      * @param \DateTime $dateUpdated
-     * @return ServiceVisitHistory
+     * @return ServiceHistory
      */
-    public function setDateUpdated(\DateTime $dateUpdated): ServiceVisitHistory
+    public function setDateUpdated(\DateTime $dateUpdated): ServiceHistory
     {
         $this->dateUpdated = $dateUpdated;
         return $this;
@@ -223,13 +197,12 @@ class ServiceVisitHistory
     }
 
     /**
-     * @param mixed $service_id
-     * @return ServiceVisitHistory
+     * @param Service $service
+     * @return ServiceHistory
      */
-    public function setServiceId($serviceId)
+    public function setService(Service $service)
     {
-        $this->serviceId = $serviceId;
+        $this->service = $service;
         return $this;
     }
-
 }
