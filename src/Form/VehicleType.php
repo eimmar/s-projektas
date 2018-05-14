@@ -16,11 +16,8 @@ class VehicleType extends AbstractType
             ->add('engineCapacity')
             ->add('yearMade')
             ->add('monthMade')
-            ->add('dateCreated')
-            ->add('dateModified')
-            ->add('modelId')
-            ->add('userId')
-            ->add('transmissionTypeId')
+            ->add('model')
+            ->add('transmissionType')
         ;
     }
 

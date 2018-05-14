@@ -24,16 +24,10 @@ class Visits
     private $visitDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicles")
-     * @ORM\JoinColumn(nullable=false)
-     */
-  //  private $vehicleId;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\VisitStatuses")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $statusId;
+    private $status;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
@@ -47,9 +41,6 @@ class Visits
      */
     protected $dateUpdated;
 
-    public function __construct()
-    {
-    }
 
     /**
      * @return int
@@ -121,35 +112,16 @@ class Visits
     /**
      * @return mixed
      */
-    public function getVehicleId()
+    public function getStatus(): VisitStatus
     {
-        return $this->vehicleId;
-    }
-
-
-    /**
-     * @param mixed $vehicleId
-     */
-    public function setVehicleId($vehicleId): self
-    {
-        $this->vehicleId = $vehicleId;
-        return $this;
+        return $this->status;
     }
 
     /**
-     * @return mixed
+     * @param VisitStatus $statusId
      */
-    public function getStatusId() :VisitStatuses
+    public function setStatus($statusId): self
     {
-        return $this->statusId;
+        $this->status = $statusId;
     }
-
-    /**
-     * @param mixed $statusId
-     */
-    public function setStatusId($statusId): self
-    {
-        $this->statusId = $statusId;
-    }
-
 }
