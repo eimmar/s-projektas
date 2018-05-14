@@ -7,6 +7,7 @@
                 <a class="nav-item nav-link" href="#">Kontaktai</a>
                 <a class="nav-item nav-link"  href="/service">Paslaugos</a>
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <a class="nav-item nav-link" href="{{ path('edit_vehicle') }}">Automobiliai</a>
                 {% else %}
                     <a class="nav-item nav-link" href="/register">Registruotis</a>
                 {% endif %}
