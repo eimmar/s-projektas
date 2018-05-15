@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\VisitsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
-class Visits
+class Visit
 {
     /**
      * @ORM\Id
@@ -24,16 +27,10 @@ class Visits
     private $visitDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicles")
+     * @ORM\ManyToOne(targetEntity="App\Entity\VisitStatus")
      * @ORM\JoinColumn(nullable=false)
      */
-  //  private $vehicleId;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\VisitStatuses")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $statusId;
+    private $status;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
@@ -47,8 +44,15 @@ class Visits
      */
     protected $dateUpdated;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ServiceHistory", mappedBy="visit")
+     * @var ArrayCollection|ServiceHistory[]
+     */
+    protected $serviceHistories;
+
     public function __construct()
     {
+        $this->serviceHistories = new ArrayCollection();
     }
 
     /**
@@ -62,7 +66,7 @@ class Visits
     /**
      * @param int $id
      */
-    public function setId(int $id): Visits
+    public function setId(int $id): Visit
     {
         $this->id = $id;
         return $this;
@@ -121,35 +125,64 @@ class Visits
     /**
      * @return mixed
      */
-    public function getVehicleId()
+    public function getStatus(): VisitStatus
     {
-        return $this->vehicleId;
+        return $this->status;
     }
 
+    /**
+     * @param VisitStatus $statusId
+     */
+    public function setStatus($statusId): self
+    {
+        $this->status = $statusId;
+    }
 
     /**
-     * @param mixed $vehicleId
+     * @return Collection|Config[]
      */
-    public function setVehicleId($vehicleId): self
+    public function getConfigsChanged(): Collection
     {
-        $this->vehicleId = $vehicleId;
+        return $this->serviceHistories;
+    }
+
+    public function addConfigsChanged(ServiceHistory $serviceHistory): self
+    {
+        if (!$this->serviceHistories->contains($serviceHistory)) {
+            $this->serviceHistories[] = $serviceHistory;
+            $serviceHistory->setVisit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConfigsChanged(ServiceHistory $serviceHistory): self
+    {
+        if ($this->serviceHistories->contains($serviceHistory)) {
+            $this->serviceHistories->removeElement($serviceHistory);
+            // set the owning side to null (unless already changed)
+            if ($serviceHistory->getVisit() === $this) {
+                $serviceHistory->setVisit(null);
+            }
+        }
+
         return $this;
     }
 
     /**
-     * @return mixed
+     * @ORM\PreUpdate
      */
-    public function getStatusId() :VisitStatuses
+    public function preUpdate()
     {
-        return $this->statusId;
+        $this->setDateUpdated(new \DateTime('now'));
     }
 
     /**
-     * @param mixed $statusId
+     * @ORM\PrePersist
      */
-    public function setStatusId($statusId): self
+    public function prePersist()
     {
-        $this->statusId = $statusId;
+        $this->setDateCreated(new \DateTime('now'))
+            ->setDateUpdated(new \DateTime('now'));
     }
-
 }

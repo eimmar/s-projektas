@@ -37,6 +37,12 @@ services:
             - { name: form.type_extension, extended_type: FOS\UserBundle\Form\Type\RegistrationFormType }
     # End of Form Type Extensions
 
+    # Forms
+    App\Form\VehicleType:
+        arguments: ['@security.token_storage']
+        tags: [form.type]
+    # End of Forms
+
     # Sonata admin bundle configuration
     admin.user:
         class: App\Admin\UserAdmin
