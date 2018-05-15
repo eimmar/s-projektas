@@ -330,7 +330,6 @@ class User extends FOSUser
         return $this;
     }
 
-
     /**
      * @return Collection|Config[]
      */
