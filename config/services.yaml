@@ -2,7 +2,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'lt'
-
+    max_user_vehicle_count: 3
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -39,7 +39,7 @@ services:
 
     # Forms
     App\Form\VehicleType:
-        arguments: ['@security.token_storage']
+        arguments: ['@security.token_storage', '%max_user_vehicle_count%']
         tags: [form.type]
     # End of Forms
 
