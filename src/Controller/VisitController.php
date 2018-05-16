@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Visit;
 use App\Form\VisitType;
 use App\Repository\VisitRepository;
+use App\Security\VehicleVoter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/visit")
+ * @Security("has_role('ROLE_USER')")
  */
 class VisitController extends Controller
 {
@@ -20,7 +23,9 @@ class VisitController extends Controller
      */
     public function index(VisitRepository $visitRepository): Response
     {
-        return $this->render('visit/index.html.twig', ['visits' => $visitRepository->findAll()]);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        return $this->render('visit/index.html.twig', ['visits' => $visitRepository->findActiveVisits($user)]);
     }
 
     /**
@@ -51,6 +56,7 @@ class VisitController extends Controller
      */
     public function show(Visit $visit): Response
     {
+        $this->denyAccessUnlessGranted(VehicleVoter::VIEW, $visit->getVehicle());
         return $this->render('visit/show.html.twig', ['visit' => $visit]);
     }
 
@@ -59,6 +65,7 @@ class VisitController extends Controller
      */
     public function edit(Request $request, Visit $visit): Response
     {
+        $this->denyAccessUnlessGranted(VehicleVoter::EDIT, $visit->getVehicle());
         $form = $this->createForm(VisitType::class, $visit);
         $form->handleRequest($request);
 
@@ -79,6 +86,8 @@ class VisitController extends Controller
      */
     public function delete(Request $request, Visit $visit): Response
     {
+        $this->denyAccessUnlessGranted(VehicleVoter::DELETE, $visit->getVehicle());
+
         if ($this->isCsrfTokenValid('delete'.$visit->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($visit);

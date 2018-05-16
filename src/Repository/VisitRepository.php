@@ -20,10 +20,10 @@ class VisitRepository extends ServiceEntityRepository
         parent::__construct($registry, Visit::class);
     }
 
-    public function getActiveVisits(User $user)
+    public function findActiveVisits(User $user)
     {
         return $this->createQueryBuilder('v')
-            ->where('v.vehicle in :vehicles')
+            ->where('v.vehicle in (:vehicles)')
             ->setParameter('vehicles', $user->getVehicles())
             ->getQuery()
             ->getResult();
