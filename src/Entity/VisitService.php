@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ServiceHistoryRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\VisitServiceRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class ServiceHistory
+class VisitService
 {
     /**
      * @ORM\Id
@@ -45,7 +45,7 @@ class ServiceHistory
     private $duration;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Visit", inversedBy="serviceHistories")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Visit", inversedBy="visitServices")
      * @ORM\JoinColumn(nullable=false)
      */
     private $visit;
@@ -81,9 +81,9 @@ class ServiceHistory
 
     /**
      * @param int $id
-     * @return ServiceHistory
+     * @return VisitService
      */
-    public function setId(int $id): ServiceHistory
+    public function setId(int $id): VisitService
     {
         $this->id = $id;
         return $this;
@@ -108,7 +108,7 @@ class ServiceHistory
 
     /**
      * @param mixed $price
-     * @return ServiceHistory
+     * @return VisitService
      */
     public function setPrice($price)
     {
@@ -126,7 +126,7 @@ class ServiceHistory
 
     /**
      * @param mixed $description
-     * @return ServiceHistory
+     * @return VisitService
      */
     public function setDescription($description)
     {
@@ -144,7 +144,7 @@ class ServiceHistory
 
     /**
      * @param Visit|null $visit
-     * @return ServiceHistory
+     * @return VisitService
      */
     public function setVisit(?Visit $visit)
     {
@@ -162,9 +162,9 @@ class ServiceHistory
 
     /**
      * @param \DateTime $dateCreated
-     * @return ServiceHistory
+     * @return VisitService
      */
-    public function setDateCreated(\DateTime $dateCreated): ServiceHistory
+    public function setDateCreated(\DateTime $dateCreated): VisitService
     {
         $this->dateCreated = $dateCreated;
         return $this;
@@ -180,9 +180,9 @@ class ServiceHistory
 
     /**
      * @param \DateTime $dateUpdated
-     * @return ServiceHistory
+     * @return VisitService
      */
-    public function setDateUpdated(\DateTime $dateUpdated): ServiceHistory
+    public function setDateUpdated(\DateTime $dateUpdated): VisitService
     {
         $this->dateUpdated = $dateUpdated;
         return $this;
@@ -198,7 +198,7 @@ class ServiceHistory
 
     /**
      * @param Service $service
-     * @return ServiceHistory
+     * @return VisitService
      */
     public function setService(Service $service)
     {

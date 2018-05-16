@@ -330,9 +330,8 @@ class User extends FOSUser
         return $this;
     }
 
-
     /**
-     * @return Collection|Config[]
+     * @return Collection|Vehicle[]
      */
     public function getVehicles(): Collection
     {

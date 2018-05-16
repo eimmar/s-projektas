@@ -36,23 +36,35 @@ class Visit
      * @ORM\Column(type="datetime", nullable=false)
      * @var \DateTime
      */
-    protected $dateCreated;
+    private $dateCreated;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
      * @var \DateTime
      */
-    protected $dateUpdated;
+    private $dateUpdated;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ServiceHistory", mappedBy="visit")
-     * @var ArrayCollection|ServiceHistory[]
+     * @ORM\Column(type="decimal", scale=2, nullable=false)
+     * @var float
      */
-    protected $serviceHistories;
+    private $totalInclTax;
+
+    /**
+     * @@ORM\ManyToOne(targetEntity="App\Entity\Vehicle")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $vehicle;
+
+    /**
+     * @ORM\OneToMany(targetEntity="VisitService", mappedBy="visit")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $visitServices;
 
     public function __construct()
     {
-        $this->serviceHistories = new ArrayCollection();
+        $this->visitServices = new ArrayCollection();
     }
 
     /**
@@ -139,33 +151,69 @@ class Visit
     }
 
     /**
-     * @return Collection|Config[]
+     * @return float
      */
-    public function getConfigsChanged(): Collection
+    public function getTotalInclTax(): float
     {
-        return $this->serviceHistories;
+        return $this->totalInclTax;
     }
 
-    public function addConfigsChanged(ServiceHistory $serviceHistory): self
+    /**
+     * @param float $totalInclTax
+     * @return Visit
+     */
+    public function setTotalInclTax(float $totalInclTax): Visit
     {
-        if (!$this->serviceHistories->contains($serviceHistory)) {
-            $this->serviceHistories[] = $serviceHistory;
-            $serviceHistory->setVisit($this);
+        $this->totalInclTax = $totalInclTax;
+        return $this;
+    }
+
+    /**
+     * @return Collection|Config[]
+     */
+    public function getVisitServices(): Collection
+    {
+        return $this->visitServices;
+    }
+
+    public function addVisitService(VisitService $visitService): self
+    {
+        if (!$this->visitServices->contains($visitService)) {
+            $this->visitServices[] = $visitService;
+            $visitService->setVisit($this);
         }
 
         return $this;
     }
 
-    public function removeConfigsChanged(ServiceHistory $serviceHistory): self
+    public function removeVisitService(VisitService $visitService): self
     {
-        if ($this->serviceHistories->contains($serviceHistory)) {
-            $this->serviceHistories->removeElement($serviceHistory);
+        if ($this->visitServices->contains($visitService)) {
+            $this->visitServices->removeElement($visitService);
             // set the owning side to null (unless already changed)
-            if ($serviceHistory->getVisit() === $this) {
-                $serviceHistory->setVisit(null);
+            if ($visitService->getVisit() === $this) {
+                $visitService->setVisit(null);
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVehicle()
+    {
+        return $this->vehicle;
+    }
+
+    /**
+     * @param Vehicle $vehicle
+     * @return Visit
+     */
+    public function setVehicle(?Vehicle $vehicle)
+    {
+        $this->vehicle = $vehicle;
         return $this;
     }
 
