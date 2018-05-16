@@ -221,7 +221,6 @@ class Vehicle
         return $this;
     }
 
-
     /**
      * @return Collection|Visit[]
      */

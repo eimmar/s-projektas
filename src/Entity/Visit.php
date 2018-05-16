@@ -45,16 +45,15 @@ class Visit
     private $dateUpdated;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle")
+     */
+    private $vehicle;
+
+    /**
      * @ORM\Column(type="decimal", scale=2, nullable=false)
      * @var float
      */
     private $totalInclTax;
-
-    /**
-     * @@ORM\ManyToOne(targetEntity="App\Entity\Vehicle")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $vehicle;
 
     /**
      * @ORM\OneToMany(targetEntity="VisitService", mappedBy="visit")
