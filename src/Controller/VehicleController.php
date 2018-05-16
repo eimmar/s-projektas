@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Vehicle;
 use App\Form\VehicleType;
 use App\Repository\VehicleRepository;
+use App\Security\VehicleVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,6 +38,7 @@ class VehicleController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $vehicle->setUser($this->get('security.token_storage')->getToken()->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($vehicle);
             $em->flush();
@@ -55,6 +57,8 @@ class VehicleController extends Controller
      */
     public function show(Vehicle $vehicle): Response
     {
+        $this->denyAccessUnlessGranted(VehicleVoter::VIEW, $vehicle);
+
         return $this->render('vehicle/show.html.twig', ['vehicle' => $vehicle]);
     }
 
@@ -63,6 +67,8 @@ class VehicleController extends Controller
      */
     public function edit(Request $request, Vehicle $vehicle): Response
     {
+        $this->denyAccessUnlessGranted(VehicleVoter::EDIT, $vehicle);
+
         $form = $this->createForm(VehicleType::class, $vehicle);
         $form->handleRequest($request);
 
@@ -83,6 +89,8 @@ class VehicleController extends Controller
      */
     public function delete(Request $request, Vehicle $vehicle): Response
     {
+        $this->denyAccessUnlessGranted(VehicleVoter::DELETE, $vehicle);
+
         if ($this->isCsrfTokenValid('delete'.$vehicle->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($vehicle);
