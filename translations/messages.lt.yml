@@ -52,7 +52,13 @@ config:
         description: Aprašymas
         user_changed_by: Paskutinį kartą keitė
 
+visit:
+    action:
+        add: Užsirašyti
 
+vehicle:
+    action:
+        new: Sukurti naują
 main:
     contacts: Kontaktai
 

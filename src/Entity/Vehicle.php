@@ -222,6 +222,14 @@ class Vehicle
     }
 
     /**
+     * @return float|int
+     */
+    public function getLiterCapacity()
+    {
+        return $this->getEngineCapacity() / 1000;
+    }
+
+    /**
      * @return Collection|Visit[]
      */
     public function getVisits(): Collection
@@ -267,5 +275,13 @@ class Vehicle
     {
         $this->setDateCreated(new \DateTime('now'))
             ->setDateUpdated(new \DateTime('now'));
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s %s l', $this->getModel(), $this->getLiterCapacity());
     }
 }

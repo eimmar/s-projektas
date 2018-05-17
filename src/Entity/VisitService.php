@@ -38,6 +38,12 @@ class VisitService
     private $description;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\Length(max="255")
+     */
+    private $name;
+
+    /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
@@ -76,14 +82,14 @@ class VisitService
     public function setDuration($duration): self
     {
         $this->duration = $duration;
-        return $$this;
+        return $this;
     }
 
     /**
      * @param int $id
      * @return VisitService
      */
-    public function setId(int $id): VisitService
+    public function setId(?int $id): VisitService
     {
         $this->id = $id;
         return $this;
@@ -197,12 +203,59 @@ class VisitService
     }
 
     /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     * @return VisitService
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
      * @param Service $service
      * @return VisitService
      */
     public function setService(Service $service)
     {
         $this->service = $service;
+        $this->setDescription($service->getDescription())
+            ->setDuration($service->getDurationMedian())
+            ->setPrice($service->getPriceMedian())
+            ->setName($service->getName());
+
         return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->setDateUpdated(new \DateTime('now'));
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->setDateCreated(new \DateTime('now'))
+            ->setDateUpdated(new \DateTime('now'));
+    }
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getId();
     }
 }

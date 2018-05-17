@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Entity\Visit;
+use App\Service\VisitArranger;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -20,12 +22,35 @@ class VisitRepository extends ServiceEntityRepository
         parent::__construct($registry, Visit::class);
     }
 
-    public function findActiveVisits(User $user)
+    /**
+     * @param User $user
+     * @return QueryBuilder
+     */
+    private function getUserVisitQb(User $user)
     {
         return $this->createQueryBuilder('v')
             ->where('v.vehicle in (:vehicles)')
-            ->setParameter('vehicles', $user->getVehicles())
+            ->setParameter('vehicles', $user->getVehicles());
+    }
+
+    public function findActiveVisits(User $user)
+    {
+        return $this->getUserVisitQb($user)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @param User $user
+     * @return Visit|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getUnsubmittedVisit(User $user)
+    {
+        return $this->getUserVisitQb($user)
+            ->leftJoin('v.status', 's', 'WITH', 's.name = :status')
+            ->setParameter('status', VisitArranger::STATUS_NOT_SUBMITTED)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

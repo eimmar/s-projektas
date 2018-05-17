@@ -6,6 +6,7 @@ use App\Entity\Visit;
 use App\Form\VisitType;
 use App\Repository\VisitRepository;
 use App\Security\VehicleVoter;
+use App\Service\VisitArranger;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,24 +32,27 @@ class VisitController extends Controller
     /**
      * @Route("/new", name="visit_new", methods="GET|POST")
      */
-    public function new(Request $request): Response
+    public function new(Request $request, VisitArranger $visitArranger): Response
     {
-        $visit = new Visit();
+        $visit = $visitArranger->initVisit($request->get('add_service'));
         $form = $this->createForm(VisitType::class, $visit);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($visit);
-            $em->flush();
+        if ($visitArranger->isVisitValid($visit)) {
 
-            return $this->redirectToRoute('visit_index');
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('visit_edit', ['id' => $visit->getId()]);
+            }
+
+            return $this->render('visit/edit.html.twig', [
+                'visit' => $visit,
+                'form' => $form->createView(),
+            ]);
+        } else {
+            return $this->render('index/index.html.twig');
         }
-
-        return $this->render('visit/new.html.twig', [
-            'visit' => $visit,
-            'form' => $form->createView(),
-        ]);
     }
 
     /**

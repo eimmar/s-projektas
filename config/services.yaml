@@ -41,6 +41,10 @@ services:
     App\Form\VehicleType:
         arguments: ['@security.token_storage', '%max_user_vehicle_count%']
         tags: [form.type]
+
+    App\Form\AddServiceType:
+        arguments: ['@router']
+        tags: [form.type]
     # End of Forms
 
     # Sonata admin bundle configuration

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
@@ -22,6 +23,7 @@ class Visit
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @Assert\NotBlank()
      * @var \DateTime
      */
     private $visitDate;
@@ -29,6 +31,7 @@ class Visit
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\VisitStatus")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $status;
 
@@ -46,6 +49,7 @@ class Visit
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle")
+     * @Assert\NotBlank()
      */
     private $vehicle;
 
@@ -58,6 +62,7 @@ class Visit
     /**
      * @ORM\OneToMany(targetEntity="VisitService", mappedBy="visit")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     protected $visitServices;
 
@@ -86,7 +91,7 @@ class Visit
     /**
      * @return \DateTime
      */
-    public function getDateCreated(): \DateTime
+    public function getDateCreated(): ?\DateTime
     {
         return $this->dateCreated;
     }
@@ -103,7 +108,7 @@ class Visit
     /**
      * @return \DateTime
      */
-    public function getDateUpdated(): \DateTime
+    public function getDateUpdated(): ?\DateTime
     {
         return $this->dateUpdated;
     }
@@ -120,7 +125,7 @@ class Visit
     /**
      * @return \DateTime
      */
-    public function getVisitDate(): \DateTime
+    public function getVisitDate(): ?\DateTime
     {
         return $this->visitDate;
     }
@@ -131,28 +136,30 @@ class Visit
     public function setVisitDate(\DateTime $visitDate): self
     {
         $this->visitDate = $visitDate;
+        return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getStatus(): VisitStatus
+    public function getStatus(): ?VisitStatus
     {
         return $this->status;
     }
 
     /**
-     * @param VisitStatus $statusId
+     * @param VisitStatus $status
      */
-    public function setStatus($statusId): self
+    public function setStatus($status): self
     {
-        $this->status = $statusId;
+        $this->status = $status;
+        return $this;
     }
 
     /**
      * @return float
      */
-    public function getTotalInclTax(): float
+    public function getTotalInclTax(): ?float
     {
         return $this->totalInclTax;
     }
@@ -231,5 +238,35 @@ class Visit
     {
         $this->setDateCreated(new \DateTime('now'))
             ->setDateUpdated(new \DateTime('now'));
+    }
+
+    public function calculateTotals()
+    {
+        /** @var VisitService $service */
+        foreach ($this->getVisitServices()->getValues() as $service) {
+            $this->totalInclTax += $service->getPrice();
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalDuration()
+    {
+        $duration = 0;
+        /** @var VisitService $service */
+        foreach ($this->getVisitServices()->getValues() as $service) {
+            $duration += $service->getDuration();
+        };
+
+        return $duration;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getId();
     }
 }
