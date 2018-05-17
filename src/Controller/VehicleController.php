@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Vehicle;
 use App\Form\VehicleType;
 use App\Repository\VehicleRepository;
@@ -21,11 +22,12 @@ class VehicleController extends Controller
     /**
      * @Route("/", name="vehicle_index", methods="GET")
      */
-    public function index(VehicleRepository $vehicleRepository): Response
+    public function index(): Response
     {
+        /** @var User $user */
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        return $this->render('vehicle/index.html.twig', ['vehicles' => $vehicleRepository->findUserVehicles($user)]);
+        return $this->render('vehicle/index.html.twig', ['vehicles' => $user->getVehicles()]);
     }
 
     /**

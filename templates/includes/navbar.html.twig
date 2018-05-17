@@ -1,15 +1,15 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-2 ">
     <div class="container">
-        <a class="navbar-brand" href="/">NETA Garažas</a>
-        <div class="collapse navbar-collapse justify-content-between"   id="navbarNavAltMarkup">
+        <a class="navbar-brand" href="{{ path('homepage') }}">NETA Garažas</a>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
             {{ render(controller('App\\Controller\\IndexController::search', { 'request': app.request})) }}
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="#">Kontaktai</a>
-                <a class="nav-item nav-link"  href="/service">Paslaugos</a>
+                <a class="nav-item nav-link" href="{{ path('contacts') }}">Kontaktai</a>
+                <a class="nav-item nav-link"  href="{{ path('service_index') }}">Paslaugos</a>
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     <a class="nav-item nav-link" href="{{ path('vehicle_index') }}">Automobiliai</a>
                 {% else %}
-                    <a class="nav-item nav-link" href="/register">Registruotis</a>
+                    <a class="nav-item nav-link" href="{{ path('fos_user_registration_register') }}">Registruotis</a>
                 {% endif %}
                 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     <div class="dropdown">
@@ -18,8 +18,8 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <a href="/profile" class="dropdown-item">Profile</a>
-                            <a href="/profile/edit" class="dropdown-item">Settings</a>
+                            <a href="{{ path('fos_user_profile_show') }}" class="dropdown-item">Profile</a>
+                            <a href="{{ path('fos_user_profile_edit') }}" class="dropdown-item">Settings</a>
                             {% set is_admin = 0 %}
                             {% for my_var in app.user.roles %}
                                 {% if my_var == "ROLE_SUPER_ADMIN" %}
@@ -30,7 +30,7 @@
                                 {% endif %}
                             {% endfor %}
                             {% if is_admin == 1 %}
-                                <a href="/admin" class="dropdown-item">admin</a>
+                                <a href="{{ path('sonata_admin_dashboard') }}" class="dropdown-item">admin</a>
                             {% endif %}
                             <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
                         </div>

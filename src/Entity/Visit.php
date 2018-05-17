@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
@@ -22,6 +23,7 @@ class Visit
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
+     * @Assert\NotBlank()
      * @var \DateTime
      */
     private $visitDate;
@@ -29,6 +31,7 @@ class Visit
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\VisitStatus")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $status;
 
@@ -36,23 +39,36 @@ class Visit
      * @ORM\Column(type="datetime", nullable=false)
      * @var \DateTime
      */
-    protected $dateCreated;
+    private $dateCreated;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
      * @var \DateTime
      */
-    protected $dateUpdated;
+    private $dateUpdated;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ServiceHistory", mappedBy="visit")
-     * @var ArrayCollection|ServiceHistory[]
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle")
+     * @Assert\NotBlank()
      */
-    protected $serviceHistories;
+    private $vehicle;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2, nullable=false)
+     * @var float
+     */
+    private $totalInclTax;
+
+    /**
+     * @ORM\OneToMany(targetEntity="VisitService", mappedBy="visit")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
+     */
+    protected $visitServices;
 
     public function __construct()
     {
-        $this->serviceHistories = new ArrayCollection();
+        $this->visitServices = new ArrayCollection();
     }
 
     /**
@@ -75,7 +91,7 @@ class Visit
     /**
      * @return \DateTime
      */
-    public function getDateCreated(): \DateTime
+    public function getDateCreated(): ?\DateTime
     {
         return $this->dateCreated;
     }
@@ -92,7 +108,7 @@ class Visit
     /**
      * @return \DateTime
      */
-    public function getDateUpdated(): \DateTime
+    public function getDateUpdated(): ?\DateTime
     {
         return $this->dateUpdated;
     }
@@ -109,7 +125,7 @@ class Visit
     /**
      * @return \DateTime
      */
-    public function getVisitDate(): \DateTime
+    public function getVisitDate(): ?\DateTime
     {
         return $this->visitDate;
     }
@@ -120,52 +136,90 @@ class Visit
     public function setVisitDate(\DateTime $visitDate): self
     {
         $this->visitDate = $visitDate;
+        return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getStatus(): VisitStatus
+    public function getStatus(): ?VisitStatus
     {
         return $this->status;
     }
 
     /**
-     * @param VisitStatus $statusId
+     * @param VisitStatus $status
      */
-    public function setStatus($statusId): self
+    public function setStatus($status): self
     {
-        $this->status = $statusId;
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalInclTax(): ?float
+    {
+        return $this->totalInclTax;
+    }
+
+    /**
+     * @param float $totalInclTax
+     * @return Visit
+     */
+    public function setTotalInclTax(float $totalInclTax): Visit
+    {
+        $this->totalInclTax = $totalInclTax;
+        return $this;
     }
 
     /**
      * @return Collection|Config[]
      */
-    public function getConfigsChanged(): Collection
+    public function getVisitServices(): Collection
     {
-        return $this->serviceHistories;
+        return $this->visitServices;
     }
 
-    public function addConfigsChanged(ServiceHistory $serviceHistory): self
+    public function addVisitService(VisitService $visitService): self
     {
-        if (!$this->serviceHistories->contains($serviceHistory)) {
-            $this->serviceHistories[] = $serviceHistory;
-            $serviceHistory->setVisit($this);
+        if (!$this->visitServices->contains($visitService)) {
+            $this->visitServices[] = $visitService;
+            $visitService->setVisit($this);
         }
 
         return $this;
     }
 
-    public function removeConfigsChanged(ServiceHistory $serviceHistory): self
+    public function removeVisitService(VisitService $visitService): self
     {
-        if ($this->serviceHistories->contains($serviceHistory)) {
-            $this->serviceHistories->removeElement($serviceHistory);
+        if ($this->visitServices->contains($visitService)) {
+            $this->visitServices->removeElement($visitService);
             // set the owning side to null (unless already changed)
-            if ($serviceHistory->getVisit() === $this) {
-                $serviceHistory->setVisit(null);
+            if ($visitService->getVisit() === $this) {
+                $visitService->setVisit(null);
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVehicle()
+    {
+        return $this->vehicle;
+    }
+
+    /**
+     * @param Vehicle $vehicle
+     * @return Visit
+     */
+    public function setVehicle(?Vehicle $vehicle)
+    {
+        $this->vehicle = $vehicle;
         return $this;
     }
 
@@ -184,5 +238,35 @@ class Visit
     {
         $this->setDateCreated(new \DateTime('now'))
             ->setDateUpdated(new \DateTime('now'));
+    }
+
+    public function calculateTotals()
+    {
+        /** @var VisitService $service */
+        foreach ($this->getVisitServices()->getValues() as $service) {
+            $this->totalInclTax += $service->getPrice();
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function getTotalDuration()
+    {
+        $duration = 0;
+        /** @var VisitService $service */
+        foreach ($this->getVisitServices()->getValues() as $service) {
+            $duration += $service->getDuration();
+        };
+
+        return $duration;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getId();
     }
 }

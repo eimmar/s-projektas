@@ -254,4 +254,20 @@ class Service
         $this->setDateCreated(new \DateTime('now'))
             ->setDateUpdated(new \DateTime('now'));
     }
+
+    /**
+     * @return float|int
+     */
+    public function getPriceMedian()
+    {
+        return ($this->getPriceFrom() + $this->getPriceTo()) / 2;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getDurationMedian()
+    {
+        return ($this->getDurationFrom() + $this->getDurationTo()) / 2;
+    }
 }

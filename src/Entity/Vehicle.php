@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -82,6 +84,17 @@ class Vehicle
      * @ORM\Column(type="datetime")
      */
     private $dateUpdated;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Visit", mappedBy="vehicle")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $visits;
+
+    public function __construct()
+    {
+        $this->visits = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -209,6 +222,45 @@ class Vehicle
     }
 
     /**
+     * @return float|int
+     */
+    public function getLiterCapacity()
+    {
+        return $this->getEngineCapacity() / 1000;
+    }
+
+    /**
+     * @return Collection|Visit[]
+     */
+    public function getVisits(): Collection
+    {
+        return $this->visits;
+    }
+
+    public function addVisit(Visit $visit): self
+    {
+        if (!$this->visits->contains($visit)) {
+            $this->visits[] = $visit;
+            $visit->setVehicle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVisit(Visit $visit): self
+    {
+        if ($this->visits->contains($visit)) {
+            $this->visits->removeElement($visit);
+            // set the owning side to null (unless already changed)
+            if ($visit->getVehicle() === $this) {
+                $visit->setVehicle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @ORM\PreUpdate
      */
     public function preUpdate()
@@ -223,5 +275,13 @@ class Vehicle
     {
         $this->setDateCreated(new \DateTime('now'))
             ->setDateUpdated(new \DateTime('now'));
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return sprintf('%s %s l', $this->getModel(), $this->getLiterCapacity());
     }
 }

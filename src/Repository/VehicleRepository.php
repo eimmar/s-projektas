@@ -19,17 +19,4 @@ class VehicleRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Vehicle::class);
     }
-
-    /**
-     * @param User $user
-     * @return mixed
-     */
-    public function findUserVehicles(User $user)
-    {
-        return $this->createQueryBuilder('v')
-            ->where('v.user = :user')
-            ->setParameter('user', $user)
-            ->getQuery()
-            ->getResult();
-    }
 }

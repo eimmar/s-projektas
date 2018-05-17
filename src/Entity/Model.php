@@ -61,6 +61,6 @@ class Model
      */
     public function __toString()
     {
-        return $this->getName();
+        return sprintf('%s %s', $this->getManufacturer()->getName(), $this->getName());
     }
 }

@@ -331,7 +331,7 @@ class User extends FOSUser
     }
 
     /**
-     * @return Collection|Config[]
+     * @return Collection|Vehicle[]
      */
     public function getVehicles(): Collection
     {

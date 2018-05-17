@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ServiceHistoryRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\VisitServiceRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class ServiceHistory
+class VisitService
 {
     /**
      * @ORM\Id
@@ -38,6 +38,12 @@ class ServiceHistory
     private $description;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\Length(max="255")
+     */
+    private $name;
+
+    /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank()
      * @Assert\Type(type="integer")
@@ -45,7 +51,7 @@ class ServiceHistory
     private $duration;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Visit", inversedBy="serviceHistories")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Visit", inversedBy="visitServices")
      * @ORM\JoinColumn(nullable=false)
      */
     private $visit;
@@ -76,14 +82,14 @@ class ServiceHistory
     public function setDuration($duration): self
     {
         $this->duration = $duration;
-        return $$this;
+        return $this;
     }
 
     /**
      * @param int $id
-     * @return ServiceHistory
+     * @return VisitService
      */
-    public function setId(int $id): ServiceHistory
+    public function setId(?int $id): VisitService
     {
         $this->id = $id;
         return $this;
@@ -108,7 +114,7 @@ class ServiceHistory
 
     /**
      * @param mixed $price
-     * @return ServiceHistory
+     * @return VisitService
      */
     public function setPrice($price)
     {
@@ -126,7 +132,7 @@ class ServiceHistory
 
     /**
      * @param mixed $description
-     * @return ServiceHistory
+     * @return VisitService
      */
     public function setDescription($description)
     {
@@ -144,7 +150,7 @@ class ServiceHistory
 
     /**
      * @param Visit|null $visit
-     * @return ServiceHistory
+     * @return VisitService
      */
     public function setVisit(?Visit $visit)
     {
@@ -162,9 +168,9 @@ class ServiceHistory
 
     /**
      * @param \DateTime $dateCreated
-     * @return ServiceHistory
+     * @return VisitService
      */
-    public function setDateCreated(\DateTime $dateCreated): ServiceHistory
+    public function setDateCreated(\DateTime $dateCreated): VisitService
     {
         $this->dateCreated = $dateCreated;
         return $this;
@@ -180,9 +186,9 @@ class ServiceHistory
 
     /**
      * @param \DateTime $dateUpdated
-     * @return ServiceHistory
+     * @return VisitService
      */
-    public function setDateUpdated(\DateTime $dateUpdated): ServiceHistory
+    public function setDateUpdated(\DateTime $dateUpdated): VisitService
     {
         $this->dateUpdated = $dateUpdated;
         return $this;
@@ -197,12 +203,59 @@ class ServiceHistory
     }
 
     /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     * @return VisitService
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
      * @param Service $service
-     * @return ServiceHistory
+     * @return VisitService
      */
     public function setService(Service $service)
     {
         $this->service = $service;
+        $this->setDescription($service->getDescription())
+            ->setDuration($service->getDurationMedian())
+            ->setPrice($service->getPriceMedian())
+            ->setName($service->getName());
+
         return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpdate()
+    {
+        $this->setDateUpdated(new \DateTime('now'));
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->setDateCreated(new \DateTime('now'))
+            ->setDateUpdated(new \DateTime('now'));
+    }
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getId();
     }
 }
