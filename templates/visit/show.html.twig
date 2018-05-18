@@ -32,7 +32,7 @@
 
     <a href="{{ path('visit_index') }}">back to list</a>
 
-    <a href="{{ path('visit_edit', {'id': visit.id}) }}">edit</a>
+    <a href="{{ path('visit_submit', {'id': visit.id}) }}">submit</a>
 
     {{ include('visit/_delete_form.html.twig') }}
 {% endblock %}

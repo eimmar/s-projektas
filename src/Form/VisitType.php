@@ -18,9 +18,10 @@ class VisitType extends AbstractType
             ->add('vehicle')
             ->add('visitServices', CollectionType::class, [
                 'entry_type'    => VisitServiceType::class,
-                'allow_add'     => true,
                 'allow_delete'  => true,
                 'prototype'     => true,
+                'by_reference'  => false,
+                'attr'          => ['class' => 'visit-service-type'],
             ])
             ->add('status', HiddenType::class, ['property_path' => 'id'])
         ;

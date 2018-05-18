@@ -89,7 +89,7 @@ class VisitService
      * @param int $id
      * @return VisitService
      */
-    public function setId(?int $id): VisitService
+    public function setId(int $id): VisitService
     {
         $this->id = $id;
         return $this;
@@ -99,7 +99,7 @@ class VisitService
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

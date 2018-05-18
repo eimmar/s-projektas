@@ -76,22 +76,22 @@ class VisitArranger
      * @return Visit|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function initVisit(?array $formData)
+    public function initVisit(?array $formData = [])
     {
-        $visit = $this->getUnfinishedArrangement() ?? new Visit();
+        $visit = $this->getUnfinishedArrangement();
+        $visitService = $this->createVisitService($formData);
 
-        $serviceId = $formData ? $formData[AddServiceType::FIELD_SERVICE] : null;
-        $visitService = $serviceId ? $this->createVisitService($serviceId) : null;
+        if ($visitService && !$visit) {
+            $visit = new Visit();
+            $visit->setVehicle($this->user->getVehicles()->first())
+                ->setVisitDate(new \DateTime('+1 hour'));
+            $this->em->persist($visit);
+        }
 
         if ($visitService) {
-            $visit->setVehicle($visit->getVehicle() ?? $this->user->getVehicles()->first())
-                ->addVisitService($visitService)
-                ->setStatus($this->statusRepository->findOneBy(['name' => self::STATUS_NOT_SUBMITTED])) //TODO: Maybe move this to event listener?
-                ->setVisitDate($visit->getVisitDate() ?? new \DateTime('+1 hour'))
-                ->calculateTotals();
-
+            $visit->addVisitService($visitService);
+            $visit->calculateTotals();
             $this->em->persist($visitService);
-            $this->em->persist($visit);
             $this->em->flush();
         }
 
@@ -99,21 +99,22 @@ class VisitArranger
     }
 
     /**
-     * @param Visit $visit
+     * @param Visit|null $visit
      * @return bool
      */
-    public function isVisitValid(Visit $visit)
+    public function isVisitValid(?Visit $visit)
     {
-        return $visit->getVisitServices()->count() > 0;
+        return $visit && $visit->getVisitServices()->count() > 0;
     }
 
     /**
-     * @param int $serviceId
+     * @param array $formData
      * @return VisitService|null
      */
-    private function createVisitService(int $serviceId): ?VisitService
+    private function createVisitService($formData): ?VisitService
     {
-        $service = $this->serviceRepository->find($serviceId);
+        $serviceId = $formData ? $formData[AddServiceType::FIELD_SERVICE] : null;
+        $service = $serviceId ? $this->serviceRepository->find($serviceId) : null;
         $visitService = null;
 
         if ($service) {

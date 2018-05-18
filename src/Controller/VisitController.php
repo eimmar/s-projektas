@@ -30,29 +30,37 @@ class VisitController extends Controller
     }
 
     /**
-     * @Route("/new", name="visit_new", methods="GET|POST")
+     * @Route("/arrange", name="visit_arrange", methods="GET|POST")
      */
     public function new(Request $request, VisitArranger $visitArranger): Response
     {
+        if (!$visitArranger->userHasVehicles()) {
+            $this->addFlash('warning', 'visit.create.arrangement_no_vehicle_available');
+            return $this->redirectToRoute('vehicle_new');
+        }
+
         $visit = $visitArranger->initVisit($request->get('add_service'));
         $form = $this->createForm(VisitType::class, $visit);
         $form->handleRequest($request);
 
-        if ($visitArranger->isVisitValid($visit)) {
+        if ($visitArranger->isVisitValid($visit) && $form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->getDoctrine()->getManager()->flush();
-
-                return $this->redirectToRoute('visit_edit', ['id' => $visit->getId()]);
-            }
-
-            return $this->render('visit/edit.html.twig', [
+            $response = $this->render('visit/edit.html.twig', [
+                'visit' => $visit,
+                'form' => $form->createView(),
+            ]);
+        } else if ($visitArranger->isVisitValid($visit)) {
+            $response = $this->render('visit/edit.html.twig', [
                 'visit' => $visit,
                 'form' => $form->createView(),
             ]);
         } else {
-            return $this->render('index/index.html.twig');
+            $this->addFlash('warning', 'visit.create.arrangement_no_services_added');
+            $response = $this->redirectToRoute('service_index');
         }
+
+        return $response;
     }
 
     /**
@@ -65,36 +73,32 @@ class VisitController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="visit_edit", methods="GET|POST")
+     * @Route("/cancel", name="visit_cancel", methods="CANCEL")
      */
-    public function edit(Request $request, Visit $visit): Response
+    public function cancel(Request $request, VisitArranger $arranger): Response
     {
-        $this->denyAccessUnlessGranted(VehicleVoter::EDIT, $visit->getVehicle());
-        $form = $this->createForm(VisitType::class, $visit);
-        $form->handleRequest($request);
+        $visit = $arranger->initVisit();
+        $this->denyAccessUnlessGranted(VehicleVoter::DELETE, $visit->getVehicle());
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('visit_edit', ['id' => $visit->getId()]);
+        if ($this->isCsrfTokenValid('cancel'.$visit->getId(), $request->request->get('_token'))) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($visit);
+            $em->flush();
         }
 
-        return $this->render('visit/edit.html.twig', [
-            'visit' => $visit,
-            'form' => $form->createView(),
-        ]);
+        return $this->redirectToRoute('visit_index');
     }
 
     /**
-     * @Route("/{id}", name="visit_delete", methods="DELETE")
+     * @Route("/{id}", name="visit_submit", methods="SUBMIT")
      */
-    public function delete(Request $request, Visit $visit): Response
+    public function submit(Request $request, Visit $visit): Response
     {
-        $this->denyAccessUnlessGranted(VehicleVoter::DELETE, $visit->getVehicle());
+        $this->denyAccessUnlessGranted(VehicleVoter::EDIT, $visit->getVehicle());
 
-        if ($this->isCsrfTokenValid('delete'.$visit->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('submit'.$visit->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($visit);
+            $em->persist($visit);
             $em->flush();
         }
 
