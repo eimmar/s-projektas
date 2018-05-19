@@ -89,3 +89,11 @@ services:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
     # End of Event subscriber configuration
+
+    # Custom twig function configuration
+    app.twig_visit:
+        class: App\Twig\VisitRuntime
+        public: false
+        tags:
+            - { name: twig.runtime }
+    # End of Custom twig function configuration

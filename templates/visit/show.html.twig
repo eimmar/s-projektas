@@ -32,9 +32,11 @@
 
     <a href="{{ path('visit_index') }}">back to list</a>
 
-    {% if visit.status.name == notSubmitted %}
+    {% if visit.status.name == 'not_submitted' %}
         {{ include('visit/_submit_form.html.twig') }}
     {% endif %}
 
-    {{ include('visit/_cancel_form.html.twig') }}
+    {% if visit.status.name == 'cancelled' %}
+        {{ include('visit/_cancel_form.html.twig') }}
+    {% endif %}
 {% endblock %}

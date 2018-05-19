@@ -54,7 +54,12 @@ config:
 
 visit:
     action:
+        default: Vizitas (%s)
         add: Užsirašyti
+    arrange:
+        arrangement_no_services_added: Į vizitą nėra įtraukta jokių paslaugų.
+        arrangement_no_vehicle_available: Prieš užsirašydamį vizitui turite susikurti automobilį.
+        arrangement_submitted: Vizitas suplanuotas sėkmingai!
 
 vehicle:
     action:

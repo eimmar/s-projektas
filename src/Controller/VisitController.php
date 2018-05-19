@@ -61,13 +61,7 @@ class VisitController extends Controller
     public function show(Visit $visit): Response
     {
         $this->denyAccessUnlessGranted(VehicleVoter::VIEW, $visit->getVehicle());
-        return $this->render(
-            'visit/show.html.twig',
-            [
-                'visit'        => $visit,
-                'notSubmitted' => VisitArranger::STATUS_NOT_SUBMITTED
-            ]
-        );
+        return $this->render('visit/show.html.twig', ['visit' => $visit]);
     }
 
     /**
