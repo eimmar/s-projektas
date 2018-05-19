@@ -14,6 +14,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class VisitArranger
 {
     const STATUS_NOT_SUBMITTED = 'not_submitted';
+    const STATUS_SUBMITTED = 'pending';
+    const STATUS_CANCELLED = 'cancelled';
 
     /**
      * @var VisitRepository
@@ -53,6 +55,23 @@ class VisitArranger
         $this->user = $tokenStorage->getToken()->getUser();
     }
 
+    /**
+     * @param array $formData
+     * @return VisitService|null
+     */
+    private function createVisitService($formData): ?VisitService
+    {
+        $serviceId = $formData ? $formData[AddServiceType::FIELD_SERVICE] : null;
+        $service = $serviceId ? $this->serviceRepository->find($serviceId) : null;
+        $visitService = null;
+
+        if ($service) {
+            $visitService = new VisitService();
+            $visitService->setService($service);
+        }
+
+        return $visitService;
+    }
 
     /**
      * @return Visit|null
@@ -81,7 +100,7 @@ class VisitArranger
         $visit = $this->getUnfinishedArrangement();
         $visitService = $this->createVisitService($formData);
 
-        if ($visitService && !$visit) {
+        if ($visitService && !$visit && $this->userHasVehicles()) {
             $visit = new Visit();
             $visit->setVehicle($this->user->getVehicles()->first())
                 ->setVisitDate(new \DateTime('+1 hour'));
@@ -107,21 +126,29 @@ class VisitArranger
         return $visit && $visit->getVisitServices()->count() > 0;
     }
 
-    /**
-     * @param array $formData
-     * @return VisitService|null
-     */
-    private function createVisitService($formData): ?VisitService
-    {
-        $serviceId = $formData ? $formData[AddServiceType::FIELD_SERVICE] : null;
-        $service = $serviceId ? $this->serviceRepository->find($serviceId) : null;
-        $visitService = null;
 
-        if ($service) {
-            $visitService = new VisitService();
-            $visitService->setService($service);
+    /**
+     * @param Visit $visit
+     */
+    public function cancel(Visit $visit)
+    {
+        if ($visit->getStatus()->getName() === self::STATUS_NOT_SUBMITTED) {
+            $this->em->remove($visit);
+        } else {
+            $visit->setStatus($this->statusRepository->findOneBy(['name' => self::STATUS_CANCELLED]));
+            $this->em->persist($visit);
         }
 
-        return $visitService;
+        $this->em->flush();
+    }
+
+    /**
+     * @param Visit $visit
+     */
+    public function submit(Visit $visit)
+    {
+        $visit->setStatus($this->statusRepository->findOneBy(['name' => self::STATUS_SUBMITTED]));
+        $this->em->persist($visit);
+        $this->em->flush();
     }
 }

@@ -26,37 +26,29 @@ class VisitController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        return $this->render('visit/index.html.twig', ['visits' => $visitRepository->findActiveVisits($user)]);
+        return $this->render('visit/index.html.twig', ['visits' => $visitRepository->findUserVisits($user)]);
     }
 
     /**
      * @Route("/arrange", name="visit_arrange", methods="GET|POST")
      */
-    public function new(Request $request, VisitArranger $visitArranger): Response
+    public function arrange(Request $request, VisitArranger $visitArranger): Response
     {
         if (!$visitArranger->userHasVehicles()) {
-            $this->addFlash('warning', 'visit.create.arrangement_no_vehicle_available');
+            $this->addFlash('warning', 'visit.arrange.arrangement_no_vehicle_available');
             return $this->redirectToRoute('vehicle_new');
         }
 
         $visit = $visitArranger->initVisit($request->get('add_service'));
         $form = $this->createForm(VisitType::class, $visit);
-        $form->handleRequest($request);
 
-        if ($visitArranger->isVisitValid($visit) && $form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            $response = $this->render('visit/edit.html.twig', [
-                'visit' => $visit,
-                'form' => $form->createView(),
-            ]);
-        } else if ($visitArranger->isVisitValid($visit)) {
-            $response = $this->render('visit/edit.html.twig', [
+        if ($visitArranger->isVisitValid($visit)) {
+            $response = $this->render('visit/arrange.html.twig', [
                 'visit' => $visit,
                 'form' => $form->createView(),
             ]);
         } else {
-            $this->addFlash('warning', 'visit.create.arrangement_no_services_added');
+            $this->addFlash('warning', 'visit.arrange.arrangement_no_services_added');
             $response = $this->redirectToRoute('service_index');
         }
 
@@ -69,7 +61,13 @@ class VisitController extends Controller
     public function show(Visit $visit): Response
     {
         $this->denyAccessUnlessGranted(VehicleVoter::VIEW, $visit->getVehicle());
-        return $this->render('visit/show.html.twig', ['visit' => $visit]);
+        return $this->render(
+            'visit/show.html.twig',
+            [
+                'visit'        => $visit,
+                'notSubmitted' => VisitArranger::STATUS_NOT_SUBMITTED
+            ]
+        );
     }
 
     /**
@@ -78,28 +76,25 @@ class VisitController extends Controller
     public function cancel(Request $request, VisitArranger $arranger): Response
     {
         $visit = $arranger->initVisit();
-        $this->denyAccessUnlessGranted(VehicleVoter::DELETE, $visit->getVehicle());
 
-        if ($this->isCsrfTokenValid('cancel'.$visit->getId(), $request->request->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($visit);
-            $em->flush();
+        if ($visit && $this->isCsrfTokenValid('cancel'.$visit->getId(), $request->request->get('_token'))) {
+            $arranger->cancel($visit);
+            $this->addFlash('success', 'visit.arrange.arrangement_cancelled');
         }
 
         return $this->redirectToRoute('visit_index');
     }
 
     /**
-     * @Route("/{id}", name="visit_submit", methods="SUBMIT")
+     * @Route("/submit", name="visit_submit", methods="SUBMIT")
      */
-    public function submit(Request $request, Visit $visit): Response
+    public function submit(Request $request, VisitArranger $arranger): Response
     {
-        $this->denyAccessUnlessGranted(VehicleVoter::EDIT, $visit->getVehicle());
+        $visit = $arranger->initVisit();
 
-        if ($this->isCsrfTokenValid('submit'.$visit->getId(), $request->request->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($visit);
-            $em->flush();
+        if ($visit && $this->isCsrfTokenValid('submit'.$visit->getId(), $request->request->get('_token'))) {
+            $arranger->submit($visit);
+            $this->addFlash('success', 'visit.arrange.arrangement_submitted');
         }
 
         return $this->redirectToRoute('visit_index');
