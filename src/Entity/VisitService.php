@@ -57,6 +57,13 @@ class VisitService
     private $visit;
 
     /**
+     * @ORM\Column(type="integer", length=10, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Length(min="1", max="10")
+     */
+    private $quantity;
+
+    /**
      * @ORM\Column(type="datetime", nullable=false)
      * @var \DateTime
      */
@@ -221,6 +228,42 @@ class VisitService
     }
 
     /**
+     * @return mixed
+     */
+    public function getQuantity() :?int
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param int|null $quantity
+     * @return VisitService
+     */
+    public function setQuantity(?int $quantity)
+    {
+        $this->quantity = $quantity;
+        return $this;
+    }
+
+    /**
+     * @return VisitService $this
+     */
+    public function incrementQuantity()
+    {
+        $this->quantity++;
+        return $this;
+    }
+
+    /**
+     * @return VisitService $this
+     */
+    public function decrementQuantity()
+    {
+        $this->quantity++;
+        return $this;
+    }
+
+    /**
      * @param Service $service
      * @return VisitService
      */
@@ -230,7 +273,8 @@ class VisitService
         $this->setDescription($service->getDescription())
             ->setDuration($service->getDurationMedian())
             ->setPrice($service->getPriceMedian())
-            ->setName($service->getName());
+            ->setName($service->getName())
+            ->incrementQuantity();
 
         return $this;
     }

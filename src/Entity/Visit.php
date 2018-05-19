@@ -192,6 +192,27 @@ class Visit
         return $this;
     }
 
+    /**
+     * @param VisitService $visitService
+     * @return VisitService
+     */
+    public function addNewService(VisitService $visitService)
+    {
+        /** @var VisitService $sameService */
+        $sameService = $this->getVisitServices()->filter(function (VisitService $vs) use ($visitService) {
+            return $vs->getService() === $visitService->getService();
+        })->first();
+
+        if ($sameService) {
+            $service = $sameService->incrementQuantity();
+        } else {
+            $this->addVisitService($visitService);
+            $service = $visitService;
+        }
+
+        return $service;
+    }
+
     public function removeVisitService(VisitService $visitService): self
     {
         if ($this->visitServices->contains($visitService)) {
@@ -203,6 +224,20 @@ class Visit
         }
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAllItemQty()
+    {
+        $qty = 0;
+        /** @var VisitService $vs */
+        foreach ($this->getVisitServices()->toArray() as $vs) {
+            $qty += $vs->getQuantity();
+        }
+
+        return $qty;
     }
 
     /**
@@ -245,7 +280,7 @@ class Visit
         $totalInclTax = 0;
         /** @var VisitService $service */
         foreach ($this->getVisitServices()->getValues() as $service) {
-            $totalInclTax += $service->getPrice();
+            $totalInclTax += $service->getPrice() * $service->getQuantity();
         }
         $this->totalInclTax = $totalInclTax;
     }
@@ -258,7 +293,7 @@ class Visit
         $duration = 0;
         /** @var VisitService $service */
         foreach ($this->getVisitServices()->getValues() as $service) {
-            $duration += $service->getDuration();
+            $duration += $service->getDuration() * $service->getQuantity();
         };
 
         return $duration;

@@ -24,6 +24,7 @@ class VisitServiceType extends AbstractType
             ->add('description', HiddenType::class)
             ->add('duration', HiddenType::class)
             ->add('price', HiddenType::class)
+            ->add('quantity', HiddenType::class)
             ->add('visit', HiddenType::class, ['property_path' => 'id'])
         ;
     }

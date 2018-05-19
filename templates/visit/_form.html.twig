@@ -12,6 +12,7 @@
         <th>Aprasymas</th>
         <th>Kaina</th>
         <th>Trukme</th>
+        <th>Kiekis</th>
     </tr>
     {% for visitService in form.visitServices %}
         {{ include('visitService/_form.html.twig', {'form' : visitService}) }}

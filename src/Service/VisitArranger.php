@@ -108,7 +108,7 @@ class VisitArranger
         }
 
         if ($visitService) {
-            $visit->addVisitService($visitService);
+            $visitService = $visit->addNewService($visitService);
             $visit->calculateTotals();
             $this->em->persist($visitService);
             $this->em->flush();

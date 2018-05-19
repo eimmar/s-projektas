@@ -1,8 +1,8 @@
 {% set currentVisit = getCurrentVisit(app.user) %}
 
-{% if currentVisit and currentVisit.visitServices|length > 0 %}
+{% if currentVisit and currentVisit.allItemQty > 0 %}
     <a class="nav-item nav-link" href="{{ path('visit_arrange') }}">
-        {{ 'visit.action.default'|trans|format(currentVisit.visitServices|length) }}
+        {{ 'visit.action.default'|trans|format(currentVisit.allItemQty) }}
     </a>
 {% else %}
     <a class="nav-item nav-link" href="#">
