@@ -18,7 +18,7 @@ class VisitStatus
     private $id;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=false, unique=true)
      * @var string
      */
     protected $name;

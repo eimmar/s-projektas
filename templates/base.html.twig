@@ -10,6 +10,7 @@
     <body>
     {{ include('includes/navbar.html.twig') }}
     <div class="container">
+        {{ include('includes/flashes.html.twig') }}
         {% block body %}{% endblock %}
     </div>
     {{ include('includes/footer.html.twig') }}

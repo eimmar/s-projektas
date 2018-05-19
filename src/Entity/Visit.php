@@ -48,7 +48,7 @@ class Visit
     private $dateUpdated;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle", inversedBy="visits")
      * @Assert\NotBlank()
      */
     private $vehicle;
@@ -60,8 +60,8 @@ class Visit
     private $totalInclTax;
 
     /**
-     * @ORM\OneToMany(targetEntity="VisitService", mappedBy="visit")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="VisitService", mappedBy="visit", orphanRemoval=true)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      * @Assert\NotBlank()
      */
     protected $visitServices;
@@ -242,10 +242,12 @@ class Visit
 
     public function calculateTotals()
     {
+        $totalInclTax = 0;
         /** @var VisitService $service */
         foreach ($this->getVisitServices()->getValues() as $service) {
-            $this->totalInclTax += $service->getPrice();
+            $totalInclTax += $service->getPrice();
         }
+        $this->totalInclTax = $totalInclTax;
     }
 
     /**

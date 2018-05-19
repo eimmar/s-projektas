@@ -26,33 +26,33 @@ class VisitController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        return $this->render('visit/index.html.twig', ['visits' => $visitRepository->findActiveVisits($user)]);
+        return $this->render('visit/index.html.twig', ['visits' => $visitRepository->findUserVisits($user)]);
     }
 
     /**
-     * @Route("/new", name="visit_new", methods="GET|POST")
+     * @Route("/arrange", name="visit_arrange", methods="GET|POST")
      */
-    public function new(Request $request, VisitArranger $visitArranger): Response
+    public function arrange(Request $request, VisitArranger $visitArranger): Response
     {
+        if (!$visitArranger->userHasVehicles()) {
+            $this->addFlash('warning', 'visit.arrange.arrangement_no_vehicle_available');
+            return $this->redirectToRoute('vehicle_new');
+        }
+
         $visit = $visitArranger->initVisit($request->get('add_service'));
         $form = $this->createForm(VisitType::class, $visit);
-        $form->handleRequest($request);
 
         if ($visitArranger->isVisitValid($visit)) {
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->getDoctrine()->getManager()->flush();
-
-                return $this->redirectToRoute('visit_edit', ['id' => $visit->getId()]);
-            }
-
-            return $this->render('visit/edit.html.twig', [
+            $response = $this->render('visit/arrange.html.twig', [
                 'visit' => $visit,
                 'form' => $form->createView(),
             ]);
         } else {
-            return $this->render('index/index.html.twig');
+            $this->addFlash('warning', 'visit.arrange.arrangement_no_services_added');
+            $response = $this->redirectToRoute('service_index');
         }
+
+        return $response;
     }
 
     /**
@@ -65,37 +65,30 @@ class VisitController extends Controller
     }
 
     /**
-     * @Route("/{id}/edit", name="visit_edit", methods="GET|POST")
+     * @Route("/cancel", name="visit_cancel", methods="CANCEL")
      */
-    public function edit(Request $request, Visit $visit): Response
+    public function cancel(Request $request, VisitArranger $arranger): Response
     {
-        $this->denyAccessUnlessGranted(VehicleVoter::EDIT, $visit->getVehicle());
-        $form = $this->createForm(VisitType::class, $visit);
-        $form->handleRequest($request);
+        $visit = $arranger->initVisit();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('visit_edit', ['id' => $visit->getId()]);
+        if ($visit && $this->isCsrfTokenValid('cancel'.$visit->getId(), $request->request->get('_token'))) {
+            $arranger->cancel($visit);
+            $this->addFlash('success', 'visit.arrange.arrangement_cancelled');
         }
 
-        return $this->render('visit/edit.html.twig', [
-            'visit' => $visit,
-            'form' => $form->createView(),
-        ]);
+        return $this->redirectToRoute('visit_index');
     }
 
     /**
-     * @Route("/{id}", name="visit_delete", methods="DELETE")
+     * @Route("/submit", name="visit_submit", methods="SUBMIT")
      */
-    public function delete(Request $request, Visit $visit): Response
+    public function submit(Request $request, VisitArranger $arranger): Response
     {
-        $this->denyAccessUnlessGranted(VehicleVoter::DELETE, $visit->getVehicle());
+        $visit = $arranger->initVisit();
 
-        if ($this->isCsrfTokenValid('delete'.$visit->getId(), $request->request->get('_token'))) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($visit);
-            $em->flush();
+        if ($visit && $this->isCsrfTokenValid('submit'.$visit->getId(), $request->request->get('_token'))) {
+            $arranger->submit($visit);
+            $this->addFlash('success', 'visit.arrange.arrangement_submitted');
         }
 
         return $this->redirectToRoute('visit_index');

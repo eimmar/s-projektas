@@ -33,7 +33,7 @@ class VisitRepository extends ServiceEntityRepository
             ->setParameter('vehicles', $user->getVehicles());
     }
 
-    public function findActiveVisits(User $user)
+    public function findUserVisits(User $user)
     {
         return $this->getUserVisitQb($user)
             ->getQuery()
@@ -48,7 +48,8 @@ class VisitRepository extends ServiceEntityRepository
     public function getUnsubmittedVisit(User $user)
     {
         return $this->getUserVisitQb($user)
-            ->leftJoin('v.status', 's', 'WITH', 's.name = :status')
+            ->leftJoin('v.status', 's')
+            ->andWhere('s.name = :status')
             ->setParameter('status', VisitArranger::STATUS_NOT_SUBMITTED)
             ->getQuery()
             ->getOneOrNullResult();
