@@ -1,4 +1,3 @@
-{#{% form_theme form 'jquery.collection.html.twig' %}#}
 {{ form_start(form) }}
 
 {{ form_row(form.visitDate) }}
@@ -19,20 +18,6 @@
 </table>
 
 
-{#<ul class="tags" data-prototype="{{ form_widget(form.visitServices.vars.prototype)|e('html_attr') }}">#}
-        {#{% for visitService in form.visitServices %}#}
-            {#<li>{{ form_widget(visitService) }}</li>#}
-            {#{{ include('visitService/_form.html.twig', {'form' : visitService}) }}#}
-        {#{% endfor %}#}
-{#</ul>#}
-
-
-{#{% for visitService in form.visitServices %}#}
-    {#{{ form_widget(visitService) }}#}
-    {#{{ include('visitService/_form.html.twig', {'form' : visitService}) }}#}
-{#{% endfor %}#}
-{#{{ form_row(form.visitServices) }}#}
-
 <div>
     <br/>
     Apytiksle kaina {{ visit.totalInclTax }} EUR
@@ -45,5 +30,5 @@
 {{ form_row(form.status) }}
 {{ form_widget(form._token) }}
 
-{#<button class="btn">{{ button_label|default('Save') }}</button>#}
+<button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

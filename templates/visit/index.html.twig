@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Visit index{% endblock %}
+{% block title %}{{ 'visit_index'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Visit index</h1>
+    <h1>{{ 'visit_index'|trans }}</h1>
 
     <table class="table">
         <thead>
@@ -25,7 +25,8 @@
                 <td>{{ visit.dateUpdated ? visit.dateUpdated|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ visit.totalInclTax }}</td>
                 <td>
-                    <a href="{{ path('visit_show', {'id': visit.id}) }}">show</a>
+                    <a href="{{ path('visit_show', {'id': visit.id, 'slug' : visit.slug|trans}) }}">{{ 'list.action.show'|trans }}</a>
+                    <a href="{{ path('visit_edit', {'id': visit.id, 'slug' : visit.slug|trans}) }}">{{ 'list.action.edit'|trans }}</a>
                 </td>
             </tr>
         {% else %}
@@ -36,4 +37,5 @@
         </tbody>
     </table>
 
+    <a href="{{ path('visit_new', 'slug' : visit.slug|trans) }}">{{ 'list.action.new'|trans }}</a>
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block title %}{{ service.name }}{% endblock %}
 
 {% block body %}
-    <h1>Service</h1>
+    <h1>{{ 'service_index1'|trans }}</h1>
 
     <table class="table">
         <tbody>
@@ -51,6 +51,6 @@
     </table>
 
     {{ include('service/_add_service_form.html.twig', { 'form' : addToVisit, 'serviceId' : service.id }) }}
-    <a href="{{ path('service_index') }}">back to list</a>
+    <a href="{{ path('service_index') }}">{{ 'service_index'|trans }}</a>
 
 {% endblock %}

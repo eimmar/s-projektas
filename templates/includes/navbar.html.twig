@@ -1,24 +1,41 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-2 ">
     <div class="container">
-        <a class="navbar-brand" href="{{ path('homepage') }}">NETA Garažas</a>
+        <a class="navbar-brand" href="{{ path('homepage') }}">{{ 'main.neta'|trans }}</a>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
             {{ render(controller('App\\Controller\\IndexController::search', { 'request': app.request})) }}
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="{{ path('contacts') }}">Kontaktai</a>
-                <a class="nav-item nav-link"  href="{{ path('service_index') }}">Paslaugos</a>
-                {% if app.user %}
-                    <a class="nav-item nav-link" href="{{ path('vehicle_index') }}">Automobiliai</a>
+                <a class="nav-item nav-link" href="{{ path('contacts') }}">{{ 'main.contacts'|trans }}</a>
+                <a class="nav-item nav-link"  href="{{ path('visit_index') }}">{{ 'visit_index1'|trans }}</a>
+                <a class="nav-item nav-link"  href="{{ path('service_index') }}">{{ 'service_index1'|trans }}</a>
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <a class="nav-item nav-link" href="{{ path('vehicle_index') }}">{{ 'vehicle_index1'|trans }}</a>
                 {% else %}
-                    <a class="nav-item nav-link" href="{{ path('fos_user_registration_register') }}">Registruotis</a>
+                    <a class="nav-item nav-link" href="{{ path('fos_user_registration_register') }}">{{ 'registration.subimt'|trans }}</a>
                 {% endif %}
-                {% if app.user %}
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                     <div class="dropdown">
                         <a class="navbar-text dropdown-toggle mb-0" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ 'layout.logged_in_as'|trans({'%username%': app.user.firstname}, 'FOSUserBundle') }}
                         </a>
-                        {{ include('includes/menu/userDropdown.html.twig') }}
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a href="{{ path('fos_user_profile_show') }}" class="dropdown-item">{{ 'main.profile'|trans }}</a>
+                            <a href="{{ path('fos_user_profile_edit') }}" class="dropdown-item">{{ 'main.setings'|trans }}</a>
+                            {% set is_admin = 0 %}
+                            {% for my_var in app.user.roles %}
+                                {% if my_var == "ROLE_SUPER_ADMIN" %}
+                                    {% set is_admin = 1 %}
+                                {% endif %}
+                                {% if my_var == 'ROLE_ADMIN' %}
+                                    {% set is_admin = 1 %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if is_admin == 1 %}
+                                <a href="{{ path('sonata_admin_dashboard') }}" class="dropdown-item">admin</a>
+                            {% endif %}
+                            <a class="dropdown-item" href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
+                        </div>
                     </div>
-                    {{ include('includes/menu/arrangement.html.twig') }}
                 {% else %}
                     <a class="nav-item nav-link" href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
                     <a class="nav-item nav-link" href="{{ path('fos_user_resetting_request') }}">{{ 'login.forgot_password'|trans }}</a>
