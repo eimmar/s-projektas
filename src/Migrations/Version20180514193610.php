@@ -15,9 +15,12 @@ class Version20180514193610 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('CREATE TABLE visit (id INT AUTO_INCREMENT NOT NULL, status_id INT NOT NULL, visit_date DATETIME NOT NULL, date_created DATETIME NOT NULL, date_updated DATETIME NOT NULL, total_incl_tax NUMERIC(10, 2) NOT NULL, INDEX IDX_437EE9396BF700BD (status_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE service_history (id INT AUTO_INCREMENT NOT NULL, service_id INT NOT NULL, visit_id INT NOT NULL, price DOUBLE PRECISION NOT NULL, description TEXT DEFAULT NULL, duration INT NOT NULL, date_created DATETIME NOT NULL, date_updated DATETIME NOT NULL, INDEX IDX_E83E22D7ED5CA9E6 (service_id), INDEX IDX_E83E22D775FA0FF2 (visit_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE visit_status (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE transmission_type (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE manufacturer (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE vehicle (id INT AUTO_INCREMENT NOT NULL, model_id INT NOT NULL, user_id INT NOT NULL, transmission_type_id INT NOT NULL, fuel_type_id INT NOT NULL, power_kw INT NOT NULL, engine_capacity INT NOT NULL, year_made INT NOT NULL, month_made INT NOT NULL, date_created DATETIME NOT NULL, date_updated DATETIME NOT NULL, INDEX IDX_1B80E4867975B7E7 (model_id), INDEX IDX_1B80E486A76ED395 (user_id), INDEX IDX_1B80E486CDD541D0 (transmission_type_id), INDEX IDX_1B80E4866A70FE35 (fuel_type_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE model (id INT AUTO_INCREMENT NOT NULL, manufacturer_id INT NOT NULL, name VARCHAR(255) NOT NULL, INDEX IDX_D79572D9A23B42D (manufacturer_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE fuel_type (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE service_history ADD CONSTRAINT FK_E83E22D7ED5CA9E6 FOREIGN KEY (service_id) REFERENCES service (id)');
@@ -39,11 +42,15 @@ class Version20180514193610 extends AbstractMigration
         $this->addSql('ALTER TABLE vehicle DROP FOREIGN KEY FK_1B80E486CDD541D0');
         $this->addSql('ALTER TABLE vehicle DROP FOREIGN KEY FK_1B80E4867975B7E7');
         $this->addSql('ALTER TABLE vehicle DROP FOREIGN KEY FK_1B80E4866A70FE35');
+        $this->addSql('ALTER TABLE model DROP FOREIGN KEY FK_D79572D9A23B42D');
+        $this->addSql('ALTER TABLE vehicle DROP FOREIGN KEY FK_1B80E486A76ED395');
         $this->addSql('DROP TABLE service_history');
         $this->addSql('DROP TABLE visit_status');
         $this->addSql('DROP TABLE transmission_type');
         $this->addSql('DROP TABLE model');
+        $this->addSql('DROP TABLE manufacturer');
         $this->addSql('DROP TABLE fuel_type');
-        $this->addSql('ALTER TABLE vehicle DROP FOREIGN KEY FK_1B80E486A76ED395');
+        $this->addSql('DROP TABLE visit');
+        $this->addSql('DROP TABLE vehicle');
     }
 }
