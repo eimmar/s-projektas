@@ -1,49 +1,47 @@
 {#{% form_theme form 'jquery.collection.html.twig' %}#}
-{{ form_start(form) }}
+{{ form_start(form, {'attr': {'id': 'visit-arrangement'}} ) }}
+<div class="form-content-container">
+    {{ form_row(form.visitDate) }}
 
-{{ form_row(form.visitDate) }}
+    {{ form_row(form.vehicle) }}
+    <a href="{{ path('vehicle_new') }}">{{ 'vehicle.action.new'|trans }}</a>
 
-{{ form_row(form.vehicle) }}
-<a href="{{ path('vehicle_new') }}">{{ 'vehicle.action.new'|trans }}</a>
-
-<table>
-    <tr>
-        <th>Pavadinimas</th>
-        <th>Aprasymas</th>
-        <th>Kaina</th>
-        <th>Trukme</th>
-    </tr>
-    {% for visitService in form.visitServices %}
-        {{ include('visitService/_form.html.twig', {'form' : visitService}) }}
-    {% endfor %}
-</table>
-
-
-{#<ul class="tags" data-prototype="{{ form_widget(form.visitServices.vars.prototype)|e('html_attr') }}">#}
+    <table>
+        <tr>
+            <th>Pavadinimas</th>
+            <th>Aprasymas</th>
+            <th>Kaina</th>
+            <th>Trukme</th>
+            <th>Kiekis</th>
+        </tr>
+        {% for visitService in form.visitServices %}
+            {{ include('visitService/_form.html.twig', {'form' : visitService}) }}
+        {% endfor %}
+    </table>
+    {#<div id="{{ form.visitServices.vars.id }}"#}
+         {#class="{{ form.visitServices.vars.attr.class }}"#}
+         {#data-prototype="{{ form_widget(form.visitServices.vars.prototype)|e('html_attr') }}"#}
+         {#data-allow-add="1"#}
+         {#data-allow-remove="1"#}
+         {#data-name-prefix="visit[visitServices]"#}
+         {#data-prototype-name="__name__"#}
+    {#>#}
         {#{% for visitService in form.visitServices %}#}
-            {#<li>{{ form_widget(visitService) }}</li>#}
             {#{{ include('visitService/_form.html.twig', {'form' : visitService}) }}#}
         {#{% endfor %}#}
-{#</ul>#}
+    {#</div>#}
 
 
-{#{% for visitService in form.visitServices %}#}
-    {#{{ form_widget(visitService) }}#}
-    {#{{ include('visitService/_form.html.twig', {'form' : visitService}) }}#}
-{#{% endfor %}#}
-{#{{ form_row(form.visitServices) }}#}
+    <div>
+        <br/>
+        Apytiksle kaina {{ visit.totalInclTax }} EUR
+    </div>
 
-<div>
-    <br/>
-    Apytiksle kaina {{ visit.totalInclTax }} EUR
+    <div>
+        Numatoma darbu trukme {{ visit.totalDuration }} val.
+    </div>
+
+    {{ form_row(form.status) }}
+    {{ form_widget(form._token) }}
 </div>
-
-<div>
-    Numatoma darbu trukme {{ visit.totalDuration }} val.
-</div>
-
-{{ form_row(form.status) }}
-{{ form_widget(form._token) }}
-
-{#<button class="btn">{{ button_label|default('Save') }}</button>#}
 {{ form_end(form) }}

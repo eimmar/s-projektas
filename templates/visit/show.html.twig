@@ -27,8 +27,33 @@
             <th>TotalInclTax</th>
             <td>{{ visit.totalInclTax }}</td>
         </tr>
+
+        <tr>
+            <th>Status</th>
+            <td>{{ visit.status.name|trans }}</td>
+        </tr>
         </tbody>
     </table>
+
+    {% if visit.visitServices|length > 0 %}
+        <table>
+            <tr>
+                <th>Service name</th>
+                <th>Service description</th>
+                <th>Service price</th>
+                <th>Service duration</th>
+                <th>Service quantity</th>
+                {% for vs in visit.visitServices %}
+            <tr>
+                <td>{{ vs.name }}</td>
+                <td>{{ vs.description }}</td>
+                <td>{{ vs.price }}</td>
+                <td>{{ vs.duration }}</td>
+                <td>{{ vs.quantity }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
 
     <a href="{{ path('visit_index') }}">back to list</a>
 
