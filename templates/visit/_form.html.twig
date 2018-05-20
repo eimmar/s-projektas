@@ -1,47 +1,32 @@
-{#{% form_theme form 'jquery.collection.html.twig' %}#}
 {{ form_start(form, {'attr': {'id': 'visit-arrangement'}} ) }}
-<div class="form-content-container">
-    {{ form_row(form.visitDate) }}
 
-    {{ form_row(form.vehicle) }}
-    <a href="{{ path('vehicle_new') }}">{{ 'vehicle.action.new'|trans }}</a>
+{{ form_row(form.visitDate) }}
 
-    <table>
-        <tr>
-            <th>Pavadinimas</th>
-            <th>Aprasymas</th>
-            <th>Kaina</th>
-            <th>Trukme</th>
-            <th>Kiekis</th>
-        </tr>
-        {% for visitService in form.visitServices %}
-            {{ include('visitService/_form.html.twig', {'form' : visitService}) }}
-        {% endfor %}
-    </table>
-    {#<div id="{{ form.visitServices.vars.id }}"#}
-         {#class="{{ form.visitServices.vars.attr.class }}"#}
-         {#data-prototype="{{ form_widget(form.visitServices.vars.prototype)|e('html_attr') }}"#}
-         {#data-allow-add="1"#}
-         {#data-allow-remove="1"#}
-         {#data-name-prefix="visit[visitServices]"#}
-         {#data-prototype-name="__name__"#}
-    {#>#}
-        {#{% for visitService in form.visitServices %}#}
-            {#{{ include('visitService/_form.html.twig', {'form' : visitService}) }}#}
-        {#{% endfor %}#}
-    {#</div>#}
+{{ form_row(form.vehicle) }}
 
+<a href="{{ path('vehicle_new') }}">{{ 'vehicle.action.new'|trans }}</a>
 
-    <div>
-        <br/>
-        Apytiksle kaina {{ visit.totalInclTax }} EUR
-    </div>
+<table>
+    <tr>
+        <th>Pavadinimas</th>
+        <th>Aprasymas</th>
+        <th>Kaina</th>
+        <th>Trukme</th>
+        <th>Kiekis</th>
+    </tr>
+    {% for visitService in form.visitServices %}
+        {{ include('visitService/_form.html.twig', {'form' : visitService}) }}
+    {% endfor %}
+</table>
 
-    <div>
-        Numatoma darbu trukme {{ visit.totalDuration }} val.
-    </div>
-
-    {{ form_row(form.status) }}
-    {{ form_widget(form._token) }}
+<div>
+    <br/>Apytiksle kaina {{ visit.totalInclTax }} EUR
 </div>
+
+<div>
+    Numatoma darbu trukme {{ visit.totalDuration }} val.
+</div>
+
+{{ form_row(form.status) }}
+{{ form_widget(form._token) }}
 {{ form_end(form) }}

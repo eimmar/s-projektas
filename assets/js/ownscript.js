@@ -1,45 +1,55 @@
+function updateVisitArrangement(visitContainer) {
+
+    var form = visitContainer.find('#visit-arrangement');
+    var data = form.serializeObject();
+    visitContainer.addClass('form-loading');
+
+    $.ajax({
+        url: form.attr('action'),
+        type: form.attr('method'),
+        dataType: 'json',
+        data: data,
+        success: function(response) {
+            if (response.success) {
+                var newForm = $('.form-content-container', $(response.html));
+                visitContainer.html(newForm);
+            }
+            visitContainer.removeClass('form-loading');
+        }
+    });
+}
+
+$.fn.serializeObject = function() {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
 $(document).ready(function () {
     $('.address-type').collection();
 
-    $.fn.serializeObject = function() {
-        var o = {};
-        var a = this.serializeArray();
-        $.each(a, function() {
-            if (o[this.name] !== undefined) {
-                if (!o[this.name].push) {
-                    o[this.name] = [o[this.name]];
-                }
-                o[this.name].push(this.value || '');
-            } else {
-                o[this.name] = this.value || '';
-            }
-        });
-        return o;
-    };
-
-    var visitForm = $('#visit-arrangement');
-    visitForm.on('change', 'select', function() {
-
-        var data = visitForm.serializeObject();
-        visitForm.addClass('form-loading');
-
-        $.ajax({
-            url: visitForm.attr('action'),
-            type: visitForm.attr('method'),
-            dataType: 'json',
-            data: data,
-            success: function(response) {
-                if (response.success) {
-                    var newForm = $('.form-content-container', $(response.html));
-                    visitForm.html(newForm);
-                }
-                visitForm.removeClass('form-loading');
-            }
-        });
+    var visitContainer = $('.visit-arrangement-outer');
+    visitContainer.on('change', 'select', function() {
+        updateVisitArrangement(visitContainer);
     });
 
-
-    $('.visit-service-type').collection();
+    visitContainer.on('click', '.remove-visit-item', function () {
+        var visitItem = $(this).closest('.visit-item');
+        if (confirm(visitItem.attr('data-confirm-msg'))) {
+            visitItem.remove();
+            updateVisitArrangement(visitContainer);
+        }
+    });
 
     //TODO: Vehicle form based on manufacturer
     // $(function () {

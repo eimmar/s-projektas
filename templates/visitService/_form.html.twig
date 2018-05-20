@@ -1,4 +1,5 @@
-<tr>
+<tr class="visit-item"
+    data-confirm-msg="{{ 'visit.service.are_you_sure'|trans|format(form.vars.value.name) }}">
     <td>
         {{ form.vars.value.name }}
         {{ form_row(form.name) }}
@@ -18,5 +19,8 @@
     </td>
     <td>
         {{ form_widget(form.quantity) }}
+    </td>
+    <td>
+        <input type="button" class="remove-visit-item" value="{{ 'visit.action.remove'|trans }}"/>
     </td>
 </tr>
