@@ -45,6 +45,10 @@ services:
     App\Form\AddServiceType:
         arguments: ['@router']
         tags: [form.type]
+
+    App\Form\VisitType:
+        arguments: ['@security.token_storage', '@router']
+        tags: [form.type]
     # End of Forms
 
     # Sonata admin bundle configuration

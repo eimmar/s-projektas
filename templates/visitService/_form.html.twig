@@ -1,9 +1,22 @@
-{{ form_start(form) }}
 <tr>
-    <td>{{ form.vars.value.name }}</td>
-    <td>{{ form.vars.value.description }}</td>
-    <td>{{ form.vars.value.price }}</td>
-    <td>{{ form.vars.value.duration }}</td>
-    <td>{{ form.vars.value.quantity }}</td>
+    <td>
+        {{ form.vars.value.name }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.service) }}
+    </td>
+    <td>
+        {{ form.vars.value.description }}
+        {{ form_row(form.description) }}
+    </td>
+    <td>
+        {{ form.vars.value.price }}
+        {{ form_row(form.price) }}
+    </td>
+    <td>
+        {{ form.vars.value.duration }}
+        {{ form_row(form.duration) }}
+    </td>
+    <td>
+        {{ form_widget(form.quantity) }}
+    </td>
 </tr>
-{{ form_end(form) }}
