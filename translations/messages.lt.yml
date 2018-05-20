@@ -17,6 +17,7 @@ address:
     please_select: Pasirinkite
 
 service:
+    title: Paslaugos
     form:
         name: Paslaugos pavadinimas
         description: Paslaugos aprašymas
@@ -28,9 +29,13 @@ service:
         is_active: Aktyvi
         search: Paieška
         search_submit: Ieškoti
+        date_created: Sukūrimo data
+        date_updated: Atnaujinimo data
     list:
         price_range: Kaina (EUR)
         duration_range: Trukmė (h)
+    action:
+        index: Grįžti į sąrašą
 
 list:
     actions: Veiksmai
@@ -54,6 +59,7 @@ config:
 
 visit:
     action:
+        cancel: Atšaukti
         default: Vizitas (%s)
         add: Užsirašyti
     arrange:
@@ -62,12 +68,28 @@ visit:
         arrangement_submitted: Vizitas suplanuotas sėkmingai!
 
 vehicle:
+    form:
+        power_Kw: Galia (Kw)
+        engine_capacity: Darbinis tūris
+        year_made: Pagaminimo metai
+        month_made: Pagaminimo mėnuo
+        date_created: Sukūrimo data
+        date_updated: Atnaujinimo data
+    title: Automobiliai
+    new: Naujas automobilis
+    edit: Automobilio redagavimas
+    no: Nerasta jokių įrašų
+    actions: Veiksmai
     action:
+        delete: Ištrinti
         new: Sukurti naują
+        index: Grįžti į sąrašą
+        edit: Redaguoti
 main:
     contacts: Kontaktai
 
-
+registration:
+    subimt: Registruotis
 # Sonata admin translations
 User: Vartotojai
 Service: Paslaugos

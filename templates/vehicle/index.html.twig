@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vehicle index{% endblock %}
+{% block title %}{{ 'vehicle.title'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Vehicle index</h1>
+    <h1>{{ 'vehicle.title'|trans }}</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>PowerKw</th>
-                <th>EngineCapacity</th>
-                <th>YearMade</th>
-                <th>MonthMade</th>
-                <th>DateCreated</th>
-                <th>DateUpdated</th>
-                <th>actions</th>
+                <th>{{ 'vehicle.form.power_Kw'|trans }}</th>
+                <th>{{ 'vehicle.form.engine_capacity'|trans }}</th>
+                <th>{{ 'vehicle.form.year_made'|trans }}</th>
+                <th>{{ 'vehicle.form.month_made'|trans }}</th>
+                <th>{{ 'vehicle.form.date_created'|trans }}</th>
+                <th>{{ 'vehicle.form.date_updated'|trans }}</th>
+                <th>{{ 'vehicle.actions'|trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -35,11 +35,11 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="8">{{ 'vehicle.no'|trans }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('vehicle_new') }}">Create new</a>
+    <a href="{{ path('vehicle_new') }}">{{ 'vehicle.action.new'|trans }}</a>
 {% endblock %}

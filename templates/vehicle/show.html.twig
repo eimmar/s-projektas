@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vehicle{% endblock %}
+{% block title %}{{ 'vehicle.title'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Vehicle</h1>
+    <h1>{{ 'vehicle.title'|trans }}</h1>
 
     <table class="table">
         <tbody>
@@ -12,35 +12,35 @@
                 <td>{{ vehicle.id }}</td>
             </tr>
             <tr>
-                <th>PowerKw</th>
+                <th>{{ 'vehicle.form.power_Kw'|trans }}</th>
                 <td>{{ vehicle.powerKw }}</td>
             </tr>
             <tr>
-                <th>EngineCapacity</th>
+                <th>{{ 'vehicle.form.engine_capacity'|trans }}</th>
                 <td>{{ vehicle.engineCapacity }}</td>
             </tr>
             <tr>
-                <th>YearMade</th>
+                <th>{{ 'vehicle.form.year_made'|trans }}</th>
                 <td>{{ vehicle.yearMade }}</td>
             </tr>
             <tr>
-                <th>MonthMade</th>
+                <th>{{ 'vehicle.form.month_made'|trans }}</th>
                 <td>{{ vehicle.monthMade }}</td>
             </tr>
             <tr>
-                <th>DateCreated</th>
+                <th>{{ 'vehicle.form.date_created'|trans }}</th>
                 <td>{{ vehicle.dateCreated ? vehicle.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>DateUpdated</th>
+                <th>{{ 'vehicle.form.date_updated'|trans }}</th>
                 <td>{{ vehicle.dateUpdated ? vehicle.dateUpdated|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('vehicle_index') }}">back to list</a>
+    <a href="{{ path('vehicle_index') }}">{{ 'vehicle.action.index'|trans }}</a>
 
-    <a href="{{ path('vehicle_edit', {'id': vehicle.id}) }}">edit</a>
+    <a href="{{ path('vehicle_edit', {'id': vehicle.id}) }}">{{ 'vehicle.action.edit'|trans }}</a>
 
     {{ include('vehicle/_delete_form.html.twig') }}
 {% endblock %}

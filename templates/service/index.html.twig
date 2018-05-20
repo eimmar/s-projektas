@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Service index{% endblock %}
+{% block title %}{{ 'service.title'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Service index</h1>
+    <h1>{{ 'service.title'|trans }}</h1>
 
     <div>
         {% for type in serviceTypes %}
