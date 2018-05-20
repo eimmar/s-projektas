@@ -5,10 +5,17 @@
 {% block body %}
     <h1>Edit Visit</h1>
 
-    {{ include('visit/_form.html.twig', {'button_label': 'Submit'}) }}
+    <div class="visit-arrangement-outer">
+        <div class="form-content-container">
+            {% if visit.visitServices|length > 0 %}
+                {{ include('visit/_form.html.twig') }}
+                {{ include('visit/_submit_form.html.twig') }}
+                {{ include('visit/_cancel_form.html.twig') }}
+            {% else %}
+                <h2>{{ 'visit.arrange.arrangement_no_services_added'|trans }}</h2>
+            {% endif %}
+        </div>
+    </div>
 
     <a href="{{ path('service_index') }}">back to service list</a>
-
-    {{ include('visit/_submit_form.html.twig') }}
-    {{ include('visit/_cancel_form.html.twig') }}
 {% endblock %}
