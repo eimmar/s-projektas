@@ -20,10 +20,10 @@ class VisitServiceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', HiddenType::class)
-            ->add('description', HiddenType::class)
-            ->add('duration', HiddenType::class)
-            ->add('price', HiddenType::class)
+            ->add('name')
+            ->add('description')
+            ->add('duration')
+            ->add('price')
             ->add('visit', HiddenType::class, ['property_path' => 'id'])
         ;
     }

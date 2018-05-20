@@ -75,6 +75,13 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Configuration }
         public: true
+
+    admin.visit:
+        class: App\Admin\VisitAdmin
+        arguments: [~, App\Entity\Visit, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Visit }
+        public: true
     # End of Sonata admin bundle configuration
 
     # Event listener configuration

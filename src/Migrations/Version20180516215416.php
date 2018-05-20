@@ -19,7 +19,7 @@ class Version20180516215416 extends AbstractMigration
         $this->addSql('ALTER TABLE visit_service ADD CONSTRAINT FK_B7149E15ED5CA9E6 FOREIGN KEY (service_id) REFERENCES service (id)');
         $this->addSql('ALTER TABLE visit_service ADD CONSTRAINT FK_B7149E1575FA0FF2 FOREIGN KEY (visit_id) REFERENCES visit (id)');
         $this->addSql('DROP TABLE service_history');
-        $this->addSql('ALTER TABLE visit ADD vehicle_id INT DEFAULT NULL, ADD total_incl_tax NUMERIC(10, 2) NOT NULL');
+        $this->addSql('ALTER TABLE visit ADD vehicle_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE visit ADD CONSTRAINT FK_437EE939545317D1 FOREIGN KEY (vehicle_id) REFERENCES vehicle (id)');
         $this->addSql('CREATE INDEX IDX_437EE939545317D1 ON visit (vehicle_id)');
     }
@@ -34,7 +34,7 @@ class Version20180516215416 extends AbstractMigration
         $this->addSql('ALTER TABLE service_history ADD CONSTRAINT FK_E83E22D7ED5CA9E6 FOREIGN KEY (service_id) REFERENCES service (id)');
         $this->addSql('DROP TABLE visit_service');
         $this->addSql('ALTER TABLE visit DROP FOREIGN KEY FK_437EE939545317D1');
+        $this->addSql('ALTER TABLE visit DROP vehicle_id');
         $this->addSql('DROP INDEX IDX_437EE939545317D1 ON visit');
-        $this->addSql('ALTER TABLE visit DROP vehicle_id, DROP total_incl_tax');
     }
 }
