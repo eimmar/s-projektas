@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vehicle index{% endblock %}
+{% block title %}{{ 'vehicle_index1'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Vehicle index</h1>
+    <h1>{{ 'vehicle_index1'|trans }}</h1>
 
     <table class="table">
         <thead>
@@ -29,8 +29,8 @@
                 <td>{{ vehicle.dateCreated ? vehicle.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ vehicle.dateUpdated ? vehicle.dateUpdated|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('vehicle_show', {'id': vehicle.id}) }}">show</a>
-                    <a href="{{ path('vehicle_edit', {'id': vehicle.id}) }}">edit</a>
+                    <a href="{{ path('vehicle_show', {'id': vehicle.id}) }}">{{ 'list.action.show'|trans }}</a>
+                    <a href="{{ path('vehicle_edit', {'id': vehicle.id}) }}">{{ 'list.action.edit'|trans }}</a>
                 </td>
             </tr>
         {% else %}
@@ -41,5 +41,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('vehicle_new') }}">Create new</a>
+    <a href="{{ path('vehicle_new') }}">{{ 'vehicle.action.new'|trans }}</a>
 {% endblock %}
