@@ -13,6 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Visit
 {
+    const STATUS_NOT_SUBMITTED = 'not_submitted';
+    const STATUS_SUBMITTED = 'pending';
+    const STATUS_CANCELLED = 'cancelled';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -49,6 +53,7 @@ class Visit
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle", inversedBy="visits")
+     * @ORM\JoinColumn(nullable=true)
      * @Assert\NotBlank()
      */
     private $vehicle;
@@ -305,5 +310,13 @@ class Visit
     public function __toString()
     {
         return (string) $this->getId();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUnSubmitted()
+    {
+        return $this->getStatus()->getName() === self::STATUS_NOT_SUBMITTED;
     }
 }

@@ -74,7 +74,7 @@ class User extends FOSUser
     private $configsChanged;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle", mappedBy="user", cascade={"remove"})
      */
     private $vehicles;
 

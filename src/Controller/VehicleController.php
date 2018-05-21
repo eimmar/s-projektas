@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Vehicle;
 use App\Form\VehicleType;
-use App\Repository\VehicleRepository;
+use App\Repository\VisitRepository;
 use App\Security\VehicleVoter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -89,11 +89,13 @@ class VehicleController extends Controller
     /**
      * @Route("/{id}", name="vehicle_delete", methods="DELETE")
      */
-    public function delete(Request $request, Vehicle $vehicle): Response
+    public function delete(Request $request, Vehicle $vehicle, VisitRepository $vs): Response
     {
         $this->denyAccessUnlessGranted(VehicleVoter::DELETE, $vehicle);
 
-        if ($this->isCsrfTokenValid('delete'.$vehicle->getId(), $request->request->get('_token'))) {
+        if (count($vs->getUnfinishedVehicleVisits($vehicle)) > 0) {
+            $this->addFlash('danger', 'vehicle.delete.has_unfinished_visits');
+        } elseif ($this->isCsrfTokenValid('delete'.$vehicle->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($vehicle);
             $em->flush();

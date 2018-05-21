@@ -88,6 +88,8 @@ vehicle:
         new: Sukurti naują
         index: Grįžti į sąrašą
         edit: Redaguoti
+    delete:
+        has_unfinished_visits: Šį automobilį Jūs esate užrašę aptarnavimui mūsų servise. Norint ištrinti šį automobilį pirma turi būti užbaigti arba atšaukti visi su automobiliu susiję suplanuoti vizitai.
 main:
     contacts: Kontaktai
 

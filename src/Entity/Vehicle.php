@@ -87,7 +87,6 @@ class Vehicle
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Visit", mappedBy="vehicle")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $visits;
 
