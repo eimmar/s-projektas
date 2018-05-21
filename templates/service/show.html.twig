@@ -3,7 +3,7 @@
 {% block title %}{{ service.name }}{% endblock %}
 
 {% block body %}
-    <h1>Service</h1>
+    <h1>{{ 'service.title'|trans }}</h1>
 
     <table class="table">
         <tbody>
@@ -12,44 +12,45 @@
                 <td>{{ service.id }}</td>
             </tr>
             <tr>
-                <th>Name</th>
+                <th>{{ 'service.form.name'|trans }}</th>
                 <td>{{ service.name }}</td>
             </tr>
             <tr>
-                <th>Description</th>
+                <th>{{ 'service.form.description'|trans }}</th>
                 <td>{{ service.description }}</td>
             </tr>
             <tr>
-                <th>PriceFrom</th>
+                <th>{{ 'service.form.price_from'|trans }}</th>
                 <td>{{ service.priceFrom }}</td>
             </tr>
             <tr>
-                <th>PriceTo</th>
+                <th>{{ 'service.form.price_to'|trans }}</th>
                 <td>{{ service.priceTo }}</td>
             </tr>
             <tr>
-                <th>DurationFrom</th>
+                <th>{{ 'service.form.duration_from'|trans }}</th>
                 <td>{{ service.durationFrom }}</td>
             </tr>
             <tr>
-                <th>DurationTo</th>
+                <th>{{ 'service.form.duration_to'|trans }}</th>
                 <td>{{ service.durationTo }}</td>
             </tr>
             <tr>
-                <th>IsActive</th>
+                <th>{{ 'service.form.is_active'|trans }}</th>
                 <td>{{ service.isActive ? 'Yes' : 'No' }}</td>
             </tr>
             <tr>
-                <th>DateCreated</th>
+                <th>{{ 'service.form.date_created'|trans }}</th>
                 <td>{{ service.dateCreated ? service.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>DateUpdated</th>
+                <th>{{ 'service.form.date_updated'|trans }}</th>
                 <td>{{ service.dateUpdated ? service.dateUpdated|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('service_index') }}">back to list</a>
+    {{ include('service/_add_service_form.html.twig', { 'form' : addToVisit, 'serviceId' : service.id }) }}
+    <a href="{{ path('service_index') }}">{{ 'service.action.index'|trans }}</a>
 
 {% endblock %}

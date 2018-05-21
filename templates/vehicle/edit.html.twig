@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'vehicle.edit'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'vehicle.edit'|trans }}</h1>
+
+    {{ include('vehicle/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('vehicle_index') }}">{{ 'vehicle.action.index'|trans }}</a>
+
+    {{ include('vehicle/_delete_form.html.twig') }}
+{% endblock %}

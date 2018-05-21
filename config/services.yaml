@@ -2,7 +2,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'lt'
-
+    max_user_vehicle_count: 3
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -37,6 +37,20 @@ services:
             - { name: form.type_extension, extended_type: FOS\UserBundle\Form\Type\RegistrationFormType }
     # End of Form Type Extensions
 
+    # Forms
+    App\Form\VehicleType:
+        arguments: ['@security.token_storage', '%max_user_vehicle_count%']
+        tags: [form.type]
+
+    App\Form\AddServiceType:
+        arguments: ['@router']
+        tags: [form.type]
+
+    App\Form\VisitType:
+        arguments: ['@security.token_storage', '@router']
+        tags: [form.type]
+    # End of Forms
+
     # Sonata admin bundle configuration
     admin.user:
         class: App\Admin\UserAdmin
@@ -67,10 +81,23 @@ services:
         public: true
     # End of Sonata admin bundle configuration
 
-    # Event listener configuration
+    # Event subscriber configuration
     app_user.registration:
-        class: App\EventListener\RegistrationListener
+        class: App\EventSubscriber\RegistrationSubscriber
         arguments: ['@router']
         tags:
             - { name: kernel.event_subscriber }
-    # End of Event listener configuration
+
+    app_visit.visit:
+        class: App\EventSubscriber\VisitSubscriber
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+    # End of Event subscriber configuration
+
+    # Custom twig function configuration
+    app.twig_visit:
+        class: App\Twig\VisitRuntime
+        public: false
+        tags:
+            - { name: twig.runtime }
+    # End of Custom twig function configuration

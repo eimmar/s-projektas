@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Service;
+use App\Form\AddServiceType;
 use App\Repository\ServiceRepository;
 use App\Repository\ServiceTypeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -47,6 +48,11 @@ class ServiceController extends Controller
      */
     public function show(Service $service): Response
     {
-        return $this->render('service/show.html.twig', ['service' => $service]);
+        $form = $this->createForm(AddServiceType::class);
+
+        return $this->render('service/show.html.twig', [
+            'service'    => $service,
+            'addToVisit' => $form->createView()
+        ]);
     }
 }

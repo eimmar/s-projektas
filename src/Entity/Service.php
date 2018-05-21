@@ -29,8 +29,8 @@ class Service
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=65535, nullable=true)
-     * @Assert\Length(max="65535")
+     * @ORM\Column(type="text", length=16383, nullable=true)
+     * @Assert\Length(max="16383")
      */
     private $description;
 
@@ -253,5 +253,21 @@ class Service
     {
         $this->setDateCreated(new \DateTime('now'))
             ->setDateUpdated(new \DateTime('now'));
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getPriceMedian()
+    {
+        return ($this->getPriceFrom() + $this->getPriceTo()) / 2;
+    }
+
+    /**
+     * @return float|int
+     */
+    public function getDurationMedian()
+    {
+        return ($this->getDurationFrom() + $this->getDurationTo()) / 2;
     }
 }

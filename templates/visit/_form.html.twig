@@ -1,0 +1,32 @@
+{{ form_start(form, {'attr': {'id': 'visit-arrangement'}} ) }}
+
+{{ form_row(form.visitDate) }}
+
+{{ form_row(form.vehicle) }}
+
+<a href="{{ path('vehicle_new') }}">{{ 'vehicle.action.new'|trans }}</a>
+
+<table>
+    <tr>
+        <th>Pavadinimas</th>
+        <th>Aprasymas</th>
+        <th>Kaina</th>
+        <th>Trukme</th>
+        <th>Kiekis</th>
+    </tr>
+    {% for visitService in form.visitServices %}
+        {{ include('visitService/_form.html.twig', {'form' : visitService}) }}
+    {% endfor %}
+</table>
+
+<div>
+    <br/>Apytiksle kaina {{ visit.totalInclTax }} EUR
+</div>
+
+<div>
+    Numatoma darbu trukme {{ visit.totalDuration }} val.
+</div>
+
+{{ form_row(form.status) }}
+{{ form_widget(form._token) }}
+{{ form_end(form) }}

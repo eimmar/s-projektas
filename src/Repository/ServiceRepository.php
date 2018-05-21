@@ -37,7 +37,7 @@ class ServiceRepository extends ServiceEntityRepository
         if ($searchTerm !== '') {
             $qb
                 ->addSelect("(MATCH (s.name, s.description) AGAINST (:searchTerm BOOLEAN) + MATCH (st.name) AGAINST (:searchTerm BOOLEAN)) as score")
-                ->andWhere('(MATCH (s.name, s.description) AGAINST (:searchTerm BOOLEAN) + MATCH (st.name) AGAINST (:searchTerm BOOLEAN)) > 0.1')
+                ->andWhere('(MATCH (s.name, s.description) AGAINST (:searchTerm BOOLEAN) + MATCH (st.name) AGAINST (:searchTerm BOOLEAN)) > 0')
                 ->setParameter('searchTerm', $searchTerm . '*')
                 ->orderBy('score', 'desc');
         }

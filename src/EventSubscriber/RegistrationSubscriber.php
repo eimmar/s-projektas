@@ -1,11 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: eimantas
- * Date: 18.4.21
- * Time: 21.31
- */
-namespace App\EventListener;
+
+namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -13,7 +8,7 @@ use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class RegistrationListener implements EventSubscriberInterface
+class RegistrationSubscriber implements EventSubscriberInterface
 {
     /**
      * @var UrlGeneratorInterface

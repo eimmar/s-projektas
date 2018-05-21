@@ -52,7 +52,7 @@ class ProfileFormTypeExtension extends AbstractTypeExtension
                     'allow_delete'  => true,
                     'prototype'     => true,
                     'attr'          => ['class' => 'address-type'],
-                    'by_reference' => false
+                    'by_reference'  => false
                 ]);
     }
 

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'vehicle.title'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'vehicle.title'|trans }}</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>{{ 'vehicle.form.power_Kw'|trans }}</th>
+                <th>{{ 'vehicle.form.engine_capacity'|trans }}</th>
+                <th>{{ 'vehicle.form.year_made'|trans }}</th>
+                <th>{{ 'vehicle.form.month_made'|trans }}</th>
+                <th>{{ 'vehicle.form.date_created'|trans }}</th>
+                <th>{{ 'vehicle.form.date_updated'|trans }}</th>
+                <th>{{ 'vehicle.actions'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for vehicle in vehicles %}
+            <tr>
+                <td>{{ vehicle.id }}</td>
+                <td>{{ vehicle.powerKw }}</td>
+                <td>{{ vehicle.engineCapacity }}</td>
+                <td>{{ vehicle.yearMade }}</td>
+                <td>{{ vehicle.monthMade }}</td>
+                <td>{{ vehicle.dateCreated ? vehicle.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ vehicle.dateUpdated ? vehicle.dateUpdated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('vehicle_show', {'id': vehicle.id}) }}">show</a>
+                    <a href="{{ path('vehicle_edit', {'id': vehicle.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">{{ 'vehicle.no'|trans }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('vehicle_new') }}">{{ 'vehicle.action.new'|trans }}</a>
+{% endblock %}

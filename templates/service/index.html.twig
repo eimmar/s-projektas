@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Service index{% endblock %}
+{% block title %}{{ 'service.title'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Service index</h1>
+    <h1>{{ 'service.title'|trans }}</h1>
 
     <div>
         {% for type in serviceTypes %}
@@ -38,12 +38,25 @@
         <tbody>
         {% for service in pagination %}
             <tr {% if loop.index is odd %}class="color"{% endif %}>
-                <td>{{ service.name }}</td>
-                <td>{{ service.serviceType }}</td>
+                <td>
+                    <a href="{{ path(
+                        'service_show',
+                        {'id': service.id, 'slug' : service.slug|trans}) }}">
+                        {{ service.name|trans }}
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ path(
+                        'service_type_index',
+                        {'id': service.serviceType.id,'slug' : service.serviceType.slug}) }}">
+                        {{ service.serviceType|trans }}
+                    </a>
+                </td>
                 <td>{{ service.priceFrom }} - {{ service.priceTo }}</td>
                 <td>{{ service.durationFrom }} - {{ service.durationTo }}</td>
                 <td>
                     <a href="{{ path('service_show', {'id': service.id, 'slug' : service.slug|trans}) }}">{{ 'list.action.show'|trans }}</a>
+                    {#<a href="{{ path('visit_arrange') }}">{{ 'visit.action.add'|trans }}</a>#}
                 </td>
             </tr>
         {% else %}

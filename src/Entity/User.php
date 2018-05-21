@@ -1,12 +1,7 @@
 <?php
 
 namespace App\Entity;
-/**
- * Created by PhpStorm.
- * User: eimantas
- * Date: 18.4.4
- * Time: 22.23
- */
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\InheritanceType;
@@ -78,12 +73,18 @@ class User extends FOSUser
      */
     private $configsChanged;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Vehicle", mappedBy="user")
+     */
+    private $vehicles;
+
     public function __construct()
     {
         parent::__construct();
         $this->addresses = new ArrayCollection();
         $this->services = new ArrayCollection();
         $this->configsChanged = new ArrayCollection();
+        $this->vehicles = new ArrayCollection();
     }
 
     /**
@@ -323,6 +324,37 @@ class User extends FOSUser
             // set the owning side to null (unless already changed)
             if ($configsChanged->getUserChangedBy() === $this) {
                 $configsChanged->setUserChangedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Vehicle[]
+     */
+    public function getVehicles(): Collection
+    {
+        return $this->vehicles;
+    }
+
+    public function addVehicle(Vehicle $vehicle): self
+    {
+        if (!$this->vehicles->contains($vehicle)) {
+            $this->vehicles[] = $vehicle;
+            $vehicle->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVehicle(Vehicle $vehicle): self
+    {
+        if ($this->vehicles->contains($vehicle)) {
+            $this->vehicles->removeElement($vehicle);
+            // set the owning side to null (unless already changed)
+            if ($vehicle->getUser() === $this) {
+                $vehicle->setUser(null);
             }
         }
 
