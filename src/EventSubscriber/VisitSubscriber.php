@@ -29,7 +29,7 @@ class VisitSubscriber implements EventSubscriber
             $entityManager = $args->getObjectManager();
             $entity->setStatus(
                 $entityManager->getRepository('App:VisitStatus')
-                    ->findOneBy(['name' => VisitArranger::STATUS_NOT_SUBMITTED])
+                    ->findOneBy(['name' => Visit::STATUS_NOT_SUBMITTED])
             );
         }
     }

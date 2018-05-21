@@ -3,8 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Entity\Vehicle;
 use App\Entity\Visit;
-use App\Service\VisitArranger;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -42,16 +42,32 @@ class VisitRepository extends ServiceEntityRepository
 
     /**
      * @param User $user
+     * @param string $statusName
      * @return Visit|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getUnsubmittedVisit(User $user)
+    public function getUserVisitsByStatus(User $user, string $statusName)
     {
         return $this->getUserVisitQb($user)
             ->leftJoin('v.status', 's')
             ->andWhere('s.name = :status')
-            ->setParameter('status', VisitArranger::STATUS_NOT_SUBMITTED)
+            ->setParameter('status', $statusName)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * @param Vehicle $vehicle
+     * @return Vehicle[]|null
+     */
+    public function getUnfinishedVehicleVisits(Vehicle $vehicle)
+    {
+        return $this->createQueryBuilder('v')
+            ->where('v.vehicle = :vehicle')
+            ->leftJoin('v.status', 's')
+            ->andWhere('s.isResolved = 0')
+            ->setParameters(['vehicle' => $vehicle])
+            ->getQuery()
+            ->getResult();
     }
 }
