@@ -58,11 +58,21 @@ config:
         user_changed_by: Paskutinį kartą keitė
 
 visit:
+    price: Apytikslė kaina
+    duration: Numatoma darbų trukmė
+    edit: Vizito redagavimas
+    title: Vizitai
+    title1: Vizitas
+    new: Naujas vizitas
+    no: Nerasta jokių įrašų
     action:
         cancel: Atšaukti
         default: Vizitas (%s)
         add: Užsirašyti
         remove: Šalinti
+        subimt: Išsaugoti
+        edit: Redaguoti
+        index: Grįžti į sąrašą
     arrange:
         arrangement_no_services_added: Į vizitą nėra įtraukta jokių paslaugų.
         arrangement_no_vehicle_available: Prieš užsirašydamį vizitui turite susikurti automobilį.
@@ -79,6 +89,7 @@ vehicle:
         date_created: Sukūrimo data
         date_updated: Atnaujinimo data
     title: Automobiliai
+    title1: Automobilis
     new: Naujas automobilis
     edit: Automobilio redagavimas
     no: Nerasta jokių įrašų

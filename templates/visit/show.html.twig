@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Visit{% endblock %}
+{% block title %}{{ 'visit.title1'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Visit</h1>
+    <h1>{{ 'visit.title1'|trans }}</h1>
 
     <table class="table">
         <tbody>
@@ -55,7 +55,7 @@
         </table>
     {% endif %}
 
-    <a href="{{ path('visit_index') }}">back to list</a>
+    <a href="{{ path('visit_index') }}">{{ 'visit.action.index'|trans }}</a>
 
     {% if visit.status.name == 'not_submitted' %}
         {{ include('visit/_submit_form.html.twig') }}
