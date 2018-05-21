@@ -67,3 +67,4 @@
 /.web-server-pid
 
 yarn-error.log
+phpunit.xml.dist
