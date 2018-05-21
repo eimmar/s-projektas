@@ -2,44 +2,38 @@
 
 {% block title %}{{ 'vehicle.title'|trans }}{% endblock %}
 
+{% block mainHeader %}{{ 'vehicle.title'|trans }}{% endblock  %}
 {% block body %}
-    <h1>{{ 'vehicle.title'|trans }}</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>{{ 'vehicle.form.power_Kw'|trans }}</th>
-                <th>{{ 'vehicle.form.engine_capacity'|trans }}</th>
-                <th>{{ 'vehicle.form.year_made'|trans }}</th>
-                <th>{{ 'vehicle.form.month_made'|trans }}</th>
-                <th>{{ 'vehicle.form.date_created'|trans }}</th>
-                <th>{{ 'vehicle.form.date_updated'|trans }}</th>
-                <th>{{ 'vehicle.actions'|trans }}</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="row">
         {% for vehicle in vehicles %}
-            <tr>
-                <td>{{ vehicle.id }}</td>
-                <td>{{ vehicle.powerKw }}</td>
-                <td>{{ vehicle.engineCapacity }}</td>
-                <td>{{ vehicle.yearMade }}</td>
-                <td>{{ vehicle.monthMade }}</td>
-                <td>{{ vehicle.dateCreated ? vehicle.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ vehicle.dateUpdated ? vehicle.dateUpdated|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('vehicle_show', {'id': vehicle.id}) }}">show</a>
-                    <a href="{{ path('vehicle_edit', {'id': vehicle.id}) }}">edit</a>
-                </td>
-            </tr>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 card">
+                <img class="card-img-top" src="{{ asset('images/vehicles/default.jpg') }}" alt="Card image cap">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{ vehicle.model.manufacturer.name ~ ' ' ~ vehicle.model.name ~ ' ' ~ vehicle.literCapacity }} l</li>
+                        <li class="list-group-item">{{ vehicle.powerKw }} kw</li>
+                        <li class="list-group-item">{{ vehicle.yearMade ~ '-' ~ "%02d"|format(vehicle.monthMade)}}</li>
+                        <li class="list-group-item">
+                            {{ 'vehicle.form.date_created'|trans }}
+                            {{ vehicle.dateCreated ? vehicle.dateCreated|date('Y-m-d H:i:s') : '' }}
+                        </li>
+                        <li class="list-group-item">
+                            {{ 'vehicle.form.date_updated'|trans }}
+                            {{ vehicle.dateUpdated ? vehicle.dateUpdated|date('Y-m-d H:i:s') : '' }}
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{{ path('vehicle_show', {'id': vehicle.id}) }}">{{ 'vehicle.action.show'|trans }}</a>
+                            <a href="{{ path('vehicle_edit', {'id': vehicle.id}) }}">{{ 'vehicle.action.edit'|trans }}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         {% else %}
-            <tr>
-                <td colspan="8">{{ 'vehicle.no'|trans }}</td>
-            </tr>
+            {{ 'vehicle.no'|trans }}
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 
     <a href="{{ path('vehicle_new') }}">{{ 'vehicle.action.new'|trans }}</a>
 {% endblock %}
