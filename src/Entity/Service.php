@@ -92,7 +92,7 @@ class Service
      */
     public function __toString()
     {
-        return $this->getName();
+        return (string)$this->getName();
     }
 
     public function getId()
@@ -102,7 +102,7 @@ class Service
 
     public function getName(): ?string
     {
-        return $this->name;
+        return (string)$this->name;
     }
 
     public function setName(string $name): self
@@ -225,7 +225,7 @@ class Service
      */
     public function getServiceType()
     {
-        return $this->serviceType;
+        return (string)$this->serviceType;
     }
 
     /**

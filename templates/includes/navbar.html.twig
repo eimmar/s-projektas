@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark mb-2 ">
     <div class="container">
-        <a class="navbar-brand" href="{{ path('homepage') }}">{{ 'main.header'|trans }}</a>
+        <a class="navbar-brand mr-5" href="{{ path('homepage') }}">{{ 'main.header'|trans }}</a>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNavAltMarkup">
             {{ render(controller('App\\Controller\\IndexController::search', { 'request': app.request})) }}
             <div class="navbar-nav">

@@ -16,7 +16,6 @@ class Version20180519140809 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE visit_service ADD quantity INT NOT NULL');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_41C081295E237E06 ON visit_status (name)');
     }
 
     public function down(Schema $schema)
