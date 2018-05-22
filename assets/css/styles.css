@@ -35,3 +35,11 @@ label#remember_me {
 .form-inline .form-group, .form-inline label {
     margin-left: 0rem;
 }
+.btn-block {
+    width: 105%;
+}
+input[type="button"].btn-block, input[type="reset"].btn-block, input[type="submit"].btn-block {
+
+    width: 112%;
+
+}
