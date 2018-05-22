@@ -109,6 +109,31 @@ vehicle:
         has_unfinished_visits: Šį automobilį Jūs esate užrašę aptarnavimui mūsų servise. Norint ištrinti šį automobilį pirma turi būti užbaigti arba atšaukti visi su automobiliu susiję suplanuoti vizitai.
 main:
     contacts: Kontaktai
+    contact:
+        e:
+            name: Eimantas
+            lastname: Markevičius
+            trello: eimantas26
+            group: IFF-6/11
+        a:
+          name: Andrius
+          lastname: Simanaitis
+          trello: andriussimanaitis
+          group: IFF-6/2
+        t:
+            name: Tomas
+            lastname: Mažvila
+            trello: kugismugis
+            group: IFF-6/13
+        n:
+          name: Neringa
+          lastname: Laimutytė
+          trello: neringalaimutyte
+          group: IFF-6/5
+        text: Vardas
+        text1: Pavardė
+        text2: Grupė
+        text3: Trello vardas
     header: NETA Garažas
     main_header: Sveiki atvykę į NETA garažas puslapį!
     content:
