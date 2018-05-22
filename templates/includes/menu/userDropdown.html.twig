@@ -1,6 +1,7 @@
 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
     <a href="{{ path('fos_user_profile_show') }}" class="dropdown-item">Profile</a>
     <a href="{{ path('fos_user_profile_edit') }}" class="dropdown-item">Settings</a>
+    <a href="{{ path('visit_index') }}" class="dropdown-item">{{ 'visit.title'|trans }}</a>
     {% set is_admin = 0 %}
     {% for my_var in app.user.roles %}
         {% if my_var == "ROLE_SUPER_ADMIN" %}

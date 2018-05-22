@@ -80,6 +80,7 @@ visit:
         arrangement_no_services_added: Į vizitą nėra įtraukta jokių paslaugų.
         arrangement_no_vehicle_available: Prieš užsirašydamį vizitui turite susikurti automobilį.
         arrangement_submitted: Vizitas suplanuotas sėkmingai!
+        arrangement_cancelled: Vizitas atšauktas
     service:
         are_you_sure: Ar tikrai norite pašalinti "%s" iš paslaugų sąrašo?
 

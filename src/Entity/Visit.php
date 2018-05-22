@@ -65,7 +65,7 @@ class Visit
     private $totalInclTax;
 
     /**
-     * @ORM\OneToMany(targetEntity="VisitService", mappedBy="visit", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="VisitService", mappedBy="visit", orphanRemoval=true, cascade={"persist"})
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      * @Assert\NotBlank()
      */
@@ -79,7 +79,7 @@ class Visit
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -277,7 +277,8 @@ class Visit
     public function prePersist()
     {
         $this->setDateCreated(new \DateTime('now'))
-            ->setDateUpdated(new \DateTime('now'));
+            ->setDateUpdated(new \DateTime('now'))
+            ->calculateTotals();
     }
 
     public function calculateTotals()
