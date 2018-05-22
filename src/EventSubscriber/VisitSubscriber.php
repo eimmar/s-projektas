@@ -25,7 +25,7 @@ class VisitSubscriber implements EventSubscriber
     {
         $entity = $args->getObject();
 
-        if ($entity instanceof Visit) {
+        if ($entity instanceof Visit && !$entity->getStatus()) {
             $entityManager = $args->getObjectManager();
             $entity->setStatus(
                 $entityManager->getRepository('App:VisitStatus')
