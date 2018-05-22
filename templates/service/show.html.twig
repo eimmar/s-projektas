@@ -2,50 +2,26 @@
 
 {% block title %}{{ service.name }}{% endblock %}
 
-{% block body %}
-    <h1>{{ 'service.title'|trans }}</h1>
+{% block mainHeader %}{{ service.name|trans }}{% endblock %}
 
+{% block body %}
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ service.id }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'service.form.name'|trans }}</th>
-                <td>{{ service.name }}</td>
-            </tr>
             <tr>
                 <th>{{ 'service.form.description'|trans }}</th>
                 <td>{{ service.description }}</td>
             </tr>
             <tr>
-                <th>{{ 'service.form.price_from'|trans }}</th>
-                <td>{{ service.priceFrom }}</td>
+                <th>{{ 'service.form.price_from_to'|trans}}</th>
+                <td>{{ service.priceFrom ~ '-' ~ service.priceTo }}</td>
             </tr>
             <tr>
-                <th>{{ 'service.form.price_to'|trans }}</th>
-                <td>{{ service.priceTo }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'service.form.duration_from'|trans }}</th>
-                <td>{{ service.durationFrom }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'service.form.duration_to'|trans }}</th>
-                <td>{{ service.durationTo }}</td>
+                <th>{{ 'service.form.duration_from_to'|trans }}</th>
+                <td>{{ service.durationFrom ~ '-' ~ service.durationTo}}</td>
             </tr>
             <tr>
                 <th>{{ 'service.form.is_active'|trans }}</th>
-                <td>{{ service.isActive ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'service.form.date_created'|trans }}</th>
-                <td>{{ service.dateCreated ? service.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>{{ 'service.form.date_updated'|trans }}</th>
-                <td>{{ service.dateUpdated ? service.dateUpdated|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ service.isActive ? 'Yes'|trans : 'No'|trans }}</td>
             </tr>
         </tbody>
     </table>

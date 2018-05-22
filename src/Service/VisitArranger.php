@@ -13,10 +13,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class VisitArranger
 {
-    const STATUS_NOT_SUBMITTED = 'not_submitted';
-    const STATUS_SUBMITTED = 'pending';
-    const STATUS_CANCELLED = 'cancelled';
-
     /**
      * @var VisitRepository
      */
@@ -79,7 +75,7 @@ class VisitArranger
      */
     public function getUnfinishedArrangement()
     {
-        return $this->visitRepository->getUnsubmittedVisit($this->user);
+        return $this->visitRepository->getUserVisitsByStatus($this->user, Visit::STATUS_NOT_SUBMITTED);
     }
 
     /**
@@ -132,10 +128,10 @@ class VisitArranger
      */
     public function cancel(Visit $visit)
     {
-        if ($visit->getStatus()->getName() === self::STATUS_NOT_SUBMITTED) {
+        if ($visit->isUnSubmitted()) {
             $this->em->remove($visit);
         } else {
-            $visit->setStatus($this->statusRepository->findOneBy(['name' => self::STATUS_CANCELLED]));
+            $visit->setStatus($this->statusRepository->findOneBy(['name' => Visit::STATUS_CANCELLED]));
             $this->em->persist($visit);
         }
 
@@ -147,7 +143,7 @@ class VisitArranger
      */
     public function submit(Visit $visit)
     {
-        $visit->setStatus($this->statusRepository->findOneBy(['name' => self::STATUS_SUBMITTED]));
+        $visit->setStatus($this->statusRepository->findOneBy(['name' => Visit::STATUS_SUBMITTED]));
         $this->em->persist($visit);
         $this->em->flush();
     }

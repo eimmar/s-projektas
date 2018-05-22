@@ -20,11 +20,11 @@
 </table>
 
 <div>
-    <br/>Apytiksle kaina {{ visit.totalInclTax }} EUR
+    <br/>{{ 'visit.price'|trans }} {{ visit.totalInclTax }} EUR
 </div>
 
 <div>
-    Numatoma darbu trukme {{ visit.totalDuration }} val.
+    {{ 'visit.duration'|trans }} {{ visit.totalDuration }} val.
 </div>
 
 {{ form_row(form.status) }}

@@ -4,6 +4,7 @@ namespace App\Twig;
 
 
 use App\Entity\User;
+use App\Entity\Visit;
 use App\Repository\VisitRepository;
 
 class VisitRuntime
@@ -29,6 +30,6 @@ class VisitRuntime
      */
     public function getCurrentVisit(User $user)
     {
-        return $this->visitRepository->getUnsubmittedVisit($user);
+        return $this->visitRepository->getUserVisitsByStatus($user, Visit::STATUS_NOT_SUBMITTED);
     }
 }

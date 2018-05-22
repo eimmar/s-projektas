@@ -1,5 +1,5 @@
 <form method="post" action="{{ path('visit_submit') }}" onsubmit="return confirm('Are you sure you want to submit this item?');">
     <input type="hidden" name="_method" value="SUBMIT">
     <input type="hidden" name="_token" value="{{ csrf_token('submit' ~ visit.id) }}">
-    <button class="btn">Submit</button>
+    <button class="btn">{{ 'visit.action.subimt'|trans }}</button>
 </form>

@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Visit index{% endblock %}
+{% block title %}{{ 'visit.title'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Visit index</h1>
+    <h1>{{ 'visit.title'|trans }}</h1>
 
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Id</th>
@@ -30,7 +30,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">{{ 'visit.no'|trans }}</td>
             </tr>
         {% endfor %}
         </tbody>
