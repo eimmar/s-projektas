@@ -1,46 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vehicle{% endblock %}
+{% block title %}{{ 'vehicle.title1'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Vehicle</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ vehicle.id }}</td>
-            </tr>
-            <tr>
-                <th>PowerKw</th>
-                <td>{{ vehicle.powerKw }}</td>
-            </tr>
-            <tr>
-                <th>EngineCapacity</th>
-                <td>{{ vehicle.engineCapacity }}</td>
-            </tr>
-            <tr>
-                <th>YearMade</th>
-                <td>{{ vehicle.yearMade }}</td>
-            </tr>
-            <tr>
-                <th>MonthMade</th>
-                <td>{{ vehicle.monthMade }}</td>
-            </tr>
-            <tr>
-                <th>DateCreated</th>
-                <td>{{ vehicle.dateCreated ? vehicle.dateCreated|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DateUpdated</th>
-                <td>{{ vehicle.dateUpdated ? vehicle.dateUpdated|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('vehicle_index') }}">back to list</a>
-
-    <a href="{{ path('vehicle_edit', {'id': vehicle.id}) }}">edit</a>
-
-    {{ include('vehicle/_delete_form.html.twig') }}
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card">
+            <img class="card-img-top" src="{{ asset('images/vehicles/default.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">{{ vehicle.model.manufacturer.name ~ ' ' ~ vehicle.model.name ~ ' ' ~ vehicle.literCapacity }} l</li>
+                    <li class="list-group-item">{{ vehicle.powerKw }} kw</li>
+                    <li class="list-group-item">{{ vehicle.yearMade ~ '-' ~ "%02d"|format(vehicle.monthMade)}}</li>
+                    <li class="list-group-item">
+                        {{ 'vehicle.form.date_created'|trans }}
+                        {{ vehicle.dateCreated ? vehicle.dateCreated|date('Y-m-d H:i:s') : '' }}
+                    </li>
+                    <li class="list-group-item">
+                        {{ 'vehicle.form.date_updated'|trans }}
+                        {{ vehicle.dateUpdated ? vehicle.dateUpdated|date('Y-m-d H:i:s') : '' }}
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{{ path('vehicle_index', {'id': vehicle.id}) }}">{{ 'vehicle.action.index'|trans }}</a>
+                        <a href="{{ path('vehicle_edit', {'id': vehicle.id}) }}">{{ 'vehicle.action.edit'|trans }}</a>
+                    </li>
+                    <li class="list-group-item">
+                        {{ include('vehicle/_delete_form.html.twig') }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}

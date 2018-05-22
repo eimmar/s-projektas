@@ -52,6 +52,11 @@ class Config
      */
     private $userChangedBy;
 
+    public function __construct()
+    {
+        $this->name = '';
+    }
+
     /**
      * @return string
      */

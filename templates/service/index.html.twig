@@ -1,23 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Service index{% endblock %}
+{% block title %}{{ 'service.title'|trans }}{% endblock %}
+
+{% block mainHeader %}{{ 'service.title'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Service index</h1>
 
-    <div>
+    <div class="btn-group" role="group" aria-label="Basic example">
         {% for type in serviceTypes %}
-            <a href="{{ path('service_type_index', {'id' : type.id, 'slug' : type.slug|trans}) }}">{{ type|trans }}</a>
+            <a href="{{ path('service_type_index', {'id' : type.id, 'slug' : type.slug|trans}) }}"
+               class="btn btn-secondary">{{ type|trans }}</a>
         {% else %}
-        {{ 'service_type.no_category_found'|trans }}
+            {{ 'service_type.no_category_found'|trans }}
         {% endfor %}
-        <a href="{{ path('service_index') }}">{{ 'service_type.all_types'|trans }}</a>
+        <a href="{{ path('service_index') }}"
+           class="btn btn-secondary">{{ 'service_type.all_types'|trans }}</a>
     </div>
 
-    <div class="count">
-        {{ pagination.getTotalItemCount }}
-    </div>
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th{% if pagination.isSorted('s.name') %} class="sorted"{% endif %}>
@@ -56,7 +56,6 @@
                 <td>{{ service.durationFrom }} - {{ service.durationTo }}</td>
                 <td>
                     <a href="{{ path('service_show', {'id': service.id, 'slug' : service.slug|trans}) }}">{{ 'list.action.show'|trans }}</a>
-                    {#<a href="{{ path('visit_new') }}">{{ 'visit.action.add'|trans }}</a>#}
                 </td>
             </tr>
         {% else %}
@@ -69,6 +68,10 @@
 
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <div class="alert alert-dark count">
+        {{ 'service.list.total'|trans|format(pagination.getTotalItemCount) }}
     </div>
 
 {% endblock %}

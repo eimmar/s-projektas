@@ -25,7 +25,8 @@ Encore
         [
             './assets/css/bootstrap.css',
             './assets/css/bootstrap-grid.css',
-            './assets/css/bootstrap-reboot.css'
+            './assets/css/bootstrap-reboot.css',
+            './assets/css/styles.css'
         ]
     )
     // .enableSassLoader()

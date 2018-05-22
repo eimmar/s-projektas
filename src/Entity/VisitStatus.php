@@ -18,10 +18,16 @@ class VisitStatus
     private $id;
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=false, unique=true)
      * @var string
      */
     protected $name;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     * @var bool
+     */
+    private $isResolved;
 
     /**
      * @return int
@@ -54,6 +60,24 @@ class VisitStatus
     public function setName(string $name): self
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isResolved()
+    {
+        return $this->isResolved;
+    }
+
+    /**
+     * @param bool $isResolved
+     * @return VisitStatus
+     */
+    public function setIsResolved(bool $isResolved)
+    {
+        $this->isResolved = $isResolved;
         return $this;
     }
 

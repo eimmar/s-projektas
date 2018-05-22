@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('visit_cancel') }}" onsubmit="return confirm('Are you sure you want to cancel this item?');">
+    <input type="hidden" name="_method" value="CANCEL">
+    <input type="hidden" name="_token" value="{{ csrf_token('cancel' ~ visit.id) }}">
+    <button class="btn">{{ 'visit.action.cancel'|trans }}</button>
+</form>

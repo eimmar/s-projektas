@@ -28,7 +28,7 @@ class Vehicle
     private $model;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="vehicles")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -87,7 +87,6 @@ class Vehicle
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Visit", mappedBy="vehicle")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $visits;
 

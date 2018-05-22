@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Visit index{% endblock %}
+{% block title %}{{ 'visit.title'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Visit index</h1>
+    <h1>{{ 'visit.title'|trans }}</h1>
 
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Id</th>
@@ -26,16 +26,14 @@
                 <td>{{ visit.totalInclTax }}</td>
                 <td>
                     <a href="{{ path('visit_show', {'id': visit.id}) }}">show</a>
-                    <a href="{{ path('visit_edit', {'id': visit.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">{{ 'visit.no'|trans }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('visit_new') }}">Create new</a>
 {% endblock %}

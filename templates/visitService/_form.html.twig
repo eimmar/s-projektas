@@ -1,8 +1,26 @@
-{{ form_start(form) }}
-<tr>
-    <td>{{ form.vars.value.name }}</td>
-    <td>{{ form.vars.value.description }}</td>
-    <td>{{ form.vars.value.price }}</td>
-    <td>{{ form.vars.value.duration }}</td>
+<tr class="visit-item"
+    data-confirm-msg="{{ 'visit.service.are_you_sure'|trans|format(form.vars.value.name) }}">
+    <td>
+        {{ form.vars.value.name }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.service) }}
+    </td>
+    <td>
+        {{ form.vars.value.description }}
+        {{ form_row(form.description) }}
+    </td>
+    <td>
+        {{ form.vars.value.price }}
+        {{ form_row(form.price) }}
+    </td>
+    <td>
+        {{ form.vars.value.duration }}
+        {{ form_row(form.duration) }}
+    </td>
+    <td>
+        {{ form_widget(form.quantity) }}
+    </td>
+    <td>
+        <input type="button" class="remove-visit-item" value="{{ 'visit.action.remove'|trans }}"/>
+    </td>
 </tr>
-{{ form_end(form) }}

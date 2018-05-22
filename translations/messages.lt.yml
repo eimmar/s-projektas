@@ -17,20 +17,28 @@ address:
     please_select: Pasirinkite
 
 service:
+    title: Paslaugos
     form:
         name: Paslaugos pavadinimas
         description: Paslaugos aprašymas
         price_from: Kaina (nuo)
         price_to: Kaina (iki)
+        price_from_to: Kaina (nuo-iki)
         duration_from: Atlikimo trukmė minutėmis (nuo)
         duration_to: Atlikimo trukmė minutėmis (iki)
+        duration_from_to: Atlikimo trukmė minutėmis (nuo-iki)
         service_type: Paslaugos tipas
         is_active: Aktyvi
         search: Paieška
         search_submit: Ieškoti
+        date_created: Sukūrimo data
+        date_updated: Atnaujinimo data
     list:
         price_range: Kaina (EUR)
         duration_range: Trukmė (h)
+        total: Iš viso %s
+    action:
+        index: Grįžti į sąrašą
 
 list:
     actions: Veiksmai
@@ -53,16 +61,91 @@ config:
         user_changed_by: Paskutinį kartą keitė
 
 visit:
+    price: Apytikslė kaina
+    duration: Numatoma darbų trukmė
+    edit: Vizito redagavimas
+    title: Vizitai
+    title1: Vizitas
+    new: Naujas vizitas
+    no: Nerasta jokių įrašų
     action:
+        cancel: Atšaukti
+        default: Vizitas (%s)
         add: Užsirašyti
+        remove: Šalinti
+        subimt: Išsaugoti
+        edit: Redaguoti
+        index: Grįžti į sąrašą
+    arrange:
+        arrangement_no_services_added: Į vizitą nėra įtraukta jokių paslaugų.
+        arrangement_no_vehicle_available: Prieš užsirašydamį vizitui turite susikurti automobilį.
+        arrangement_submitted: Vizitas suplanuotas sėkmingai!
+    service:
+        are_you_sure: Ar tikrai norite pašalinti "%s" iš paslaugų sąrašo?
 
 vehicle:
+    form:
+        power_Kw: Galia (Kw)
+        engine_capacity: Darbinis tūris
+        year_made: Pagaminimo metai
+        month_made: Pagaminimo mėnuo
+        date_created: Sukūrimo data
+        date_updated: Atnaujinimo data
+    title: Automobiliai
+    title1: Automobilis
+    new: Naujas automobilis
+    edit: Automobilio redagavimas
+    no: Nerasta jokių įrašų
+    actions: Veiksmai
     action:
+        delete: Ištrinti
         new: Sukurti naują
+        index: Grįžti į sąrašą
+        edit: Redaguoti
+        show: Atidaryti
+        confirm_delete: Ar tikrai norite pašalinti šį automobilį?
+
+    delete:
+        has_unfinished_visits: Šį automobilį Jūs esate užrašę aptarnavimui mūsų servise. Norint ištrinti šį automobilį pirma turi būti užbaigti arba atšaukti visi su automobiliu susiję suplanuoti vizitai.
 main:
     contacts: Kontaktai
+    contact:
+        e:
+            name: Eimantas
+            lastname: Markevičius
+            trello: eimantas26
+            group: IFF-6/11
+        a:
+          name: Andrius
+          lastname: Simanaitis
+          trello: andriussimanaitis
+          group: IFF-6/2
+        t:
+            name: Tomas
+            lastname: Mažvila
+            trello: kugismugis
+            group: IFF-6/13
+        n:
+          name: Neringa
+          lastname: Laimutytė
+          trello: neringalaimutyte
+          group: IFF-6/5
+        text: Vardas
+        text1: Pavardė
+        text2: Grupė
+        text3: Trello vardas
+    header: NETA Garažas
+    main_header: Sveiki atvykę į NETA garažas puslapį!
+    content:
+        paragraph_1: '"NETA" – nuo 2008 m. Kaune veikiantis autoservisų tinklas su ilgametę autosporto patirtimi.'
+        paragraph_2: Moderni autoserviso įranga leidžia mūsų darbuotojams atlikti visų svarbiausių automobilio mazgų remontą ir techninę priežiūrą.
+        paragraph_3: Remontuojame visų markių lengvuosius automobilius ir mikroautobusus.
+        paragraph_4: Bendradarbiaujame su įmonėmis ir aptarnaujame įmonių automobilių parkus.
+        paragraph_5: Daugiau informacijos apie "NETA" paslaugas rasite skyrelyje "Paslaugos".
+        paragraph_6: Esame pripažinti viena iš sėkmingiausiai dirbančių ir sparčiausiai besivystančių Lietuvos bendrovių.
 
-
+registration:
+    subimt: Registruotis
 # Sonata admin translations
 User: Vartotojai
 Service: Paslaugos
@@ -74,3 +157,8 @@ Price To: Kaina EUR (iki)
 Service Type: Paslaugos tipas
 Is Active: Aktyvi
 Name: Pavadinimas
+
+
+#misc one word translations and such
+Yes: Taip
+No: Ne

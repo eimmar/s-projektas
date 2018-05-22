@@ -45,6 +45,10 @@ services:
     App\Form\AddServiceType:
         arguments: ['@router']
         tags: [form.type]
+
+    App\Form\VisitType:
+        arguments: ['@security.token_storage', '@router']
+        tags: [form.type]
     # End of Forms
 
     # Sonata admin bundle configuration
@@ -84,10 +88,28 @@ services:
         public: true
     # End of Sonata admin bundle configuration
 
-    # Event listener configuration
+    # Event subscriber configuration
     app_user.registration:
-        class: App\EventListener\RegistrationListener
+        class: App\EventSubscriber\RegistrationSubscriber
         arguments: ['@router']
         tags:
             - { name: kernel.event_subscriber }
-    # End of Event listener configuration
+
+    app_visit.visit:
+        class: App\EventSubscriber\VisitSubscriber
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    app.vehicle:
+        class: App\EventSubscriber\VehicleSubscriber
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+    # End of Event subscriber configuration
+
+    # Custom twig function configuration
+    app.twig_visit:
+        class: App\Twig\VisitRuntime
+        public: false
+        tags:
+            - { name: twig.runtime }
+    # End of Custom twig function configuration

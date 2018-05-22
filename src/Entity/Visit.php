@@ -13,6 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Visit
 {
+    const STATUS_NOT_SUBMITTED = 'not_submitted';
+    const STATUS_SUBMITTED = 'pending';
+    const STATUS_CANCELLED = 'cancelled';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -48,7 +52,8 @@ class Visit
     private $dateUpdated;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vehicle", inversedBy="visits")
+     * @ORM\JoinColumn(nullable=true)
      * @Assert\NotBlank()
      */
     private $vehicle;
@@ -60,8 +65,8 @@ class Visit
     private $totalInclTax;
 
     /**
-     * @ORM\OneToMany(targetEntity="VisitService", mappedBy="visit")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="VisitService", mappedBy="visit", orphanRemoval=true)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      * @Assert\NotBlank()
      */
     protected $visitServices;
@@ -192,6 +197,27 @@ class Visit
         return $this;
     }
 
+    /**
+     * @param VisitService $visitService
+     * @return VisitService
+     */
+    public function addNewService(VisitService $visitService)
+    {
+        /** @var VisitService $sameService */
+        $sameService = $this->getVisitServices()->filter(function (VisitService $vs) use ($visitService) {
+            return $vs->getService() === $visitService->getService();
+        })->first();
+
+        if ($sameService) {
+            $service = $sameService->incrementQuantity();
+        } else {
+            $this->addVisitService($visitService);
+            $service = $visitService;
+        }
+
+        return $service;
+    }
+
     public function removeVisitService(VisitService $visitService): self
     {
         if ($this->visitServices->contains($visitService)) {
@@ -203,6 +229,20 @@ class Visit
         }
 
         return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAllItemQty()
+    {
+        $qty = 0;
+        /** @var VisitService $vs */
+        foreach ($this->getVisitServices()->toArray() as $vs) {
+            $qty += $vs->getQuantity();
+        }
+
+        return $qty;
     }
 
     /**
@@ -242,10 +282,12 @@ class Visit
 
     public function calculateTotals()
     {
+        $totalInclTax = 0;
         /** @var VisitService $service */
         foreach ($this->getVisitServices()->getValues() as $service) {
-            $this->totalInclTax += $service->getPrice();
+            $totalInclTax += $service->getPrice() * $service->getQuantity();
         }
+        $this->totalInclTax = $totalInclTax;
     }
 
     /**
@@ -256,7 +298,7 @@ class Visit
         $duration = 0;
         /** @var VisitService $service */
         foreach ($this->getVisitServices()->getValues() as $service) {
-            $duration += $service->getDuration();
+            $duration += $service->getDuration() * $service->getQuantity();
         };
 
         return $duration;
@@ -268,5 +310,13 @@ class Visit
     public function __toString()
     {
         return (string) $this->getId();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUnSubmitted()
+    {
+        return $this->getStatus()->getName() === self::STATUS_NOT_SUBMITTED;
     }
 }

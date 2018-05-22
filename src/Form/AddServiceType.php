@@ -36,7 +36,7 @@ class AddServiceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->setAction($this->router->generate('visit_new'))
+            ->setAction($this->router->generate('visit_arrange'))
             ->add(self::FIELD_SERVICE, HiddenType::class);
     }
 

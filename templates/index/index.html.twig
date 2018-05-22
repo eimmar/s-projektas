@@ -1,8 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <h1 class="card-header">Sveiki atvykę į NETA garažas puslapį!</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum debitis dignissimos dolore facilis fuga inventore itaque laborum, neque nobis odio optio provident quasi qui! Architecto dolor nihil tempore ut vero!</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad dolor eveniet nulla possimus quidem ratione suscipit? Aperiam architecto consequatur corporis cum cumque deleniti deserunt, dolores doloribus earum est eum eveniet explicabo, facilis itaque magni mollitia neque nesciunt, officia perspiciatis placeat porro quasi ratione recusandae repudiandae saepe temporibus totam voluptatum. Sapiente.</p>
+{% block mainHeader %}
+    {{ 'main.main_header'|trans }}
+{% endblock %}
 
+{% block body %}
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 card">
+            <img class="card-img-top" src="{{ asset('images/homepage/image-1.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <p class="card-text">{{ 'main.content.paragraph_1'|trans }}</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 card">
+            <img class="card-img-top" src="{{ asset('images/homepage/image-2.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <p class="card-text">{{ 'main.content.paragraph_2'|trans }}</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 card">
+            <img class="card-img-top" src="{{ asset('images/homepage/image-3.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <p class="card-text">{{ 'main.content.paragraph_3'|trans }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 card ">
+            <img class="card-img-top" src="{{ asset('images/homepage/image-4.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <p class="card-text">{{ 'main.content.paragraph_4'|trans }}</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 card">
+            <img class="card-img-top" src="{{ asset('images/homepage/image-5.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <p class="card-text">{{ 'main.content.paragraph_5'|trans }}</p>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 card">
+            <img class="card-img-top" src="{{ asset('images/homepage/image-6.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <p class="card-text">{{ 'main.content.paragraph_6'|trans }}</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}

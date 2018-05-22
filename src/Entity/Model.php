@@ -22,7 +22,7 @@ class Model
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Manufacturer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Manufacturer", inversedBy="models")
      * @ORM\JoinColumn(nullable=false)
      */
     private $manufacturer;

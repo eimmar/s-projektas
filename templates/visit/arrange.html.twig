@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'visit.edit'|trans }}{% endblock %}
+
+{% block body %}
+    <h1>{{ 'visit.edit'|trans }}</h1>
+
+    <div class="visit-arrangement-outer">
+        <div class="form-content-container">
+            {% if visit.visitServices|length > 0 %}
+                {{ include('visit/_form.html.twig') }}
+                {{ include('visit/_submit_form.html.twig') }}
+                {{ include('visit/_cancel_form.html.twig') }}
+            {% else %}
+                <h2>{{ 'visit.arrange.arrangement_no_services_added'|trans }}</h2>
+            {% endif %}
+        </div>
+    </div>
+
+    <a href="{{ path('service_index') }}">{{ 'visit.action.index'|trans }}</a>
+{% endblock %}
