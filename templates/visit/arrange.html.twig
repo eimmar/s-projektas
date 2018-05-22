@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Visit{% endblock %}
+{% block title %}{{ 'visit.edit'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Edit Visit</h1>
+    <h1>{{ 'visit.edit'|trans }}</h1>
 
     <div class="visit-arrangement-outer">
         <div class="form-content-container">
@@ -17,5 +17,5 @@
         </div>
     </div>
 
-    <a href="{{ path('service_index') }}">back to service list</a>
+    <a href="{{ path('service_index') }}">{{ 'visit.action.index'|trans }}</a>
 {% endblock %}
